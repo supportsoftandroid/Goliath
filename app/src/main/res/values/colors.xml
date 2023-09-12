@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF3F8BCA</color>
+    <color name="colorPrimaryDark">#FF3F8BCA</color>
+    <color name="colorAccent">#FF3F8BCA</color>
+    <color name="app_color">#FF3F8BCA</color>
+    <color name="colorFF3F8BCA">#FF3F8BCA</color>
+    <color name="colorBtn">#FF3F8BCA</color>
+    <color name="color3F8BCA">#3F8BCA</color>
+    <color name="colorE33F8BCA">#E33F8BCA</color>
+    <color name="colorCD3F8BCA">#CD3F8BCA</color>
+
+    <color name="colorRoyalGreen">#24B2B2</color>
+    <color name="color0F9E95">#0F9E95</color>
+    <color name="colorBlack">#FF000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorLightYellow">#FFF896</color>
+    <color name="colorFFF5E6">#FFF5E6</color>
+    <color name="colorYellow">#FF9910</color>
+    <color name="colorMaroon">#F54B64</color>
+    <color name="colorGreenLight">#2FD06E</color>
+    <color name="color5DB96F">#5DB96F</color>
+
+    <color name="colorGreenVeryLight">#E1F6E8</color>
+    <color name="colorMaroonLight">#F5E1E4</color>#FFEBEB
+    <color name="colorMaroonVeryLight">#FFEBEB</color>
+    <color name="colorNavyBlue">#F5222F49</color>
+    <color name="colorNavyBlueDark">#333366</color>
+    <color name="colorText">#292A3A</color>
+    <color name="color1C1932">#1C1932</color>
+    <color name="colorBABBC9">#BABBC9</color>
+
+    <color name="colorAppBg">#FFFFFF</color>
+    <color name="colorTextHint">#5B617A</color>
+    <color name="color244495">#244495</color>
+    <color name="color222F49">#222F49</color>
+    <color name="colorEditTextBg">#E4F3F6FF</color>
+    <color name="colorTextLabel">#333333</color>
+    <color name="textPlaceHolder">#9A9DA7</color>
+    <color name="colorTextLabelLight">#A9A1B0</color>
+    <color name="colorF2F3FF">#F2F3FF</color>
+    <color name="colorB9BFDD">#B9BFDD</color>
+    <color name="color747D8C">#747D8C</color>
+    <color name="colorE8F6FF">#E8F6FF</color>
+    <color name="color2E3034">#2E3034</color>
+    <color name="colorDarkGray">#656565</color>
+    <color name="colorGray">#e1e1e1</color>
+    <color name="colorF3F6FF">#F3F6FF</color>
+    <color name="colorA6A6AF">#A6A6AF</color>
+    <color name="color5B617A">#5B617A</color>
+    <color name="color4F4F57">#26264C</color>
+    <color name="color3E3B51">#3E3B51</color>
+    <color name="colorLightGray">#ECECEC</color>
+    <color name="colorACB1C0">#ACB1C0</color>
+    <color name="colorD9D9D9">#D9D9D9</color>
+    <color name="colorVeryLightGray">#F4F6FC</color>
+    <color name="colorDDDDDD">#DDDDDD</color>
+
+
+    <color name="colorA3A2A2">#A3A2A2</color>
+    <color name="colorAppIcon1c1932">#1c1932</color>
+    <color name="colorSlotBg40404D">#40404D</color>
+
+    <color name="colorFAF9FE">#FAF9FE</color>
+    <color name="color2F86C6">#2F86C6</color>
+    <color name="colorE4DFDF">#E4DFDF</color>
+    <color name="color3310B7AC">#3310B7AC</color>
+    <color name="colorF3F3F3">#F3F3F3</color>
+    <color name="colorF7F8FA">#F7F8FA</color>
+    <color name="colorOrange">#FF5722</color>
+    <color name="colorF34545">#F34545</color>
+    <color name="colorTomato">#F47269</color>
+    <color name="colorRed">#E10C0C</color>
+
+    <color name="colorBtnCancel">#FFEEEE</color>
+    <color name="colorBtnDelivery">#F2FFF7</color>
+    <color name="colorBF213E">#BF213E</color>
+    <color name="colorPurpleLight">#9C6FED</color>
+    <color name="colorBlueSky">#44AAF4</color>
+    <color name="colorGreen">#3C948B</color>
+    <color name="colorE0EAF0">#E0EAF0</color>
+    <color name="colorF2F6F9">#F2F6F9</color>
+    <color name="colorF5F5F5">#F5F5F5</color>
+    <color name="coloF7FBFE">#F7FBFE</color>
+    <color name="colorOutline">#ECECEC</color>
+    <color name="colorCEFFFC">#CEFFFC</color>
+    <color name="colorTransparent">#00FFFFFF</color>
+    <color name="colorHalfTransparent">#49000000</color>
+    <color name="colorWhiteTransparent">#00F8F5F5</color>
+    <color name="color5264CC">#5264CC</color>
+    <color name="colorPurple5264CC">#5264CC</color>
+    <color name="colorBlueDark">#2A72A8</color>
+    <color name="colorBlue">#4460A0</color>
+    <color name="colorSkyBlue">#4B84F5</color>
+</resources>
