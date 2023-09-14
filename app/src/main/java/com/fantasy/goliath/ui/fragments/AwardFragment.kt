@@ -7,37 +7,34 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.fantasy.goliath.databinding.FragmentDashboardBinding
-import com.fantasy.goliath.ui.dashboard.DashboardViewModel
+import com.fantasy.goliath.databinding.ActivityLoginBinding
+import com.fantasy.goliath.databinding.FragmentAwardBinding
 
-class DashboardFragment : Fragment() {
+import com.fantasy.goliath.viewmodal.AwardViewModel
+import com.fantasy.goliath.viewmodal.LoginViewModel
 
-    private var _binding: FragmentDashboardBinding? = null
+class AwardFragment : Fragment() {
+    private val viewModal by lazy { ViewModelProvider(this)[AwardViewModel::class.java] }
 
+    private val binding by lazy(LazyThreadSafetyMode.NONE) {
+        FragmentAwardBinding.inflate(layoutInflater)
+    }
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
-
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+
     }
 }

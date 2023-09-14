@@ -76,7 +76,11 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun clickListener() {
+        binding.btnSubmit.setOnClickListener() {
 
+            startActivity(Intent(mContext, RewardGuideActivity::class.java))
+
+        }
        /* binding.btnLogin.setOnClickListener() {
             isLogin = true
             if (binding.edEmail.text.isEmpty()) {

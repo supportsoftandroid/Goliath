@@ -11,38 +11,45 @@
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
 
-        android:background="@drawable/bg_gradient"
-        android:paddingHorizontal="@dimen/dp_20">
+        android:background="@color/colorAppBg">
+
+        <ImageView
+            android:id="@+id/imgGradient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_gradient_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/viewHeader"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:orientation="vertical"
-            android:paddingTop="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_50"
+            android:layout_marginBottom="@dimen/dp_10"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintBottom_toTopOf="@+id/viewBody"
+          >
 
             <ImageView
                 android:id="@+id/imgBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_20"
-                app:tint="@color/colorLightGray"
-                android:visibility="gone"
                 android:src="@drawable/ic_back"
-
+               android:layout_marginTop="@dimen/dp_20"
+                android:padding="@dimen/dp_5"
                 app:layout_constraintBottom_toTopOf="@+id/imgLogo"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
                 android:id="@+id/imgLogo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_80"
+                android:layout_width="@dimen/dp_200"
+                android:layout_height="@dimen/dp_200"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_20"
                 android:layout_marginBottom="@dimen/dp_35"
                 android:contentDescription="TODO"
 
@@ -52,34 +59,37 @@
                 app:layout_constraintStart_toStartOf="parent" />
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/viewBody"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
             android:padding="@dimen/dp_20"
-            app:layout_constraintTop_toBottomOf="@+id/viewHeader"
+
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/tvOTPLAbel"
                 android:layout_marginTop="@dimen/dp_10"
                 android:fontFamily="@font/visby_semibold"
                 android:gravity="center"
                 android:text="@string/verify_otp"
                 android:textColor="@color/colorText"
                 android:textSize="@dimen/sp_28"
+                android:layout_marginBottom="@dimen/dp_15"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/tvEnterLabel" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/tvEnterLabel"
                 android:layout_marginTop="@dimen/dp_15"
 
                 android:fontFamily="@font/visby_medium"
@@ -90,15 +100,18 @@
 
                 android:textSize="@dimen/sp_14"
 
+
+                android:layout_marginBottom="@dimen/dp_20"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvLogin" />
+                app:layout_constraintBottom_toTopOf="@+id/pinview" />
 
 
             <com.goodiebag.pinview.Pinview
                 android:id="@+id/pinview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_20"
+
                 android:gravity="center"
                 app:cursorVisible="false"
                 app:forceKeyboard="true"
@@ -111,92 +124,98 @@
 
                 app:pinLength="4"
                 app:pinWidth="@dimen/dp_60"
-                app:textSize="@dimen/sp_12" />
+                app:textSize="@dimen/sp_12"
+                android:layout_marginBottom="@dimen/dp_15"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/btnSubmit"/>
 
             <Button
                 android:id="@+id/btnSubmit"
                 style="@style/AppButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_50"
+
                 android:background="@drawable/button_background_global"
+                android:enabled="false"
                 android:fontFamily="@font/visby_regular"
                 android:gravity="center"
-                android:enabled="false"
                 android:inputType="text"
                 android:singleLine="true"
                 android:text="@string/verify"
                 android:textAllCaps="true"
                 android:textColor="@color/colorBtn"
                 android:textSize="@dimen/sp_16"
+                android:layout_marginBottom="@dimen/dp_15"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword" />
+                app:layout_constraintBottom_toTopOf="@+id/tvDontRecieve" />
 
             <TextView
                 android:id="@+id/tvDontRecieve"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dp_15"
+
 
                 android:fontFamily="@font/visby_medium"
                 android:gravity="start"
                 android:text="@string/didn_t_get_the_code_resend_now"
                 android:textColor="@color/colorText"
-                android:textSize="@dimen/sp_14" />
+                android:layout_marginBottom="@dimen/dp_25"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintBottom_toTopOf="@+id/llResend"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <LinearLayout
+            <LinearLayout
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/dp_25"
-            android:layout_marginHorizontal="@dimen/dp_40"
-            app:layout_constraintTop_toBottomOf="@+id/viewHeader"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-            <TextView
-                android:id="@+id/tvResend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:id="@+id/llResend"
 
+                android:layout_marginBottom="@dimen/dp_100"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-                android:fontFamily="@font/visby_medium"
-                android:gravity="start"
-                android:text="Resend OTP"
-                android:textColor="@color/colorBtn"
-                android:textSize="@dimen/sp_14" />
-                <View
-                android:id="@+id/tvResend"
-                android:layout_width="2dp"
-                android:layout_height="15dp"
-                android:layout_gravity="center"
-                    android:layout_marginHorizontal="@dimen/dp_25"
-
-
-                android:fontFamily="@font/visby_medium"
-                android:gravity="start"
-                android:text="Resend OTP"
-                android:background="@color/colorBtn"
-                android:textSize="@dimen/sp_14" />
                 <TextView
-                android:id="@+id/tvChangeNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                    android:id="@+id/tvResend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
 
 
-                android:fontFamily="@font/visby_medium"
-                android:gravity="start"
-                android:text="Change Number"
-                android:textColor="@color/colorBtn"
-                android:textSize="@dimen/sp_14" />
+                    android:fontFamily="@font/visby_medium"
+                    android:gravity="start"
+                    android:text="Resend OTP"
+                    android:textColor="@color/colorBtn"
+                    android:textSize="@dimen/sp_14" />
 
-        </LinearLayout>
+                <View
 
-        </LinearLayout>
+                    android:layout_width="2dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/dp_25"
+                    android:background="@color/colorBtn"
+                  />
+
+                <TextView
+                    android:id="@+id/tvChangeNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/visby_medium"
+                    android:gravity="start"
+                    android:text="Change Number"
+                    android:textColor="@color/colorBtn"
+                    android:textSize="@dimen/sp_14" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

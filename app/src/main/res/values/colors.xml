@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF3F8BCA</color>
-    <color name="colorPrimaryDark">#FF3F8BCA</color>
-    <color name="colorAccent">#FF3F8BCA</color>
-    <color name="app_color">#FF3F8BCA</color>
+    <color name="colorPrimary">#438DCA</color>
+    <color name="colorPrimaryDark">#438DCA</color>
+    <color name="colorAccent">#438DCA</color>
+    <color name="app_color">#408DCC</color>
     <color name="colorFF3F8BCA">#FF3F8BCA</color>
     <color name="colorBtn">#FF3F8BCA</color>
     <color name="color3F8BCA">#3F8BCA</color>
@@ -11,6 +11,7 @@
     <color name="colorCD3F8BCA">#CD3F8BCA</color>
 
     <color name="colorRoyalGreen">#24B2B2</color>
+    <color name="colorNavMenu">#8CB9DF</color>
     <color name="color0F9E95">#0F9E95</color>
     <color name="colorBlack">#FF000000</color>
     <color name="colorWhite">#FFFFFF</color>
@@ -26,11 +27,11 @@
     <color name="colorMaroonVeryLight">#FFEBEB</color>
     <color name="colorNavyBlue">#F5222F49</color>
     <color name="colorNavyBlueDark">#333366</color>
-    <color name="colorText">#292A3A</color>
+    <color name="colorText">#222222</color>
     <color name="color1C1932">#1C1932</color>
     <color name="colorBABBC9">#BABBC9</color>
 
-    <color name="colorAppBg">#FFFFFF</color>
+    <color name="colorAppBg">#E6E6E6</color>
     <color name="colorTextHint">#5B617A</color>
     <color name="color244495">#244495</color>
     <color name="color222F49">#222F49</color>

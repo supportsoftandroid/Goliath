@@ -95,6 +95,7 @@
     <dimen name="sp_48">48sp</dimen>
     <dimen name="dp_200">200dp</dimen>
     <dimen name="dp_130">130dp</dimen>
+    <dimen name="dp_105">105dp</dimen>
     <dimen name="dp_110">110dp</dimen>
     <dimen name="dp_115">115dp</dimen>
     <dimen name="dp_180">180dp</dimen>

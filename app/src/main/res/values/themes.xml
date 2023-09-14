@@ -76,17 +76,20 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
 
-    <style name="TextInputLayoutTheme" parent="Widget.Design.TextInputLayout">
+    <style name="TextInputLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="colorOnSurface">@color/textPlaceHolder</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">@font/visby_regular</item>
+        <item name="android:fontFamily">@font/visby_medium</item>
         <item name="android:textColor">@color/colorText</item>
+        <item name="colorAccent">@color/colorGray</item>
+
         <item name="android:background">@null</item>
         <item name="android:textColorHint">@color/textPlaceHolder</item>
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
-    <style name="AppTextInputEditTextTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+    <style name="AppTextInputEditTextTheme" parent="Widget.Design.TextInputEditText">
         <item name="colorOnSurface">@color/textPlaceHolder</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -100,12 +103,12 @@
     <style name="AppEditTextStyle" parent="Widget.AppCompat.EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">@dimen/dp_15</item>
+        <item name="android:padding">@dimen/dp_10</item>
         <item name="android:fontFamily">@font/visby_regular</item>
         <item name="android:textColor">@color/colorText</item>
         <item name="android:textColorHint">@color/textPlaceHolder</item>
         <item name="android:textSize">@dimen/sp_16</item>
-        <item name="android:minHeight">@dimen/dp_45</item>
+        <item name="android:minHeight">@dimen/dp_40</item>
         <item name="android:background">@drawable/bg_edit_text</item>
     </style>
     <style name="AppButtonStyle" parent="Widget.AppCompat.Button">

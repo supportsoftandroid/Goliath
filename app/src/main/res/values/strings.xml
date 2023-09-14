@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">Goliath</string>
-    <string name="title_home">Home</string>
+    <string name="home">Home</string>
+    <string name="award">Award</string>
+    <string name="reward">Award</string>
+    <string name="result">Result</string>
+    <string name="profile">Profile</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="lets_play">Let’s Play</string>
     <string name="dont_have_account_signup">Don’t have an account?<font color="#FFFFFF"><b> Sign Up</b></font></string>
+    <string name="dont_have_account_signup_blue">Don’t have an account?<font color="#FF3F8BCA"><b> Sign Up</b></font></string>
+    <string name="already_have_account_signin">Already have an account?<font color="#FF3F8BCA"><b>  Signin</b></font></string>
     <string name="please_wait">Please wait...</string>
     <string name="verify">Verify</string>
     <string name="didn_t_get_the_code_resend_now">Didn’t you receive the OTP?</string>
@@ -13,4 +19,22 @@
     <string name="card_holder_name">Card holder name</string>
     <string name="save_this_credit_card">Save this card</string>
     <string name="add_card">Add card</string>
+    <string name="sign_up_with_google">Signup with Google</string>
+    <string name="sign_in_with_google">Signin with Google</string>
+    <string name="choose_option">Choose Option</string>
+    <string name="camera">Camera</string>
+    <string name="gallary">Gallary</string>
+    <string name="invalid_card">invalid card </string>
+    <string name="please_enter_card_holder_name">Please enter card holder name</string>
+    <string name="get_otp">Get OTP</string>
+    <string name="or">Or</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="enter_your_email">Enter Your Email</string>
+    <string name="get_otp_for_sign_up">Get OTP for Sign up</string>
+    <string name="get_started">Get Started</string>
+    <string name="how_to_play">How to play</string>
+    <string name="submit">Submit</string>
+    <string name="press_again_to_exit_from_app">Press back again to exit</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="live">Live</string>
 </resources>

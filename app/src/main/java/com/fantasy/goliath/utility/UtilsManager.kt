@@ -4,6 +4,7 @@ package com.fantasy.goliath.utility
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.net.Network
@@ -11,9 +12,11 @@ import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.text.TextUtils
+import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -40,6 +43,7 @@ import com.fantasy.goliath.ui.activities.LoginActivity
 import com.fantasy.goliath.utility.Constants.ERROR_ALERT
 import com.fantasy.goliath.utility.StaticData.Companion.IMAGE_CROP_REQUEST_CODE
 import com.fantasy.goliath.utility.StaticData.Companion.showToast
+import com.stripe.android.view.CardMultilineWidget
 import java.net.URLDecoder
 import java.util.regex.Pattern
 
@@ -286,7 +290,7 @@ class UtilsManager(private val context: Context) {
         dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         dialog.behavior.isDraggable = false
         dialogBinding.cardInputWidget.postalCodeRequired=false
-        dialogBinding.btnSubmit.setOnClickListener {
+        dialogBinding.btnAdd.setOnClickListener {
 
 
             if (TextUtils.isEmpty(dialogBinding.ediName.text.toString().trim())) {
@@ -301,7 +305,7 @@ class UtilsManager(private val context: Context) {
                 onItemClick(
                     dialogBinding.ediName.text.toString(),
                     dialogBinding.cardInputWidget,
-                    dialogBinding.progressBar,dialogBinding.btnSubmit, dialog
+                    dialogBinding.progressBar,dialogBinding.btnAdd, dialog
                 )
             }
 

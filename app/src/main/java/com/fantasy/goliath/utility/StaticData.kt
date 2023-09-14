@@ -9,6 +9,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.database.Cursor
 import android.graphics.*
 import android.location.Address
@@ -22,9 +23,11 @@ import android.text.Html
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.method.PasswordTransformationMethod
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -818,7 +821,14 @@ class StaticData {
 
 */
         }
-
+        fun adjustFontScale(context: Context, configuration: Configuration, scale: Float) {
+            configuration.fontScale = scale
+            val metrics: DisplayMetrics =context.getResources().getDisplayMetrics()
+            val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            wm!!.defaultDisplay.getMetrics(metrics)
+            metrics.scaledDensity = configuration.fontScale * metrics.density
+            context.getResources().updateConfiguration(configuration, metrics)
+        }
 
         fun InvalidSession(context: Context, message: String) {
             showToast(context, message)

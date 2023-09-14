@@ -96,10 +96,15 @@ class SignupActivity : AppCompatActivity() {
 
 
         }
-        binding.tvSignUp.setOnClickListener() {
-            startActivity(Intent(mContext, SignupActivity::class.java))
+        */
+        binding.btnSubmit.setOnClickListener() {
+            startActivity(Intent(mContext, RewardGuideActivity::class.java))
 
-        }*/
+        }
+        binding.tvLogin.setOnClickListener() {
+            startActivity(Intent(mContext, LoginActivity::class.java))
+
+        }
 
     }
 
