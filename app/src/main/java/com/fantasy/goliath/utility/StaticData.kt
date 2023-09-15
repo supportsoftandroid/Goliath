@@ -9,6 +9,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.database.Cursor
 import android.graphics.*
@@ -37,20 +38,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-
+import com.fantasy.goliath.BuildConfig
+import com.fantasy.goliath.R
+import com.fantasy.goliath.ui.activities.LoginActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import com.fantasy.goliath.BuildConfig
-import com.fantasy.goliath.R
-
-import com.fantasy.goliath.ui.activities.LoginActivity
 import java.io.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -257,12 +257,6 @@ class StaticData {
         }
 
 
-
-
-
-
-
-
         fun changeLastChatDate(inputDate: String): String {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
             val output = SimpleDateFormat("HH:mm a")
@@ -293,7 +287,6 @@ class StaticData {
         }
 
 
-
         fun pickImageFromGallary(activity: Activity) {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             activity.startActivityForResult(intent, GALLARY_REQUEST_CODE)
@@ -305,10 +298,11 @@ class StaticData {
             val output = SimpleDateFormat("MMM dd,yyyy")
             val d: Date? = inputFormat.parse(inputDate)
             val formatted: String = output.format(d)
-             //  Log.i("DATE", "" + formatted)
+            //  Log.i("DATE", "" + formatted)
             return formatted
 
         }
+
         fun createFileMultiPart(
             file: File,
             fileName: String,
@@ -346,8 +340,60 @@ class StaticData {
                 Log.e(str + "=====>", message)
             }
         }
+
+        fun setMatchTeamViewColor(
+            context: Context,
+            teamName: String,
+            imgTeam: ImageView,
+            teamBorder: View
+        ) {
+
+            var teamColor = R.color.colorTeamGT
+            when (teamName) {
+                "GT" -> {
+                    teamColor = R.color.colorTeamGT
+                }
+                "PBKS" -> {
+                    teamColor = R.color.colorTeamPBKS
+                }
+                "CSK" -> {
+                    teamColor = R.color.colorTeamCSK
+                }
+                "KKR" -> {
+                    teamColor = R.color.colorTeamKKR
+                }
+                "DC" -> {
+                    teamColor = R.color.colorTeamDC
+                }
+                "LSG" -> {
+                    teamColor = R.color.colorTeamLSG
+                }
+                "SRH" -> {
+                    teamColor = R.color.colorTeamSRH
+                }
+                "RR" -> {
+                    teamColor = R.color.colorTeamRR
+                }
+                "MI" -> {
+                    teamColor = R.color.colorTeamMI
+                }
+                "RCB" -> {
+                    teamColor = R.color.colorTeamRCB
+                }
+            }
+
+
+
+
+
+            teamBorder.setBackgroundColor(context.resources.getColor(teamColor))
+           // imgTeam.setColorFilter(ContextCompat.getColor(context, teamColor), PorterDuff.Mode.SRC_IN)
+            imgTeam.backgroundTintList=ColorStateList.valueOf(ContextCompat.getColor(context,  teamColor))
+
+        }
+
         fun clearHeapLimit(mContext: Context) {
-        //   val deviceManger = mContext.getSystemService(Context.DEVICE_POLICY_SERVICE);
+            //   val deviceManger = mContext.getSystemService(Context.DEVICE_POLICY_SERVICE);
             if (BuildConfig.DEBUG) {
                 val activityManager =
                     mContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager;
@@ -356,14 +402,15 @@ class StaticData {
                 }
             }
         }
-    fun getHTMLFormatText( text: String?): Spanned {
-       val message=if (TextUtils.isEmpty(text))"" else text
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-         return   Html.fromHtml(message, Html.FROM_HTML_OPTION_USE_CSS_COLORS)
-        } else {
-         return   Html.fromHtml(message)
-        }
+        fun getHTMLFormatText(text: String?): Spanned {
+            val message = if (TextUtils.isEmpty(text)) "" else text
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                return Html.fromHtml(message, Html.FROM_HTML_OPTION_USE_CSS_COLORS)
+            } else {
+                return Html.fromHtml(message)
+            }
         }
 
         fun askIsNotificationPermission(context: Context): Boolean {
@@ -470,13 +517,14 @@ class StaticData {
         fun showToast(context: Context, message: String) {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
- fun hideKeyBoard(mContext: Context,view: View ) {
 
-     if (view != null) {
-         val imm: InputMethodManager =
-             mContext.getSystemService (Context.INPUT_METHOD_SERVICE) as InputMethodManager
-         imm.hideSoftInputFromWindow(view.windowToken, 0)
-     }
+        fun hideKeyBoard(mContext: Context, view: View) {
+
+            if (view != null) {
+                val imm: InputMethodManager =
+                    mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
         }
 
         fun fragmentSetResult(context: Context, newFragment: Fragment?) {
@@ -621,10 +669,6 @@ class StaticData {
             }
             return str!!
         }
-
-
-
-
 
 
         fun setAddressFrom(context: Context, addresses: MutableList<Address>) {
@@ -805,25 +849,26 @@ class StaticData {
         }
 
         fun searchPlace(activity: Activity) {
-          /*  val fields = Arrays.asList(
-                Place.Field.ID,
-                Place.Field.NAME,
-                Place.Field.ADDRESS,
-                Place.Field.LAT_LNG,
-                Place.Field.ADDRESS_COMPONENTS
-            )
-            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
-                .setTypeFilter(TypeFilter.ADDRESS)
-                .setCountry(Constants.COUNTRY_NAME)
-                .build(activity)
+            /*  val fields = Arrays.asList(
+                  Place.Field.ID,
+                  Place.Field.NAME,
+                  Place.Field.ADDRESS,
+                  Place.Field.LAT_LNG,
+                  Place.Field.ADDRESS_COMPONENTS
+              )
+              val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                  .setTypeFilter(TypeFilter.ADDRESS)
+                  .setCountry(Constants.COUNTRY_NAME)
+                  .build(activity)
 
-            activity.startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+              activity.startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
 
-*/
+  */
         }
+
         fun adjustFontScale(context: Context, configuration: Configuration, scale: Float) {
             configuration.fontScale = scale
-            val metrics: DisplayMetrics =context.getResources().getDisplayMetrics()
+            val metrics: DisplayMetrics = context.getResources().getDisplayMetrics()
             val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             wm!!.defaultDisplay.getMetrics(metrics)
             metrics.scaledDensity = configuration.fontScale * metrics.density

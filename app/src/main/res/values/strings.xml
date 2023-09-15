@@ -37,4 +37,39 @@
     <string name="press_again_to_exit_from_app">Press back again to exit</string>
     <string name="upcoming">Upcoming</string>
     <string name="live">Live</string>
+    <string name="select_overs">Select Overs</string>
+    <string name="selected_overs">Selected Overs</string>
+    <string name="clear">Clear</string>
+    <string name="add">Add</string>
+    <string name="total_deduction_from_your_wallet">Total Deduction from your wallet</string>
+    <string name="confirm">Confirm</string>
+    <string name="back">Back</string>
+    <string name="add_cash">Add Cash</string>
+    <string name="your_answer_yes">Your Answer : <font color="#FF3F8BCA">Yes</font></string>
+    <string name="your_answer_no">Your Answer : <font color="#FF3F8BCA">No</font></string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="question_list">Question list</string>
+    <string name="answer">Answer</string>
+    <string name="you_won_the">You won the</string>
+    <string name="dummy_name">James Martin</string>
+    <string name="dummy_email">Jamesmartin@gmail.com</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="logout">Logout</string>
+    <string name="total_balance">Total Balance</string>
+    <string name="deposited_winnings_fees_pay_withdraw">(Deposited + Winnings - Fees pay - Withdraw)</string>
+    <string name="wallet">Wallet</string>
+    <string name="add_money">Add Money</string>
+    <string name="total_deposited">Total Deposited</string>
+    <string name="total_fee_paid">Total Fee Paid</string>
+    <string name="total_withdraw">Total Withdraw</string>
+    <string name="view_your_matches">View Your matches</string>
+    <string name="logout_message">Are you sure want to Logout.</string>
+    <string name="enter_your_name">Enter Your Name</string>
+    <string name="update">Update</string>
+    <string name="dummy_description">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable.</string>
+    <string name="enter_conform_password">Enter Conform Password</string>
+    <string name="enter_new_password">Enter New Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="my_info_settings"><![CDATA[My Info & Settings]]></string>
 </resources>

@@ -39,7 +39,7 @@
         android:backgroundTint="@color/colorLightGray"
 
         android:padding="@dimen/dp_2"
-        android:src="@drawable/ic_close"
+        android:src="@drawable/ic_close_round"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.1"

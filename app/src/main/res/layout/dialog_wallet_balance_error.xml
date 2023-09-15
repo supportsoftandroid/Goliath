@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginHorizontal="@dimen/dp_10"
+    android:background="@drawable/background_white_radius_20"
+
+    android:padding="@dimen/dp_30"
+
+
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+
+    <ImageView
+        android:id="@+id/imgClose"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_100"
+        android:layout_gravity="center_vertical"
+
+
+        android:padding="@dimen/dp_20"
+        android:backgroundTint="@color/colorRedLight"
+        app:backgroundTint="@color/colorRedLight"
+
+        android:background="@drawable/circle_white"
+
+
+        android:src="@drawable/ic_warning"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        tools:ignore="ContentDescription" />
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/dp_7"
+        android:layout_marginTop="@dimen/dp_40"
+        android:fontFamily="@font/visby_bold"
+        android:text="Sorry, You don’t have sufficient balance to play "
+        android:textColor="@color/colorText"
+        android:layout_marginHorizontal="@dimen/dp_40"
+        android:textSize="@dimen/sp_20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgClose"
+        />
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/AppButtonStyle"
+        android:padding="@dimen/dp_5"
+        android:layout_marginHorizontal="@dimen/dp_40"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_30"
+        android:fontFamily="@font/visby_bold"
+        android:text="@string/add_cash"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/sp_20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMessage"
+        />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

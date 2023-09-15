@@ -27,7 +27,7 @@
             android:text="Add card"
             android:textColor="@color/colorTextLabel"
             android:textSize="@dimen/sp_22"
-            android:fontFamily="@font/visby_semibold"
+            android:fontFamily="@font/visby_semi_bold"
             app:layout_constraintTop_toBottomOf="@+id/imgClose"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
             android:contentDescription="@string/app_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_close" />
+            app:srcCompat="@drawable/ic_close_round" />
     </RelativeLayout>
 
 

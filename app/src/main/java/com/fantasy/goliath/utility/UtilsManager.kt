@@ -39,6 +39,7 @@ import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.DialogBottomAddCardBinding
 import com.fantasy.goliath.databinding.DialogImageUploadBinding
 import com.fantasy.goliath.databinding.DialogVerifyOtpBinding
+import com.fantasy.goliath.databinding.DialogWalletBalanceErrorBinding
 import com.fantasy.goliath.ui.activities.LoginActivity
 import com.fantasy.goliath.utility.Constants.ERROR_ALERT
 import com.fantasy.goliath.utility.StaticData.Companion.IMAGE_CROP_REQUEST_CODE
@@ -153,7 +154,36 @@ class UtilsManager(private val context: Context) {
         }
         dialogImageUpload.show()
     }
+    fun showWalletError(context: Context,
+                                 onItemClick: (type: String,  dlg: BottomSheetDialog) -> Unit) {
+        val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
+        val dialogBinding =
+            DialogWalletBalanceErrorBinding.inflate(LayoutInflater.from(context), null, false)
+        val sheetView = dialogBinding.root
+        dialog.setContentView(sheetView)
+        dialog.setCancelable(false)
 
+        /*  val screenHeight = context.resources.displayMetrics.heightPixels
+          val layoutParams = sheetView.layoutParams
+          layoutParams.height = screenHeight
+          sheetView.layoutParams = layoutParams
+
+          // Set the bottom sheet to be fullscreen
+          dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED*/
+
+
+
+
+
+        dialogBinding.btnAdd.setOnClickListener {
+
+            onItemClick("submit",  dialog)
+
+        }
+
+        dialog.show()
+
+    }
     fun showAlertConnectionError() {
         val builder =
             AlertDialog.Builder(context)

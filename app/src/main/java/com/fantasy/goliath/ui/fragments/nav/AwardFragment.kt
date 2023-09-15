@@ -1,17 +1,14 @@
-package com.fantasy.goliath.ui.fragments
+package com.fantasy.goliath.ui.fragments.nav
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.fantasy.goliath.databinding.ActivityLoginBinding
 import com.fantasy.goliath.databinding.FragmentAwardBinding
 
 import com.fantasy.goliath.viewmodal.AwardViewModel
-import com.fantasy.goliath.viewmodal.LoginViewModel
 
 class AwardFragment : Fragment() {
     private val viewModal by lazy { ViewModelProvider(this)[AwardViewModel::class.java] }

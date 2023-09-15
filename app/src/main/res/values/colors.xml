@@ -21,6 +21,7 @@
     <color name="colorMaroon">#F54B64</color>
     <color name="colorGreenLight">#2FD06E</color>
     <color name="color5DB96F">#5DB96F</color>
+    <color name="color2EB100">#2EB100</color>
 
     <color name="colorGreenVeryLight">#E1F6E8</color>
     <color name="colorMaroonLight">#F5E1E4</color>#FFEBEB
@@ -31,13 +32,14 @@
     <color name="color1C1932">#1C1932</color>
     <color name="colorBABBC9">#BABBC9</color>
 
+
     <color name="colorAppBg">#E6E6E6</color>
     <color name="colorTextHint">#5B617A</color>
     <color name="color244495">#244495</color>
     <color name="color222F49">#222F49</color>
     <color name="colorEditTextBg">#E4F3F6FF</color>
     <color name="colorTextLabel">#333333</color>
-    <color name="textPlaceHolder">#9A9DA7</color>
+    <color name="textPlaceHolder">#868686</color>
     <color name="colorTextLabelLight">#A9A1B0</color>
     <color name="colorF2F3FF">#F2F3FF</color>
     <color name="colorB9BFDD">#B9BFDD</color>
@@ -63,6 +65,7 @@
     <color name="colorSlotBg40404D">#40404D</color>
 
     <color name="colorFAF9FE">#FAF9FE</color>
+    <color name="colorF6F6F6">#F6F6F6</color>
     <color name="color2F86C6">#2F86C6</color>
     <color name="colorE4DFDF">#E4DFDF</color>
     <color name="color3310B7AC">#3310B7AC</color>
@@ -72,6 +75,7 @@
     <color name="colorF34545">#F34545</color>
     <color name="colorTomato">#F47269</color>
     <color name="colorRed">#E10C0C</color>
+    <color name="colorRedLight">#FDACA6</color>
 
     <color name="colorBtnCancel">#FFEEEE</color>
     <color name="colorBtnDelivery">#F2FFF7</color>
@@ -93,4 +97,16 @@
     <color name="colorBlueDark">#2A72A8</color>
     <color name="colorBlue">#4460A0</color>
     <color name="colorSkyBlue">#4B84F5</color>
+   <!--  Team Color-->
+    <color name="colorTeamGT">#1B2133</color>
+    <color name="colorTeamCSK">#FBC408</color>
+    <color name="colorTeamPBKS">#E41C1E</color>
+    <color name="colorTeamKKR">#3A225D</color>
+    <color name="colorTeamDC">#282969</color>
+    <color name="colorTeamLSG">#8DFFFF</color>
+    <color name="colorTeamSRH">#EF5B26</color>
+    <color name="colorTeamRR">#254AA5</color>
+    <color name="colorTeamMI">#004BA0</color>
+    <color name="colorTeamRCB">#EC1C24</color>
+
 </resources>

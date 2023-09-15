@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/welcome_screen_bg"
-    tools:context=".ui.fragments.AwardFragment">
+    tools:context=".ui.fragments.nav.AwardFragment">
 
     <ImageView
         android:id="@+id/imgLogo"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_15"
         android:layout_marginBottom="@dimen/dp_15"
-        android:fontFamily="@font/visby_semibold"
+        android:fontFamily="@font/visby_semi_bold"
         android:padding="@dimen/dp_5"
         android:text="@string/lets_play"
         android:textColor="@color/colorBtn"
@@ -69,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_35"
-        android:fontFamily="@font/visby_semibold"
+        android:fontFamily="@font/visby_semi_bold"
         android:gravity="center"
         android:text="RESULTS DECLARED EVERY"
         android:textColor="@color/colorWhite"
@@ -102,7 +102,7 @@
 
             android:layout_alignParentTop="true"
             android:layout_marginTop="@dimen/dp_5"
-            android:fontFamily="@font/visby_semibold"
+            android:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:text="6 Minutes"
             android:background="@drawable/label_minutes"
@@ -119,7 +119,7 @@
 
             android:layout_alignParentTop="true"
             android:layout_marginTop="@dimen/dp_5"
-            android:fontFamily="@font/visby_semibold"
+            android:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:text="20-30 New Games Each Day"
 

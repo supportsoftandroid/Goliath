@@ -7,14 +7,11 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.ActivityMainBinding
-import com.fantasy.goliath.ui.fragments.AwardFragment
-import com.fantasy.goliath.ui.fragments.HomeFragment
+import com.fantasy.goliath.ui.fragments.nav.AwardFragment
+import com.fantasy.goliath.ui.fragments.nav.HomeFragment
+import com.fantasy.goliath.ui.fragments.nav.ProfileFragment
 import com.fantasy.goliath.utility.PreferenceManager
 import com.fantasy.goliath.utility.StaticData
 import com.fantasy.goliath.utility.StaticData.Companion.showToast
@@ -85,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                     return@setOnItemSelectedListener true
                 }
                 R.id.nav_profile -> {
-                    StaticData.replaceFragment(mContext, AwardFragment())
+                    StaticData.replaceFragment(mContext, ProfileFragment())
                     return@setOnItemSelectedListener true
                 }
 

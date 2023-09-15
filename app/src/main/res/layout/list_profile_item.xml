@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="modal"
+            type="com.fantasy.goliath.model.CommonDataItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintStar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:padding="@dimen/dp_15"
+        android:background="@color/colorF6F6F6"
+        >
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="@dimen/dp_15"
+            android:fontFamily="@font/visby_semi_bold"
+            android:gravity="start|center_vertical"
+
+
+            android:text="@string/app_name"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintEnd_toStartOf="@+id/imgNext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tvDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:fontFamily="@font/visby_regular"
+            android:gravity="start|center_vertical"
+
+
+            android:text="@string/view_your_matches"
+            android:textColor="@color/colorText"
+
+            android:textSize="@dimen/sp_10"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            app:layout_constraintEnd_toStartOf="@+id/imgNext"
+            app:layout_constraintStart_toStartOf="parent"
+             />
+
+        <ImageView
+            android:id="@+id/imgNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_chevron_right_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorText" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorLightGray"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

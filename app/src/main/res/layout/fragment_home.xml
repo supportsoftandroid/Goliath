@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAppBg"
-    tools:context=".ui.fragments.HomeFragment">
+    tools:context=".ui.fragments.nav.HomeFragment">
     <ImageView
         android:id="@+id/imgGradient"
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
             android:background="@drawable/tab_selecter"
             android:button="@null"
             android:checked="true"
-            android:fontFamily="@font/visby_semibold"
+            android:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:inputType="text"
             android:padding="@dimen/dp_5"
@@ -61,7 +61,7 @@
 
             android:button="@null"
             android:layout_gravity="center_vertical"
-            android:fontFamily="@font/visby_semibold"
+            android:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:inputType="text"
             android:padding="@dimen/dp_5"
@@ -77,7 +77,7 @@
             android:background="@drawable/tab_selecter"
 
             android:button="@null"
-            android:fontFamily="@font/visby_semibold"
+            android:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:inputType="text"
             android:padding="@dimen/dp_5"

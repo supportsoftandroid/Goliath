@@ -23,7 +23,7 @@
             android:layout_marginStart="@dimen/dp_15"
 
             android:layout_marginHorizontal="@dimen/dp_25"
-            android:fontFamily="@font/visby_semibold"
+            android:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:includeFontPadding="false"
             android:singleLine="true"

@@ -19,12 +19,5 @@
             android:right="30dp"
             />
     </item>
-    <item
-        android:bottom="20dp"
-        android:left="-20dp"
-        android:right="-20dp"
-        android:drawable="@drawable/tab_indicator"
-        android:top="-20dp"/>
-
 </layer-list>
 
