@@ -41,6 +41,8 @@ class ChangePasswordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val root: View = binding.root
+        preferenceManager= PreferenceManager(requireActivity())
+        utilsManager=UtilsManager(requireActivity())
         binding.let{
             initView()
             clickListener()

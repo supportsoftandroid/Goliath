@@ -71,6 +71,7 @@ class MatchHistoryFragment : Fragment() {
     }
 
     private fun initView() {
+        binding.viewHeader.txtTitle.text = requireActivity().getString(R.string.matches_history)
         dataList.clear()
 
         dataList.add(MatchDataItem("GT","CSK","T20"))
@@ -81,25 +82,7 @@ class MatchHistoryFragment : Fragment() {
         binding.viewBody.rvList.adapter = adapter
         type = "completed"
         adapter.updateMatchType(type)
-        binding.rgStatus.setOnCheckedChangeListener { group, checkedId ->
-            when (checkedId) {
-                R.id.rbUpcoming -> {
-                    binding.rbUpcoming.setTextColor(ContextCompat.getColor(requireActivity(), R.color.app_color))
-                    binding.rbLive.setTextColor(ContextCompat.getColor(requireActivity(), R.color.textPlaceHolder))
-                    type = "upcoming"
-                    adapter.updateMatchType(type)
 
-                }
-                R.id.rbLive -> {
-                    binding.rbLive.setTextColor(ContextCompat.getColor(requireActivity(), R.color.app_color))
-                    binding.rbUpcoming.setTextColor(ContextCompat.getColor(requireActivity(), R.color.textPlaceHolder))
-                    type = "live"
-                    adapter.updateMatchType(type)
-
-                }
-            }
-
-        }
 
 
     }

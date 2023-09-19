@@ -16,7 +16,6 @@ class WelcomeActivity : AppCompatActivity() {
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         preferenceManager = PreferenceManager(this)
         binding.let {
             initView()
@@ -27,8 +26,13 @@ class WelcomeActivity : AppCompatActivity() {
 
     private fun clickListener() {
         binding.btnStart.setOnClickListener(){
+            startActivity(Intent(this, LoginActivity::class.java))
+
+        }
+
+        binding.tvSignup.setOnClickListener(){
             startActivity(Intent(this, SignupActivity::class.java))
-            finish()
+
         }
     }
 

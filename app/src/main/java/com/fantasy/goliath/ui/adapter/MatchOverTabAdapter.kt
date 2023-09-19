@@ -2,7 +2,6 @@ package com.fantasy.goliath.ui.adapter
 
 
 import android.content.Context
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -40,12 +39,31 @@ class MatchOverTabAdapter(
         val current = dataList[position]
         holder.bind(current)
         holder.binding.tvTitle.text =current.title
+        holder.itemView.setOnClickListener {
+            selectedPos=position
+            listenerClick(position,"")
+            notifyDataSetChanged()
+        }
         if (position==selectedPos){
-            holder.binding.clvCardMain.setBackgroundColor(mContext.resources.getColor(R.color.app_color))
+            if (position==0){
+                holder.binding.clvCardMain.setBackgroundResource(R.drawable.bg_blue_start_tab_radius_10)
+            }else if (position==dataList.size-1){
+                holder.binding.clvCardMain.setBackgroundResource(R.drawable.bg_blue_end_tab_radius_10)
+            }else{
+                holder.binding.clvCardMain.setBackgroundColor(mContext.resources.getColor(R.color.app_color))
+            }
+
             holder.binding.tvTitle.setTextColor(mContext.resources.getColor(R.color.colorWhite))
 
         }else{
-            holder.binding.clvCardMain.setBackgroundColor(mContext.resources.getColor(R.color.colorWhite))
+            if (position==0){
+                holder.binding.clvCardMain.setBackgroundResource(R.drawable.bg_white_start_tab_radius_10)
+            }else if (position==dataList.size-1){
+                holder.binding.clvCardMain.setBackgroundResource(R.drawable.bg_white_end_tab_radius_10)
+            }else{
+                holder.binding.clvCardMain.setBackgroundResource(R.drawable.border_blue_center_tab)
+            }
+
             holder.binding.tvTitle.setTextColor(mContext.resources.getColor(R.color.app_color))
         }
 

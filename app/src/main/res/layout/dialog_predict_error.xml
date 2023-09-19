@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/preduct_bg"
+    android:layout_marginHorizontal="@dimen/dp_20" >
+    <ImageView
+        android:id="@+id/imgBanner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:src="@drawable/preduct_bg"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/imgClose"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_20"
+        android:backgroundTint="@color/colorRedLight"
+        app:backgroundTint="@color/colorRedLight"
+        android:background="@drawable/circle_white"
+        android:src="@drawable/ic_warning"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_30"
+        android:fontFamily="@font/visby_bold"
+        android:text="@string/you_haven_t_made_your_predictions"
+        android:textColor="@color/colorText"
+        android:layout_marginHorizontal="@dimen/dp_40"
+        android:textSize="@dimen/sp_20"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgClose"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSubmit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/AppButtonStyle"
+        android:padding="@dimen/dp_5"
+        android:layout_marginHorizontal="@dimen/dp_40"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_20"
+        android:fontFamily="@font/visby_bold"
+        android:backgroundTint="@color/colorWhite"
+        android:text="@string/predicts_now"
+        android:textColor="@color/colorBtn"
+        android:textSize="@dimen/sp_20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/dp_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMessage"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

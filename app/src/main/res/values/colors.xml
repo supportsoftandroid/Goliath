@@ -33,7 +33,7 @@
     <color name="colorBABBC9">#BABBC9</color>
 
 
-    <color name="colorAppBg">#E6E6E6</color>
+    <color name="colorAppBg">#F6F6F6</color>
     <color name="colorTextHint">#5B617A</color>
     <color name="color244495">#244495</color>
     <color name="color222F49">#222F49</color>
@@ -84,6 +84,8 @@
     <color name="colorBlueSky">#44AAF4</color>
     <color name="colorGreen">#3C948B</color>
     <color name="colorE0EAF0">#E0EAF0</color>
+    <color name="colorE4F3FD">#1B3F8BCA</color>
+    <color name="colorB9DBF8">#B9DBF8</color>
     <color name="colorF2F6F9">#F2F6F9</color>
     <color name="colorF5F5F5">#F5F5F5</color>
     <color name="coloF7FBFE">#F7FBFE</color>

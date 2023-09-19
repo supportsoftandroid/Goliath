@@ -15,14 +15,13 @@ import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.adapter.ProfileAdapter
-import com.fantasy.goliath.ui.fragments.ChangePasswordFragment
-import com.fantasy.goliath.ui.fragments.EditProfileFragment
-import com.fantasy.goliath.ui.fragments.MatchHistoryFragment
+import com.fantasy.goliath.ui.fragments.*
 import com.fantasy.goliath.utility.PreferenceManager
 import com.fantasy.goliath.utility.StaticData
 import com.fantasy.goliath.utility.UtilsManager
 
 import com.fantasy.goliath.viewmodal.ProfileViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class ProfileFragment : Fragment() {
     private val viewModal by lazy { ViewModelProvider(this)[ProfileViewModel::class.java] }
@@ -42,10 +41,52 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val root: View = binding.root
-        binding.let{ initView() }
+        preferenceManager= PreferenceManager(requireActivity())
+        utilsManager=UtilsManager(requireActivity())
+        binding.let{ initView()
+        clickListener()}
         return root
     }
+
+    private fun clickListener() {
+
+        binding.tvAddMoney.setOnClickListener(){
+             utilsManager.showAddAmountDialog(requireActivity(),{amount,dialog->onAmountAdd(amount,dialog)})
+         }
+        binding.tvWalletLabel.setOnClickListener(){
+            openWallet()
+        }
+        binding.llTotalDeposited.setOnClickListener(){
+           openWallet()
+         }
+         binding.llTotalWinning.setOnClickListener(){
+           openWallet()
+         }
+         binding.llTotalFreePaid.setOnClickListener(){
+           openWallet()
+         }
+
+        binding.llTotalWithdraw.setOnClickListener(){
+           openWallet()
+         }
+
+    }
+
+    private fun openWallet() {
+        MainActivity.hideNavigationTab()
+        StaticData.backStackAddFragment(
+            requireActivity(),
+            WalletDetailsFragment.newInstance("add")
+        )
+    }
+
+    private fun onAmountAdd(amount: String, dialog: BottomSheetDialog) {
+
+        dialog.dismiss()
+    }
+
     fun initView() {
+        binding.viewHeader.txtTitle.text = requireActivity().getString(R.string.my_profile)
         //setProfileData(loginResponse.user)
         dataList.clear()
 
@@ -64,7 +105,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun onAdapterClick(pos: Int, type: String) {
-        if (type.equals("History")){
+        if (type.equals("History",true)){
             MainActivity.hideNavigationTab()
             StaticData.backStackAddFragment(
                 requireActivity(),
@@ -84,7 +125,11 @@ class ProfileFragment : Fragment() {
                 ChangePasswordFragment.newInstance("add")
             )
         }else if (type.equals("Transaction History")){
-            logOutFromApp()
+            MainActivity.hideNavigationTab()
+            StaticData.backStackAddFragment(
+                requireActivity(),
+                TransactionHistoryFragment.newInstance("add")
+            )
         }else if (type.equals("Logout")){
             logOutFromApp()
         }

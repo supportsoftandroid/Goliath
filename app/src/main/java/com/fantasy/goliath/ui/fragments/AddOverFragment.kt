@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.fantasy.goliath.databinding.FragmentAddPredictionBinding
+import androidx.recyclerview.widget.GridLayoutManager
+import com.fantasy.goliath.databinding.FragmentAddOverBinding
+
+
 import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.ui.adapter.SelectedOverAdapter
@@ -15,7 +17,8 @@ import com.fantasy.goliath.utility.PreferenceManager
 import com.fantasy.goliath.utility.StaticData
 import com.fantasy.goliath.utility.StaticData.Companion.showToast
 import com.fantasy.goliath.utility.UtilsManager
-import com.fantasy.goliath.viewmodal.AddPredictionViewModel
+import com.fantasy.goliath.viewmodal.AddOverViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class AddOverFragment : Fragment() {
     companion object {
@@ -27,8 +30,8 @@ class AddOverFragment : Fragment() {
             return fragment
         }
     }
-    private val viewModal by lazy { ViewModelProvider(this)[AddPredictionViewModel::class.java] }
-    private val binding by lazy(LazyThreadSafetyMode.NONE) { FragmentAddPredictionBinding.inflate(layoutInflater) }
+    private val viewModal by lazy { ViewModelProvider(this)[AddOverViewModel::class.java] }
+    private val binding by lazy(LazyThreadSafetyMode.NONE) { FragmentAddOverBinding.inflate(layoutInflater) }
     lateinit var loginResponse: LoginResponse
     lateinit var preferences: PreferenceManager
     lateinit var utilsManager: UtilsManager
@@ -64,27 +67,23 @@ class AddOverFragment : Fragment() {
         binding.imgMinus.setOnClickListener() {
             if (count>1){
                 count=count-1
-                binding.tvCount.setText(count.toString()+" Over")
+                binding.tvCount.setText("Over "+count.toString())
             }
 
         }
         binding.imgPlus.setOnClickListener() {
             if (count<totalOver){
                 count=count+1
-                binding.tvCount.setText(count.toString()+" Over")
+                binding.tvCount.setText("Over "+count.toString())
                 binding.tvSelectedOverLabel.visibility=View.VISIBLE
                 binding.tvClear.visibility=View.VISIBLE
+
             }
         }
         binding.tvAdd.setOnClickListener() {
              val newOverValue=binding.tvCount.text.toString()
-            if (checkNotDuplicateOverValue(newOverValue)){
-                dataList.add(CommonDataItem(newOverValue,"",false))
-                adapter.notifyDataSetChanged()
+            checkNotDuplicateOverValue(newOverValue)
 
-                }else{
-                    showToast(requireActivity(),"Duplicate over not allowed")
-                }
         }
         binding.tvClear.setOnClickListener() {
             dataList.clear()
@@ -93,12 +92,18 @@ class AddOverFragment : Fragment() {
             binding.tvClear.visibility=View.GONE
         }
         binding.btnConform.setOnClickListener() {
-            StaticData.backStackAddFragment(
-                requireActivity(),
-                AddQuestionsFragment.newInstance("add")
-            )
+            utilsManager.showWalletErrorDialog(requireActivity(),{type,dialog->onWalletCheck(type,dialog)})
+
         }
 
+    }
+
+    private fun onWalletCheck(type: String, dialog: BottomSheetDialog) {
+        dialog.dismiss()
+        StaticData.backStackAddFragment(
+            requireActivity(),
+            AddQuestionsFragment.newInstance("add")
+        )
     }
 
     private fun checkNotDuplicateOverValue(newOverValue: String):Boolean {
@@ -110,7 +115,13 @@ class AddOverFragment : Fragment() {
 
             }
         }
+      if (isNotDuplicate)  {
+          dataList.add(CommonDataItem(newOverValue,"",false))
+        adapter.notifyDataSetChanged()
 
+    }else{
+        showToast(requireActivity(),"Duplicate over not allowed")
+    }
         return isNotDuplicate
 
     }
@@ -126,7 +137,7 @@ class AddOverFragment : Fragment() {
 
 
         adapter = SelectedOverAdapter(requireActivity(), dataList, { pos, type -> onAdapterClick(pos, type) })
-        binding.rvList.layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvList.layoutManager = GridLayoutManager(requireActivity(),3)
         binding.rvList.adapter = adapter
 
 

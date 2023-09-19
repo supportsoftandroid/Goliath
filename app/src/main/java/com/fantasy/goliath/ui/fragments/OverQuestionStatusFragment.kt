@@ -7,23 +7,25 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.fantasy.goliath.databinding.FragmentMatchPredictionResultBinding
+import com.fantasy.goliath.databinding.FragmentAddQuestionBinding
 import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.QuestionAnsItem
+import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
 import com.fantasy.goliath.ui.adapter.QuestionAnswerAdapter
-import com.fantasy.goliath.ui.adapter.SelectedOverAdapter
+import com.fantasy.goliath.ui.adapter.QuestionAnswerStatusAdapter
 import com.fantasy.goliath.utility.PreferenceManager
+import com.fantasy.goliath.utility.StaticData
 import com.fantasy.goliath.utility.UtilsManager
-import com.fantasy.goliath.viewmodal.AddPredictionViewModel
+import com.fantasy.goliath.viewmodal.AddOverViewModel
 
-class MatchStatusQuestionsFragment : Fragment() {
+class OverQuestionStatusFragment : Fragment() {
     companion object {
 
-        fun newInstance(from: String): MatchStatusQuestionsFragment {
+        fun newInstance(from: String): OverQuestionStatusFragment {
             val args = Bundle()
             args.putString("from", from)
-            val fragment = MatchStatusQuestionsFragment()
+            val fragment = OverQuestionStatusFragment()
             fragment.arguments = args
             return fragment
         }
@@ -31,17 +33,17 @@ class MatchStatusQuestionsFragment : Fragment() {
 
     }
 
-    private val viewModal by lazy { ViewModelProvider(this)[AddPredictionViewModel::class.java] }
+    private val viewModal by lazy { ViewModelProvider(this)[AddOverViewModel::class.java] }
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
-        FragmentMatchPredictionResultBinding.inflate(
+        FragmentAddQuestionBinding.inflate(
             layoutInflater
         )
     }
     lateinit var loginResponse: LoginResponse
     lateinit var preferences: PreferenceManager
     lateinit var utilsManager: UtilsManager
-    lateinit var adapter: SelectedOverAdapter
-    lateinit var questionAdapter: QuestionAnswerAdapter
+    lateinit var adapter: MatchOverTabAdapter
+    lateinit var questionAdapter: QuestionAnswerStatusAdapter
     var dataList = mutableListOf<CommonDataItem>()
     var questionList = mutableListOf<QuestionAnsItem>()
 
@@ -69,6 +71,14 @@ class MatchStatusQuestionsFragment : Fragment() {
             requireActivity().onBackPressed()
 
         }
+        binding.btnSubmit.setOnClickListener() {
+
+            StaticData.backStackAddFragment(
+                requireActivity(),
+                MatchOverStatusFragment.newInstance("add")
+            )
+
+        }
 
 
     }
@@ -77,19 +87,20 @@ class MatchStatusQuestionsFragment : Fragment() {
     private fun initView() {
         dataList.clear()
 
-        dataList.add(CommonDataItem("Over 1", "", false))
-        dataList.add(CommonDataItem("Over 2", "", false))
-        dataList.add(CommonDataItem("Over 5", "", false))
-        dataList.add(CommonDataItem("Over 10", "", false))
-        dataList.add(CommonDataItem("Over 15", "", false))
+        dataList.add(CommonDataItem("1st Over", "", false))
+        dataList.add(CommonDataItem("2nd Over", "", false))
+        dataList.add(CommonDataItem("3rd Over ", "", false))
+        dataList.add(CommonDataItem("4th Over ", "", false))
+        dataList.add(CommonDataItem("5th Over ", "", false))
+        dataList.add(CommonDataItem("10th Over ", "", false))
+        dataList.add(CommonDataItem("15th Over ", "", false))
 
-
-        adapter = SelectedOverAdapter(
+        adapter = MatchOverTabAdapter(
             requireActivity(),
             dataList,
             { pos, type -> onAdapterClick(pos, type) })
-        binding.rvOverList.layoutManager = LinearLayoutManager(requireActivity())
-        binding.rvList.adapter = adapter
+        binding.rvOverList.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
+        binding.rvOverList.adapter = adapter
 
         dataList.add(CommonDataItem("Over 1", "", false))
         dataList.add(CommonDataItem("Over 2", "", false))
@@ -98,20 +109,20 @@ class MatchStatusQuestionsFragment : Fragment() {
         dataList.add(CommonDataItem("Over 15", "", false))
 
         questionList.clear()
-        questionList.add(QuestionAnsItem("1. End Over EVEN runs.", "no","yes"))
-        questionList.add(QuestionAnsItem("2. First ball scoring?", "yes","no"))
-        questionList.add(QuestionAnsItem("3. Boundary", "no","yes"))
-        questionList.add(QuestionAnsItem("4. Sixes", "no","no"))
-        questionList.add(QuestionAnsItem("5. LBW", "no","yes"))
-        questionList.add(QuestionAnsItem("6. Dot Balls LESS than 2", "yes","yes"))
-        questionList.add(QuestionAnsItem("7. Maiden Over ( 0runs )", "yes","no"))
-        questionList.add(QuestionAnsItem("8. Out For a Duck", "no","yes"))
-        questionAdapter = QuestionAnswerAdapter(
+        questionList.add(QuestionAnsItem("1. End Over EVEN runs.", "No",""))
+        questionList.add(QuestionAnsItem("2. First ball scoring?", "Yes",""))
+        questionList.add(QuestionAnsItem("3. Boundary", "Yes",""))
+        questionList.add(QuestionAnsItem("4. Sixes", "No",""))
+        questionList.add(QuestionAnsItem("5. LBW", "No",""))
+        questionList.add(QuestionAnsItem("6. Dot Balls LESS than 2", "",""))
+        questionList.add(QuestionAnsItem("7. Maiden Over ( 0runs )", "",""))
+        questionList.add(QuestionAnsItem("8. Out For a Duck", "No",""))
+        questionAdapter = QuestionAnswerStatusAdapter(
             requireActivity(),
             questionList,
             { pos, type -> onQuestionAdapterClick(pos, type) })
-        binding.rvList.layoutManager = LinearLayoutManager(requireActivity())
-        binding.rvList.adapter = questionAdapter
+        binding.rvQuestionList.layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvQuestionList.adapter = questionAdapter
 
 
     }

@@ -108,7 +108,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:fontFamily="@font/visby_medium"
-            android:text="@string/gallary"
+            android:text="@string/gallery"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/sp_22" />
     </LinearLayout>

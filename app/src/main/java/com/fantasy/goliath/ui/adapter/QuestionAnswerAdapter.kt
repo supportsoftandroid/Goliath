@@ -42,9 +42,9 @@ class QuestionAnswerAdapter(
         val current = dataList[position]
         holder.bind(current)
         holder.binding.tvQuestion.text =Html.fromHtml( current.question)
-        holder.binding.tvYourAnswer.text = if (current.your_answer.equals("yes")) mContext.getString(
+        holder.binding.tvYourAnswer.text =Html.fromHtml( if (current.your_answer.equals("yes")) mContext.getString(
             R.string.your_answer_yes) else  mContext.getString(
-            R.string.your_answer_no)
+            R.string.your_answer_no))
         if (current.correct_answer.equals("")){
             holder.binding.tvYourAnswer.visibility=View.GONE
             holder.binding.imgNo.visibility=View.GONE
@@ -57,9 +57,7 @@ class QuestionAnswerAdapter(
                 holder.binding.imgYes.visibility=View.VISIBLE
             }else{
                 holder.binding.imgNo.visibility=View.VISIBLE
-
             }
-
             holder.binding.tvNo.visibility=View.GONE
             holder.binding.tvYes.visibility=View.GONE
         }
@@ -71,7 +69,6 @@ class QuestionAnswerAdapter(
         }
         holder.binding.tvYes.setOnClickListener(){
             dataList[position].your_answer="yes"
-
             notifyDataSetChanged()
         }
         holder.binding.tvNo.setOnClickListener(){

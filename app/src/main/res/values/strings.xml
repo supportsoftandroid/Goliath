@@ -5,12 +5,14 @@
     <string name="reward">Award</string>
     <string name="result">Result</string>
     <string name="profile">Profile</string>
+    <string name="leaderboard">Leaderboard</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="my_profile">My Profile</string>
     <string name="lets_play">Let’s Play</string>
     <string name="dont_have_account_signup">Don’t have an account?<font color="#FFFFFF"><b> Sign Up</b></font></string>
     <string name="dont_have_account_signup_blue">Don’t have an account?<font color="#FF3F8BCA"><b> Sign Up</b></font></string>
-    <string name="already_have_account_signin">Already have an account?<font color="#FF3F8BCA"><b>  Signin</b></font></string>
+    <string name="already_have_account_signin">Already have an account?<font color="#FF3F8BCA"><b>  Sign In</b></font></string>
     <string name="please_wait">Please wait...</string>
     <string name="verify">Verify</string>
     <string name="didn_t_get_the_code_resend_now">Didn’t you receive the OTP?</string>
@@ -20,10 +22,10 @@
     <string name="save_this_credit_card">Save this card</string>
     <string name="add_card">Add card</string>
     <string name="sign_up_with_google">Signup with Google</string>
-    <string name="sign_in_with_google">Signin with Google</string>
+    <string name="sign_in_with_google">Login with Google</string>
     <string name="choose_option">Choose Option</string>
     <string name="camera">Camera</string>
-    <string name="gallary">Gallary</string>
+    <string name="gallery">Gallery</string>
     <string name="invalid_card">invalid card </string>
     <string name="please_enter_card_holder_name">Please enter card holder name</string>
     <string name="get_otp">Get OTP</string>
@@ -45,8 +47,8 @@
     <string name="confirm">Confirm</string>
     <string name="back">Back</string>
     <string name="add_cash">Add Cash</string>
-    <string name="your_answer_yes">Your Answer : <font color="#FF3F8BCA">Yes</font></string>
-    <string name="your_answer_no">Your Answer : <font color="#FF3F8BCA">No</font></string>
+    <string name="your_answer_yes">Your Answer : <font color="#438DCA">Yes</font></string>
+    <string name="your_answer_no">Your Answer : <font color="#438DCA">No</font></string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="question_list">Question list</string>
@@ -72,4 +74,39 @@
     <string name="enter_new_password">Enter New Password</string>
     <string name="change_password">Change Password</string>
     <string name="my_info_settings"><![CDATA[My Info & Settings]]></string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="over_1">Over 1</string>
+    <string name="you_haven_t_made_your_predictions">You haven’t made your Predictions</string>
+    <string name="sms_notification">SMS Notification</string>
+    <string name="terms_amp_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="help_amp_support"><![CDATA[Help & Support]]></string>
+    <string name="about_us">About Us</string>
+    <string name="add_amount">Add Amount</string>
+    <string name="enter_amount">Enter Amount</string>
+    <string name="name">Name</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="save">Save</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="enter_account_number">Enter Account Number</string>
+    <string name="confirm_account_number">Confirm Account Number</string>
+    <string name="enter_ifsc_swift_code">Enter IFSC/SWIFT Code</string>
+    <string name="amount_balance">Amount Balance</string>
+    <string name="deposited">Deposited</string>
+    <string name="withdrawable_amout">Withdrawable amout</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="add_bank_details">Add Bank Details</string>
+    <string name="transaction_history">Transaction History</string>
+    <string name="wallet_details" >Wallet Details</string>
+    <string name="matches_history">Matches History</string>
+    <string name="deposit">Deposit</string>
+    <string name="predicts_now">Predicts now</string>
+    <string name="total_winnings">Total Winnings</string>
+    <string name="correctly_predict_8_actions_in_one_over_of_n_cricket_and_win_big_npay_outs_from_5_of_8_correct_predictions">Correctly Predict 8 actions in one over of\n cricket and win BIG\npay outs from 5 of 8 correct predictions</string>
+    <string name="_8_of_8_you_conquered_to_goliath">8 of 8\n\n You Conquered to Goliath</string>
+    <string name="your_predictions">Your Predictions</string>
+    <string name="check_result">Check Result</string>
+
 </resources>

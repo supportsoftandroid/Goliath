@@ -130,15 +130,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/btnSubmit"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSubmit"
                 style="@style/AppButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/btn_selecter"
 
-                android:background="@drawable/button_background_global"
                 android:enabled="false"
-                android:fontFamily="@font/visby_regular"
+                android:fontFamily="@font/visby_medium"
                 android:gravity="center"
                 android:inputType="text"
                 android:singleLine="true"

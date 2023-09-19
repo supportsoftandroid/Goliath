@@ -34,7 +34,9 @@ class GameGuideActivity : AppCompatActivity() {
             finish()
         }
         binding.btnNext.setOnClickListener() {
-            startActivity(Intent(this, MainActivity::class.java))
+            val i = Intent(this, MainActivity::class.java)
+            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(i)
             finish()
         }
     }

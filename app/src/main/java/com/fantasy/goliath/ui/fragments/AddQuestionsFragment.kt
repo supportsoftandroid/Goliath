@@ -7,19 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.fantasy.goliath.databinding.FragmentAddPredictionBinding
+import com.fantasy.goliath.databinding.FragmentAddQuestionBinding
 import com.fantasy.goliath.databinding.FragmentMatchPredictionStatusBinding
 import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.QuestionAnsItem
 import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
 import com.fantasy.goliath.ui.adapter.QuestionAnswerAdapter
-import com.fantasy.goliath.ui.adapter.SelectedOverAdapter
 import com.fantasy.goliath.utility.PreferenceManager
 import com.fantasy.goliath.utility.StaticData
-import com.fantasy.goliath.utility.StaticData.Companion.showToast
 import com.fantasy.goliath.utility.UtilsManager
-import com.fantasy.goliath.viewmodal.AddPredictionViewModel
+import com.fantasy.goliath.viewmodal.AddOverViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class AddQuestionsFragment : Fragment() {
     companion object {
@@ -34,8 +33,8 @@ class AddQuestionsFragment : Fragment() {
 
 
     }
-    private val viewModal by lazy { ViewModelProvider(this)[AddPredictionViewModel::class.java] }
-    private val binding by lazy(LazyThreadSafetyMode.NONE) { FragmentMatchPredictionStatusBinding.inflate(layoutInflater) }
+    private val viewModal by lazy { ViewModelProvider(this)[AddOverViewModel::class.java] }
+    private val binding by lazy(LazyThreadSafetyMode.NONE) { FragmentAddQuestionBinding.inflate(layoutInflater) }
     lateinit var loginResponse: LoginResponse
     lateinit var preferences: PreferenceManager
     lateinit var utilsManager: UtilsManager
@@ -69,29 +68,38 @@ class AddQuestionsFragment : Fragment() {
         }
         binding.btnSubmit.setOnClickListener() {
 
-            StaticData.backStackAddFragment(
-                requireActivity(),
-                MatchStatusQuestionsFragment.newInstance("add")
-            )
+            utilsManager.showPredictErrorDialog(requireActivity(),{type,dialog->onPredictCheck(type,dialog)})
+
+
+
         }
 
 
     }
 
+    private fun onPredictCheck(type: String, dialog: BottomSheetDialog) {
+        dialog.dismiss()
+        StaticData.backStackAddFragment(
+            requireActivity(),
+            OverQuestionStatusFragment.newInstance("add")
+        )
+    }
 
 
     private fun initView() {
         dataList.clear()
 
-        dataList.add(CommonDataItem("Over 1", "",false))
-        dataList.add(CommonDataItem("Over 2", "",false))
-        dataList.add(CommonDataItem("Over 5", "",false))
-        dataList.add(CommonDataItem("Over 10", "",false))
-        dataList.add(CommonDataItem("Over 15", "",false))
+        dataList.add(CommonDataItem("1st Over", "", false))
+        dataList.add(CommonDataItem("2nd Over 2", "", false))
+        dataList.add(CommonDataItem("3rd Over ", "", false))
+        dataList.add(CommonDataItem("4th Over ", "", false))
+        dataList.add(CommonDataItem("5th Over ", "", false))
+        dataList.add(CommonDataItem("10th Over ", "", false))
+        dataList.add(CommonDataItem("15th Over ", "", false))
 
 
         adapter = MatchOverTabAdapter(requireActivity(), dataList, { pos, type -> onAdapterClick(pos, type) })
-        binding.rvOverList.layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvOverList.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
         binding.rvOverList.adapter = adapter
 
         questionList.clear()

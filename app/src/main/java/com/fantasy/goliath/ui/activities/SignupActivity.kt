@@ -98,12 +98,20 @@ class SignupActivity : AppCompatActivity() {
         }
         */
         binding.btnSubmit.setOnClickListener() {
-            startActivity(Intent(mContext, RewardGuideActivity::class.java))
+          /*  startActivity(Intent(mContext, RewardGuideActivity::class.java))*/
+            utilsManager.showOTPDialogBottom(
+                mContext, true,
+                { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
+        }
+        binding.imgBack.setOnClickListener() {
+            startActivity(Intent(mContext, LoginActivity::class.java))
+            finish()
 
         }
         binding.tvLogin.setOnClickListener() {
-            startActivity(Intent(mContext, LoginActivity::class.java))
 
+         startActivity(Intent(mContext, LoginActivity::class.java))
+            finish()
         }
 
     }
@@ -175,9 +183,8 @@ class SignupActivity : AppCompatActivity() {
 
 
     private fun moveNextScreen() {
-
         preferenceManager.saveBoolean(Constants.KEY_CHECK_LOGIN, true)
-        val i = Intent(mContext, MainActivity::class.java)
+        val i = Intent(mContext, RewardGuideActivity::class.java)
         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(i)
         finish()
@@ -194,7 +201,7 @@ class SignupActivity : AppCompatActivity() {
         if (type.equals("resend")) {
           //  callRequestOTPAPI()
         } else {
-
+            dialogVerify.dismiss()
            moveNextScreen()
            // callVerifyOTPAPI(otp)
         }

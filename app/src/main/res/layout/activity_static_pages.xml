@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     android:background="@color/colorAppBg"
     tools:context=".ui.activities.StaticPagesActivity">
+    <ImageView
+        android:id="@+id/imgGradient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_gradient_header"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/viewHeader"

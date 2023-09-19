@@ -50,7 +50,7 @@ class ProfileAdapter(
         }*/
 
         holder.itemView.setOnClickListener() {
-            listenerClick(position, dataList[position].type)
+            listenerClick(position, dataList[position].title)
         }
 
 

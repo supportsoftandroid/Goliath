@@ -72,14 +72,21 @@ class LoginActivity : AppCompatActivity() {
 
     private fun initView() {
 
+
     }
 
 
     private fun clickListener() {
         binding.btnSubmit.setOnClickListener() {
+            isForgotPassword=false
+            utilsManager.showOTPDialogBottom(mContext,true,{ type, otp, dialog -> onOTPVerified(type, otp, dialog) })
 
-            startActivity(Intent(mContext, RewardGuideActivity::class.java))
 
+
+        }
+        binding.tvSignUp.setOnClickListener() {
+            startActivity(Intent(mContext, SignupActivity::class.java))
+            finish()
         }
        /* binding.btnLogin.setOnClickListener() {
             isLogin = true
@@ -186,7 +193,8 @@ class LoginActivity : AppCompatActivity() {
     private fun moveNextScreen() {
 
         preferenceManager.saveBoolean(Constants.KEY_CHECK_LOGIN, true)
-        val i = Intent(mContext, MainActivity::class.java)
+        startActivity(Intent(mContext, RewardGuideActivity::class.java))
+        val i = Intent(mContext, RewardGuideActivity::class.java)
         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(i)
         finish()
@@ -199,11 +207,11 @@ class LoginActivity : AppCompatActivity() {
 
     private fun onOTPVerified(type: String, otp: String, dialog: BottomSheetDialog) {
         dialogVerify = dialog
-        isForgotPassword = false
+
         if (type.equals("resend")) {
           //  callRequestOTPAPI()
         } else {
-
+            dialogVerify.dismiss()
            moveNextScreen()
            // callVerifyOTPAPI(otp)
         }

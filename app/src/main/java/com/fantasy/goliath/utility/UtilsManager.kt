@@ -4,7 +4,6 @@ package com.fantasy.goliath.utility
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.net.Network
@@ -12,11 +11,9 @@ import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.text.TextUtils
-import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -24,10 +21,23 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.fantasy.goliath.R
+import com.fantasy.goliath.databinding.DialogBottomAddAmountBinding
+import com.fantasy.goliath.databinding.DialogBottomAddCardBinding
+import com.fantasy.goliath.databinding.DialogImageUploadBinding
+import com.fantasy.goliath.databinding.DialogPredictErrorBinding
+import com.fantasy.goliath.databinding.DialogVerifyOtpBinding
+import com.fantasy.goliath.databinding.DialogWalletBalanceErrorBinding
+import com.fantasy.goliath.ui.activities.LoginActivity
+import com.fantasy.goliath.utility.Constants.ERROR_ALERT
+import com.fantasy.goliath.utility.StaticData.Companion.IMAGE_CROP_REQUEST_CODE
+import com.fantasy.goliath.utility.StaticData.Companion.showToast
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.goodiebag.pinview.Pinview
+import com.goodiebag.pinview.Pinview.PinViewEventListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-
+import com.stripe.android.view.CardMultilineWidget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -35,16 +45,6 @@ import kotlinx.coroutines.launch
 import okhttp3.RequestBody
 import okio.Buffer
 import okio.IOException
-import com.fantasy.goliath.R
-import com.fantasy.goliath.databinding.DialogBottomAddCardBinding
-import com.fantasy.goliath.databinding.DialogImageUploadBinding
-import com.fantasy.goliath.databinding.DialogVerifyOtpBinding
-import com.fantasy.goliath.databinding.DialogWalletBalanceErrorBinding
-import com.fantasy.goliath.ui.activities.LoginActivity
-import com.fantasy.goliath.utility.Constants.ERROR_ALERT
-import com.fantasy.goliath.utility.StaticData.Companion.IMAGE_CROP_REQUEST_CODE
-import com.fantasy.goliath.utility.StaticData.Companion.showToast
-import com.stripe.android.view.CardMultilineWidget
 import java.net.URLDecoder
 import java.util.regex.Pattern
 
@@ -284,6 +284,22 @@ class UtilsManager(private val context: Context) {
             onItemClick("resend", "", dialog)
 
         }
+        dialogBinding.pinview.setPinViewEventListener(object :PinViewEventListener{
+            override fun onDataEntered(pinview: Pinview?, fromUser: Boolean) {
+                val pin = pinview!!.value
+
+                if (pin.length==4){
+
+                    dialogBinding.btnSubmit.setEnabled(true)
+                    dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorWhite))
+                }else{
+                    dialogBinding.btnSubmit.setEnabled(false)
+                    dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorBtn))
+
+
+                }
+            }
+        })
         dialogBinding.btnSubmit.setOnClickListener {
             val otp = dialogBinding.pinview.value.toString()
 
@@ -339,6 +355,92 @@ class UtilsManager(private val context: Context) {
                 )
             }
 
+
+        }
+
+
+        dialog.show()
+
+    }
+
+    fun showPredictErrorDialog(
+        context: Context,
+        onItemClick: (name: String,  dlg: BottomSheetDialog) -> Unit
+    ) {
+        val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
+        val dialogBinding =
+            DialogPredictErrorBinding.inflate(LayoutInflater.from(context), null, false)
+        val sheetView = dialogBinding.root
+        dialog.setContentView(sheetView)
+        dialog.setCancelable(false)
+
+
+        dialogBinding.btnSubmit.setOnClickListener {
+            onItemClick("add",dialog)
+
+        }
+
+
+        dialog.show()
+
+    }
+
+    fun showWalletErrorDialog(
+        context: Context,
+        onItemClick: (name: String,  dlg: BottomSheetDialog) -> Unit
+    ) {
+        val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
+        val dialogBinding =
+            DialogWalletBalanceErrorBinding.inflate(LayoutInflater.from(context), null, false)
+        val sheetView = dialogBinding.root
+        dialog.setContentView(sheetView)
+        dialog.setCancelable(false)
+
+
+        dialogBinding.btnAdd.setOnClickListener {
+            onItemClick("add",dialog)
+
+        }
+
+
+        dialog.show()
+
+    }
+    fun showAddAmountDialog(
+        context: Context,
+        onItemClick: (name: String,  dlg: BottomSheetDialog) -> Unit
+    ) {
+        val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
+        val dialogBinding =
+            DialogBottomAddAmountBinding.inflate(LayoutInflater.from(context), null, false)
+        val sheetView = dialogBinding.root
+        dialog.setContentView(sheetView)
+        dialog.setCancelable(false)
+
+
+        dialogBinding.imgClose.setOnClickListener {
+          dialog.dismiss()
+
+        }
+        dialogBinding.tv1000.setOnClickListener {
+            dialogBinding.ediAmount.setText(dialogBinding.tv1000.text.toString())
+
+        }
+
+        dialogBinding.tv1500.setOnClickListener {
+            dialogBinding.ediAmount.setText(dialogBinding.tv1500.text.toString())
+
+        }
+        dialogBinding.tv2000.setOnClickListener {
+            dialogBinding.ediAmount.setText(dialogBinding.tv2000.text.toString())
+
+        }
+        dialogBinding.tv2500.setOnClickListener {
+            dialogBinding.ediAmount.setText(dialogBinding.tv2500.text.toString())
+
+        }
+        dialogBinding.btnAdd.setOnClickListener {
+            onItemClick("add",dialog)
 
         }
 

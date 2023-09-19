@@ -15,6 +15,8 @@ import com.fantasy.goliath.model.MatchDataItem
 import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.adapter.MatchItemAdapter
 import com.fantasy.goliath.ui.fragments.AddOverFragment
+import com.fantasy.goliath.ui.fragments.NotificationsFragment
+import com.fantasy.goliath.ui.fragments.WalletDetailsFragment
 import com.fantasy.goliath.utility.PreferenceManager
 import com.fantasy.goliath.utility.StaticData
 import com.fantasy.goliath.utility.UtilsManager
@@ -56,6 +58,24 @@ class HomeFragment : Fragment() {
         binding.viewHeader.imgProfile.setOnClickListener() {
 
              MainActivity.navProfileTab()
+
+        }
+        binding.viewHeader.imgMenu2.setOnClickListener() {
+
+            MainActivity.hideNavigationTab()
+            StaticData.backStackAddFragment(
+                requireActivity(),
+                NotificationsFragment()
+            )
+
+        }
+        binding.viewHeader.imgMenu1.setOnClickListener() {
+
+            MainActivity.hideNavigationTab()
+            StaticData.backStackAddFragment(
+                requireActivity(),
+                WalletDetailsFragment()
+            )
 
         }
 

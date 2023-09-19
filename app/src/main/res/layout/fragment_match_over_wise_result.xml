@@ -362,18 +362,12 @@
             android:id="@+id/tvRightFullName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:fontFamily="@font/visby_regular"
             android:padding="@dimen/dp_5"
             android:src="@drawable/ic_team_gujrat_titan"
             android:text="Gujarat Titans"
-
             android:textColor="@color/colorText"
             android:textSize="@dimen/sp_10"
-
-
-
-
             app:layout_constraintTop_toBottomOf="@id/tvRight"
             app:layout_constraintEnd_toStartOf="@id/imgRight"
 
@@ -381,176 +375,196 @@
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_35"
+        android:layout_marginTop="@dimen/dp_20"
+        android:fontFamily="@font/visby_medium"
+        android:gravity="center"
+        android:padding="@dimen/dp_7"
+        android:text="Result 8/5"
 
+        android:background="@drawable/button_background_global"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/sp_20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clv_match_card" />
+    <TextView
+        android:id="@+id/tvResultMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_35"
+        android:layout_marginTop="@dimen/dp_15"
+        android:fontFamily="@font/visby_bold"
+        android:gravity="center"
+        android:text="You are a Winner"
+        android:textColor="@color/colorRed"
+        android:textSize="@dimen/sp_22"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvResult" />
+
+    <TextView
+        android:id="@+id/tvTotalAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/AppButtonStyle"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginHorizontal="@dimen/dp_55"
+        android:fontFamily="@font/visby_semi_bold"
+        android:gravity="center"
+        android:text=" ₹ 50601 will be transferred to
+ your wallet."
+
+        android:inputType="textMultiLine"
+        android:textSize="@dimen/sp_15"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvResultMessage" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOverList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_25"
+        tools:listitem="@layout/list_tab_over_item"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/dp_2"
+        android:background="@drawable/border_layout_blue_radius_10"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalAmount"
+
+        />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_20"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvOverList">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dp_30"
-        android:paddingHorizontal="@dimen/dp_20"
-
+        android:paddingHorizontal="@dimen/dp_15"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/dp_5"
+        android:layout_marginBottom="@dimen/dp_35"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/clv_match_card">
 
 
-        <TextView
-            android:id="@+id/tvSelectOverLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:textSize="@dimen/sp_16"
-            android:fontFamily="@font/visby_semi_bold"
-            android:text="@string/select_overs"
-            android:textColor="@color/colorText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-        <LinearLayout
-            android:id="@+id/llAddBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:padding="@dimen/dp_7"
-            android:orientation="horizontal"
-            android:background="@drawable/border_layout_blue_radius_5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSelectOverLabel"
 
-            >
-            <ImageView
-                android:id="@+id/imgMinus"
-                android:layout_width="@dimen/dp_20"
-                android:layout_height="@dimen/dp_20"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_minus"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvSelectOverLabel"
-                />
-            <TextView
-                android:id="@+id/tvCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
-                android:textSize="@dimen/sp_17"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-
-                android:fontFamily="@font/visby_semi_bold"
-                android:layout_marginHorizontal="@dimen/dp_10"
-                android:padding="@dimen/dp_5"
-                android:text="1 Over"
-                android:textColor="@color/app_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvSelectOverLabel"
-                />
-            <ImageView
-                android:id="@+id/imgPlus"
-                android:layout_width="@dimen/dp_20"
-                android:layout_height="@dimen/dp_20"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_plus"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvSelectOverLabel"
-                />
-        </LinearLayout>
-        <Button
-            android:id="@+id/tvAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_40"
-            android:layout_marginTop="@dimen/dp_10"
-            style="@style/AppButtonStyle"
-            android:textSize="@dimen/sp_15"
-            android:padding="@dimen/dp_5"
-            android:text="@string/add"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintTop_toBottomOf="@id/tvSelectOverLabel"
-            />
-
-        <TextView
-            android:id="@+id/tvSelectedOverLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_35"
-            android:textSize="@dimen/sp_16"
-            android:fontFamily="@font/visby_semi_bold"
-            android:text="@string/selected_overs"
-            android:textColor="@color/colorText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/llAddBox"
-            />
-        <TextView
-            android:id="@+id/tvClear"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_40"
-            android:layout_marginTop="@dimen/dp_25"
-            style="@style/AppButtonStyle"
-            android:textSize="@dimen/sp_15"
-            android:padding="@dimen/dp_5"
-            android:text="@string/clear"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/llAddBox"
-            />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvList"
-
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_15"
-            tools:listitem="@layout/list_over_item"
-            app:spanCount="3"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-
+            android:background="@color/colorWhite"
+            android:layout_marginTop="@dimen/dp_10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvClear"
+             app:layout_constraintTop_toTopOf="parent"
 
-            />
+            android:id="@+id/clvQuesAnswer">
 
-        <TextView
-            android:id="@+id/tvTotalLabel"
-            android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:id="@+id/clvQuestion"
+                android:padding="@dimen/dp_15"
+                android:background="@color/app_color"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                >
+                <TextView
+                    android:id="@+id/tvQuestionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:fontFamily="@font/visby_semi_bold"
+                    android:text="@string/question_list"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+
+
+
+
+
+
+                    />
+                <TextView
+                    android:id="@+id/tvAnswerLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:fontFamily="@font/visby_semi_bold"
+                    android:text="@string/answer"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+
+
+
+
+
+
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvList"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_35"
-            android:textSize="@dimen/sp_19"
-            android:fontFamily="@font/visby_semi_bold"
-            android:text="@string/total_deduction_from_your_wallet"
-            android:textColor="@color/colorText"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginHorizontal="@dimen/dp_5"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/dp_20"
+
+
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/list_question_answer_item"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvList"
-            />
-        <TextView
-            android:id="@+id/tvTotalAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_15"
-            android:textSize="@dimen/sp_22"
-            android:fontFamily="@font/visby_bold"
-            android:text="₹ 2505 "
-            android:textColor="@color/app_color"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTotalLabel"
+
+            app:layout_constraintTop_toBottomOf="@+id/clvQuestion"
+
             />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <Button
-            android:id="@+id/btnConform"
+            android:id="@+id/btnSubmit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/AppButtonStyle"
             android:layout_marginTop="@dimen/dp_35"
             android:layout_marginBottom="@dimen/dp_5"
             android:textSize="@dimen/sp_20"
+            android:visibility="gone"
             android:fontFamily="@font/visby_bold"
-            android:text="@string/confirm"
+            android:text="@string/submit"
+
             android:textColor="@color/colorWhite"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTotalAmount"
+            app:layout_constraintTop_toBottomOf="@id/clvQuesAnswer"
             app:layout_constraintBottom_toTopOf="@+id/btnBack"
             />
         <Button
@@ -562,12 +576,15 @@
             android:fontFamily="@font/visby_bold"
             android:text="@string/back"
             android:textColor="@color/colorWhite"
+            android:layout_marginTop="@dimen/dp_15"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSubmit"
             app:layout_constraintBottom_toBottomOf="parent"
           android:layout_marginBottom="@dimen/dp_50"
             />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

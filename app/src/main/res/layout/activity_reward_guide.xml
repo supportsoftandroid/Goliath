@@ -57,7 +57,7 @@
         android:id="@+id/llBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/dp_20"
+        android:paddingHorizontal="@dimen/dp_5"
         android:orientation="vertical"
         android:layout_marginBottom="@dimen/dp_20"
         android:background="@drawable/box_border_blue"
@@ -93,13 +93,13 @@
             android:layout_alignParentTop="true"
             android:paddingVertical="@dimen/dp_25"
             android:layout_marginTop="@dimen/dp_5"
-            android:fontFamily="@font/visby_semi_bold"
-            android:gravity="start"
+            android:fontFamily="@font/visby_medium"
+            android:gravity="center"
             android:lineSpacingExtra="@dimen/dp_13"
-            android:text="Correctly Predict 8 actions in one over of\n             cricket and win BIG\npay outs from 5 of 8 correct predictions "
+            android:text="@string/correctly_predict_8_actions_in_one_over_of_n_cricket_and_win_big_npay_outs_from_5_of_8_correct_predictions"
 
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/sp_17"
+            android:textSize="@dimen/sp_14"
              />
     </LinearLayout>
     <TextView
@@ -110,9 +110,9 @@
         android:layout_marginBottom="@dimen/dp_25"
         android:fontFamily="@font/visby_bold"
         android:gravity="center"
-        android:text="8 of 8\n\n You Conquered to Goliath"
+        android:text="@string/_8_of_8_you_conquered_to_goliath"
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/sp_24"
+        android:textSize="@dimen/sp_19"
         android:lineSpacingExtra="1dp"
         app:backgroundTint="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
