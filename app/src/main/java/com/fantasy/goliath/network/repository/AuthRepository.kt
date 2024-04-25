@@ -94,7 +94,7 @@ class AuthRepository(
         jsonObject.addProperty("email", email)
         jsonObject.addProperty("password", password)
 
-        val call = RetrofitClient.apiInterface.reset_password(jsonObject)
+        val call = RetrofitClient.apiInterface.request_otp(jsonObject)
         setProgressDialog()
         return callAPIService(call);
     }
