@@ -15,10 +15,10 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import wow.health.fitness.R
 import wow.health.fitness.model.MessageItem
 import wow.health.fitness.ui.activities.MainActivity
-import wow.health.fitness.utility.StaticData.Companion.CHANNEL_ID
-import wow.health.fitness.utility.StaticData.Companion.KEY_IS_CHAT
-import wow.health.fitness.utility.StaticData.Companion.createNotificationChannel
-import wow.health.fitness.utility.StaticData.Companion.printLog
+import wow.health.fitness.utility.UiUtils.Companion.CHANNEL_ID
+import wow.health.fitness.utility.UiUtils.Companion.KEY_IS_CHAT
+import wow.health.fitness.utility.UiUtils.Companion.createNotificationChannel
+import wow.health.fitness.utility.UiUtils.Companion.printLog
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
@@ -114,8 +114,8 @@ class MyFirebaseMessaging : FirebaseMessagingService() {
 
 
     fun setLocalBroadCast(data: JSONObject, type: String) {
-        val intent = Intent(StaticData.FCM_BROADCAST)
-        intent.putExtra("from", StaticData.FCM_BROADCAST)
+        val intent = Intent(UiUtils.FCM_BROADCAST)
+        intent.putExtra("from", UiUtils.FCM_BROADCAST)
         intent.putExtra("type", type)
         if (type.equals("chat")) {
             val gson = Gson()
@@ -133,7 +133,7 @@ class MyFirebaseMessaging : FirebaseMessagingService() {
         printLog("final json", json.toString())
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        intent.putExtra("from", StaticData.FCM_BROADCAST)
+        intent.putExtra("from", UiUtils.FCM_BROADCAST)
         intent.putExtra("type", type)
 
         if (type.equals("chat", true)) {

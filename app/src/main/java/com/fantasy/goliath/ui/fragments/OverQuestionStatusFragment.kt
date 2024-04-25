@@ -12,14 +12,12 @@ import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.QuestionAnsItem
 import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
-import com.fantasy.goliath.ui.adapter.QuestionAnswerAdapter
 import com.fantasy.goliath.ui.adapter.QuestionAnswerStatusAdapter
-import com.fantasy.goliath.utility.PreferenceManager
-import com.fantasy.goliath.utility.StaticData
-import com.fantasy.goliath.utility.UtilsManager
+import com.fantasy.goliath.ui.base.BaseFragment
+
 import com.fantasy.goliath.viewmodal.AddOverViewModel
 
-class OverQuestionStatusFragment : Fragment() {
+class OverQuestionStatusFragment : BaseFragment() {
     companion object {
 
         fun newInstance(from: String): OverQuestionStatusFragment {
@@ -40,12 +38,13 @@ class OverQuestionStatusFragment : Fragment() {
         )
     }
     lateinit var loginResponse: LoginResponse
-    lateinit var preferences: PreferenceManager
-    lateinit var utilsManager: UtilsManager
+
+
     lateinit var adapter: MatchOverTabAdapter
     lateinit var questionAdapter: QuestionAnswerStatusAdapter
     var dataList = mutableListOf<CommonDataItem>()
     var questionList = mutableListOf<QuestionAnsItem>()
+
 
 
     override fun onCreateView(
@@ -53,28 +52,24 @@ class OverQuestionStatusFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val root: View = binding.root
+        super.onCreateView(inflater, container, savedInstanceState)
+
         binding.let {
-            preferences = PreferenceManager(requireActivity())
-            utilsManager = UtilsManager(requireActivity())
+
             initView()
             clickListener()
         }
 
-        return root
+        return binding.root
     }
 
     private fun clickListener() {
+        binding.clvHeader.setClickListener(this)
 
-        binding.btnBack.setOnClickListener() {
-
-            requireActivity().onBackPressed()
-
-        }
         binding.btnSubmit.setOnClickListener() {
 
-            StaticData.backStackAddFragment(
-                requireActivity(),
+           addFragmentToBackStack(
+
                 MatchOverStatusFragment.newInstance("add")
             )
 
@@ -138,5 +133,17 @@ class OverQuestionStatusFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
+
+    override fun onNotificationsIconClick() {
+        super.onNotificationsIconClick()
+    }
+
+    override fun onWalletIconClick() {
+        super.onWalletIconClick()
     }
 }

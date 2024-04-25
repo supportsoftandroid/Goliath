@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
-import com.fantasy.goliath.model.MatchDataItem
 import com.fantasy.goliath.databinding.ListMatchItemBinding
-import com.fantasy.goliath.utility.StaticData.Companion.setMatchTeamViewColor
+import com.fantasy.goliath.model.MatchDataItem
+import com.fantasy.goliath.utility.setMatchTeamViewColor
 
 
 class MatchItemAdapter(

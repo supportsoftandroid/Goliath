@@ -10,12 +10,13 @@ import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.FragmentChangePasswordBinding
 
 import com.fantasy.goliath.model.LoginResponse
+import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.utility.PreferenceManager
 import com.fantasy.goliath.utility.UtilsManager
 
 import com.fantasy.goliath.viewmodal.ProfileViewModel
 
-class ChangePasswordFragment : Fragment() {
+class ChangePasswordFragment : BaseFragment() {
     companion object {
         fun newInstance(from: String ): ChangePasswordFragment {
             val args = Bundle()
@@ -32,17 +33,16 @@ class ChangePasswordFragment : Fragment() {
     }
 
 
-    lateinit var preferenceManager: PreferenceManager
-    lateinit var utilsManager: UtilsManager
+
     private lateinit var loginResponse: LoginResponse
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
         val root: View = binding.root
-        preferenceManager= PreferenceManager(requireActivity())
-        utilsManager=UtilsManager(requireActivity())
+
         binding.let{
             initView()
             clickListener()
@@ -51,25 +51,31 @@ class ChangePasswordFragment : Fragment() {
     }
     private fun clickListener() {
 
-        binding.btnBack.setOnClickListener() {
-
-            requireActivity().onBackPressed()
-
-        }
+        binding.viewHeader.setClickListener(this)
         binding.btnSubmit.setOnClickListener() {
 
-            requireActivity().onBackPressed()
+           onBackPressed()
 
         }
 
     }
     fun initView() {
-        binding.viewHeader.txtTitle.text=requireActivity().getString(R.string.change_password)
+        binding.viewHeader.setTitle(requireActivity().getString(R.string.change_password))
     }
 
 
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
 
+    override fun onNotificationsIconClick() {
+        super.onNotificationsIconClick()
+    }
+
+    override fun onWalletIconClick() {
+        super.onWalletIconClick()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

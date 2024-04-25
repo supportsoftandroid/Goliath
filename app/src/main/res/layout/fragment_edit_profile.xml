@@ -16,12 +16,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
+    <com.fantasy.goliath.ui.components.MyToolBar
         android:id="@+id/viewHeader"
-        layout="@layout/layout_toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        android:paddingVertical="@dimen/dp_5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +29,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorWhite"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_100"
-            android:background="@color/colorWhite"
+
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/dp_20">
 
@@ -50,9 +50,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_30"
-                android:fontFamily="@font/visby_medium"
+
                 android:hint="@string/enter_your_name"
                 android:paddingVertical="@dimen/dp_5"
+                android:background="@color/colorWhite"
                 android:textColorHint="@color/textPlaceHolder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +64,7 @@
                     style="@style/AppTextInputEditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/visby_regular"
+
                     android:imeOptions="actionNext"
                     android:inputType="text"
                     android:singleLine="true"
@@ -78,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_20"
-                android:fontFamily="@font/visby_regular"
+
                 android:hint="@string/enter_your_email"
                 android:paddingVertical="@dimen/dp_5"
                 android:textColorHint="@color/textPlaceHolder"
@@ -91,9 +92,9 @@
                     style="@style/AppTextInputEditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/visby_regular"
-                    android:imeOptions="actionNext"
 
+                    android:imeOptions="actionNext"
+                    android:background="@color/colorWhite"
                     android:inputType="textEmailAddress"
 
                     android:singleLine="true"
@@ -111,6 +112,7 @@
                 android:layout_marginTop="@dimen/dp_15"
                 android:orientation="horizontal"
                 android:weightSum="1"
+                android:background="@color/colorWhite"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/inptxtName">
@@ -174,7 +176,7 @@
                         android:id="@+id/ediPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/visby_regular"
+
                         android:imeOptions="actionNext"
                         android:inputType="number"
                         android:maxLength="13"
@@ -192,6 +194,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_30"
+                android:visibility="gone"
                 android:orientation="horizontal">
                 <TextView
 
@@ -223,6 +226,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:id="@+id/tvTerms"
                 android:layout_gravity="start"
                 android:paddingVertical="@dimen/dp_5"
@@ -241,6 +245,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvPrivacy"
+                android:visibility="gone"
                 android:layout_gravity="start"
                 android:paddingVertical="@dimen/dp_5"
                 android:layout_marginTop="@dimen/dp_5"
@@ -258,6 +263,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvHelp"
+                android:visibility="gone"
                 android:layout_gravity="start"
                 android:paddingVertical="@dimen/dp_5"
                 android:layout_marginTop="@dimen/dp_5"
@@ -275,6 +281,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvAbout"
+                android:visibility="gone"
                 android:layout_gravity="start"
                 android:paddingVertical="@dimen/dp_5"
                 android:layout_marginTop="@dimen/dp_5"
@@ -304,20 +311,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tvTotalAmount" />
 
 
-            <Button
-                android:id="@+id/btnBack"
-                style="@style/AppButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:layout_marginBottom="@dimen/dp_50"
-                android:fontFamily="@font/visby_bold"
-                android:text="@string/back"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/sp_20"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

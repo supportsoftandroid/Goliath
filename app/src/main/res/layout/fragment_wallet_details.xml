@@ -16,11 +16,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
+    <com.fantasy.goliath.ui.components.MyToolBar
         android:id="@+id/viewHeader"
-        layout="@layout/layout_toolbar"
+
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:show_wallet="false"
+        app:show_notification="true"
+        android:padding="@dimen/dp_5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -263,20 +266,7 @@
                 />
 
 
-            <Button
-                android:id="@+id/btnBack"
-                style="@style/AppButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_45"
-                android:layout_marginBottom="@dimen/dp_50"
-                android:fontFamily="@font/visby_bold"
-                android:text="@string/back"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/sp_20"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

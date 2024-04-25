@@ -4,24 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fantasy.goliath.R
-import com.fantasy.goliath.databinding.FragmentHomeBinding
 import com.fantasy.goliath.databinding.FragmentNotificationsBinding
 import com.fantasy.goliath.model.CommonDataItem
-import com.fantasy.goliath.model.MatchDataItem
-import com.fantasy.goliath.ui.adapter.MatchItemAdapter
 import com.fantasy.goliath.ui.adapter.NotificationsAdapter
+import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.utility.PreferenceManager
 import com.fantasy.goliath.utility.UtilsManager
-import com.fantasy.goliath.viewmodal.HomeViewModel
 import com.fantasy.goliath.viewmodal.NotificationsViewModel
 
-class NotificationsFragment : Fragment() {
+class NotificationsFragment : BaseFragment() {
 
     private val viewModal by lazy { ViewModelProvider(this)[NotificationsViewModel::class.java] }
 
@@ -31,32 +26,26 @@ class NotificationsFragment : Fragment() {
 
     lateinit var adapter: NotificationsAdapter
     var dataList = mutableListOf<CommonDataItem>()
-    lateinit var preferenceManager: PreferenceManager
-    lateinit var utilsManager: UtilsManager
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val root: View = binding.root
-        preferenceManager= PreferenceManager(requireActivity())
-        utilsManager= UtilsManager(requireActivity())
+       super.onCreateView(inflater, container, savedInstanceState)
+
         binding.let{ initView()
         clickListener()}
-        return root
+        return binding.root
     }
     private fun clickListener() {
 
-        binding.btnBack.setOnClickListener() {
-
-            requireActivity().onBackPressed()
-
-        }
+        binding.viewHeader.setClickListener(this)
 
 
     }
     private fun initView() {
-        binding.viewHeader.txtTitle.text=requireActivity().getString(R.string.title_notifications)
+        binding.viewHeader.setTitle(requireActivity().getString(R.string.title_notifications))
         dataList.clear()
 
 
@@ -83,5 +72,13 @@ class NotificationsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
+
+    override fun onWalletIconClick() {
+        super.onWalletIconClick()
     }
 }

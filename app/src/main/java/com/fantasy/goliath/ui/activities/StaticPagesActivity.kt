@@ -62,7 +62,7 @@ class StaticPagesActivity : AppCompatActivity(), View.OnClickListener {
                  })
              }else {
                  viewModal.getCallAPI(this, type).observe(this, Observer { res ->
-                     StaticData.printLog(title, res.toString())
+                     UiUtils.printLog(title, res.toString())
                      if (res.status) {
                          loadData(res.data)
                      }

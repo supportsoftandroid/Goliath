@@ -1,13 +1,12 @@
 package com.fantasy.goliath.network
 
 
-import com.google.gson.JsonObject
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.http.*
 import com.fantasy.goliath.model.*
 import com.fantasy.goliath.utility.Constants
+import com.google.gson.JsonObject
+import okhttp3.MultipartBody
+import retrofit2.Call
+import retrofit2.http.*
 
 public interface ApiInterface {
 
@@ -39,8 +38,8 @@ public interface ApiInterface {
     ): Call<LoginResponse>
 
     @Headers(Constants.ACCEPT_JSON_HEADER)
-    @POST(Constants.API_RESET_PASSWORD)
-    fun reset_password(
+    @POST(Constants.API_HOW_TO_PLAY)
+    fun how_to_play(
         @Body body: JsonObject
     ): Call<LoginResponse>
 

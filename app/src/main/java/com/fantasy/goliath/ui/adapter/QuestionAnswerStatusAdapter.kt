@@ -9,9 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
-import com.fantasy.goliath.model.QuestionAnsItem
-
 import com.fantasy.goliath.databinding.ListQuestionAnswerItemBinding
+import com.fantasy.goliath.model.QuestionAnsItem
 
 
 class QuestionAnswerStatusAdapter(

@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent" />
     <include
         android:id="@+id/viewHeader"
-        layout="@layout/layout_toolbar"
+        layout="@layout/layout_toolbar_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 

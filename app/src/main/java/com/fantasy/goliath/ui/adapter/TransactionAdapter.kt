@@ -4,12 +4,10 @@ package com.fantasy.goliath.ui.adapter
 import android.content.Context
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
-import com.fantasy.goliath.databinding.ListProfileItemBinding
 import com.fantasy.goliath.databinding.ListTransactionItemBinding
 import com.fantasy.goliath.model.CommonDataItem
 

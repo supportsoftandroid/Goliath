@@ -5,25 +5,28 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.appcompat.app.AppCompatActivity
+
+import androidx.core.view.isVisible
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.ActivityMainBinding
+import com.fantasy.goliath.ui.base.BaseActivity
 import com.fantasy.goliath.ui.fragments.nav.AwardFragment
 import com.fantasy.goliath.ui.fragments.nav.HomeFragment
 import com.fantasy.goliath.ui.fragments.nav.ProfileFragment
-import com.fantasy.goliath.utility.PreferenceManager
-import com.fantasy.goliath.utility.StaticData
-import com.fantasy.goliath.utility.StaticData.Companion.showToast
+
+import com.fantasy.goliath.utility.adjustFontScale
+import com.fantasy.goliath.utility.changeStatusBarColor
+import com.fantasy.goliath.utility.showToast
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     companion object {
         lateinit var navView: BottomNavigationView
         fun hideNavigationTab() {
-            navView.visibility = View.GONE
+            //navView.visibility = View.GONE
         }
 
         fun visibleNavigationTab() {
@@ -38,14 +41,15 @@ class MainActivity : AppCompatActivity() {
     var doubleBackToExitPressedOnce: Boolean = false
     var isHomeFragment: Boolean = true
     lateinit var mContext: Context
-    lateinit var preferenceManager:PreferenceManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        StaticData.adjustFontScale(this, resources.configuration, 1.0f)
+        adjustFontScale(this, resources.configuration, 1.0f)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mContext=this@MainActivity
-        preferenceManager = PreferenceManager(mContext)
+        setHavingFragments()
+        setMinimumBackstackCount(0)
         initView()
         clickListener()
         navView.selectedItemId = R.id.nav_home
@@ -53,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         navView  = binding.navView
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+        /*onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // Do custom work here
                 // if you want onBackPressed() to be called as normal afterwards
@@ -62,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 onBackPressed()
 
             }
-        })
+        })*/
     }
     private fun clickListener() {
         navView.setOnItemSelectedListener {
@@ -70,19 +74,19 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.nav_home -> {
                     isHomeFragment = true
-                    StaticData.replaceFragment(mContext, HomeFragment())
+                    replaceFragment( HomeFragment())
                     return@setOnItemSelectedListener true
                 }
                 R.id.nav_award -> {
-                    StaticData.replaceFragment(mContext, AwardFragment())
+                    replaceFragment( AwardFragment())
                     return@setOnItemSelectedListener true
                 }
                 R.id.nav_result -> {
-                    StaticData.replaceFragment(mContext, AwardFragment())
+                    replaceFragment( AwardFragment())
                     return@setOnItemSelectedListener true
                 }
                 R.id.nav_profile -> {
-                    StaticData.replaceFragment(mContext, ProfileFragment())
+                   replaceFragment( ProfileFragment())
                     return@setOnItemSelectedListener true
                 }
 
@@ -90,7 +94,7 @@ class MainActivity : AppCompatActivity() {
             false
         }
     }
-    @Deprecated("Deprecated in Java")
+  /*  @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         val backStackEntryCount = supportFragmentManager.backStackEntryCount
         if (backStackEntryCount > 0) {
@@ -106,10 +110,10 @@ class MainActivity : AppCompatActivity() {
 
             navView.visibility = View.VISIBLE
             if (!isHomeFragment) {
-                StaticData.changeStatusBarColor(this, "home")
+              changeStatusBarColor(this, "home")
                 navView.selectedItemId = R.id.nav_home
                 doubleBackToExitPressedOnce = false
-                //StaticData.replaceFragment(mContext, HomeFragment())
+                //UiUtils.replaceFragment(mContext, HomeFragment())
             } else {
                 if (doubleBackToExitPressedOnce) {
                     finish()
@@ -123,6 +127,16 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }*/
+
+    override fun selectedBottomNavOption(id: Int) {
+        binding.navView.selectedItemId = id
+    }
+
+    override fun willBottomNavVisible(isVisible: Boolean) {
+
+        binding.navView.isVisible=isVisible
+        binding.navView.isVisible=isVisible
     }
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

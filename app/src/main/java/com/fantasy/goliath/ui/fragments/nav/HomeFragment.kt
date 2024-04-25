@@ -14,15 +14,14 @@ import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.MatchDataItem
 import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.adapter.MatchItemAdapter
+import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.ui.fragments.AddOverFragment
 import com.fantasy.goliath.ui.fragments.NotificationsFragment
 import com.fantasy.goliath.ui.fragments.WalletDetailsFragment
-import com.fantasy.goliath.utility.PreferenceManager
-import com.fantasy.goliath.utility.StaticData
-import com.fantasy.goliath.utility.UtilsManager
+
 import com.fantasy.goliath.viewmodal.HomeViewModel
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
 
 
     private val viewModal by lazy { ViewModelProvider(this)[HomeViewModel::class.java] }
@@ -31,27 +30,24 @@ class HomeFragment : Fragment() {
         FragmentHomeBinding.inflate(layoutInflater)
     }
     lateinit var loginResponse: LoginResponse
-    lateinit var preferences: PreferenceManager
-    lateinit var utilsManager: UtilsManager
+
     lateinit var adapter: MatchItemAdapter
     var dataList = mutableListOf<MatchDataItem>()
     var  type = "upcoming"
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val root: View = binding.root
+        super.onCreateView(inflater, container, savedInstanceState)
+
         binding.let {
-            preferences=PreferenceManager(requireActivity())
-            utilsManager=UtilsManager(requireActivity())
+
             initView()
             clickListener()
         }
 
 
-        return root
+        return  binding.root
     }
     private fun clickListener() {
 
@@ -63,8 +59,8 @@ class HomeFragment : Fragment() {
         binding.viewHeader.imgMenu2.setOnClickListener() {
 
             MainActivity.hideNavigationTab()
-            StaticData.backStackAddFragment(
-                requireActivity(),
+            addFragmentToBackStack(
+
                 NotificationsFragment()
             )
 
@@ -72,8 +68,8 @@ class HomeFragment : Fragment() {
         binding.viewHeader.imgMenu1.setOnClickListener() {
 
             MainActivity.hideNavigationTab()
-            StaticData.backStackAddFragment(
-                requireActivity(),
+           addFragmentToBackStack(
+
                 WalletDetailsFragment()
             )
 
@@ -117,8 +113,8 @@ class HomeFragment : Fragment() {
 
     private fun onAdapterClick(pos: Int, type: String) {
         MainActivity.hideNavigationTab()
-        StaticData.backStackAddFragment(
-            requireActivity(),
+        addFragmentToBackStack(
+
             AddOverFragment.newInstance("add")
         )
     }

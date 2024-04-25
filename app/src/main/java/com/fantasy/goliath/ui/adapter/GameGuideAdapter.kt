@@ -6,8 +6,8 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.databinding.ListHowToPlayItemBinding
+import com.fantasy.goliath.model.CommonDataItem
 
 
 class GameGuideAdapter(

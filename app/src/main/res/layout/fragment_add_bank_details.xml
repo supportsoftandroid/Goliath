@@ -16,11 +16,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
+    <com.fantasy.goliath.ui.components.MyToolBar
         android:id="@+id/viewHeader"
-        layout="@layout/layout_toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:show_team_icon="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_30"
-                android:fontFamily="@font/visby_medium"
+
                 android:hint="@string/bank_name"
                 android:paddingVertical="@dimen/dp_5"
                 android:textColorHint="@color/textPlaceHolder"
@@ -92,9 +92,7 @@
                     style="@style/AppTextInputEditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/visby_regular"
                     android:imeOptions="actionNext"
-
                     android:inputType="number"
                     android:maxLength="16"
 
@@ -110,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_15"
-                android:fontFamily="@font/visby_regular"
+
                 android:hint="@string/confirm_account_number"
                 android:paddingVertical="@dimen/dp_5"
                 android:textColorHint="@color/textPlaceHolder"
@@ -123,7 +121,7 @@
                     style="@style/AppTextInputEditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/visby_regular"
+
                     android:imeOptions="actionNext"
 
                     android:inputType="number"
@@ -141,7 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_15"
-                android:fontFamily="@font/visby_regular"
+
                 android:hint="@string/enter_ifsc_swift_code"
                 android:paddingVertical="@dimen/dp_5"
                 android:textColorHint="@color/textPlaceHolder"
@@ -154,7 +152,7 @@
                     style="@style/AppTextInputEditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/visby_regular"
+
                     android:imeOptions="actionNext"
 
                     android:inputType="text"
@@ -172,8 +170,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_15"
-                android:fontFamily="@font/visby_regular"
-                android:hint=" Enter Account Holder Name"
+
+                android:hint="@string/enter_account_holder_name"
                 android:paddingVertical="@dimen/dp_5"
                 android:textColorHint="@color/textPlaceHolder"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -185,7 +183,7 @@
                     style="@style/AppTextInputEditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/visby_regular"
+
                     android:imeOptions="actionDone"
                     android:inputType="text"
 
@@ -229,6 +227,7 @@
                 android:layout_marginBottom="@dimen/dp_50"
                 android:fontFamily="@font/visby_bold"
                 android:text="@string/back"
+                android:visibility="gone"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp_20"
                 app:layout_constraintBottom_toBottomOf="parent"

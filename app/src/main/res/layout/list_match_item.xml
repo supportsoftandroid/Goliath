@@ -20,6 +20,7 @@
             android:id="@+id/clv_left"
             android:layout_width="@dimen/dp_105"
             android:layout_height="@dimen/dp_120"
+            android:background="@color/colorTeamBg"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -28,8 +29,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:alpha="0.15"
-
-                android:background="@drawable/half_circle_left"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -41,6 +40,7 @@
                 android:layout_width="3dp"
                 android:layout_height="match_parent"
                 android:background="@color/colorDarkGray"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -198,6 +198,7 @@
             android:id="@+id/clv_right"
             android:layout_width="@dimen/dp_105"
             android:layout_height="@dimen/dp_120"
+            android:background="@color/colorTeamBg"
 
 
             app:layout_constraintEnd_toEndOf="parent"
@@ -207,7 +208,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:alpha="0.15"
-                android:background="@drawable/half_circle_right"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -218,6 +219,7 @@
                 android:layout_width="3dp"
                 android:layout_height="match_parent"
                 android:background="@color/colorYellow"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

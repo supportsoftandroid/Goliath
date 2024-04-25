@@ -1,20 +1,17 @@
 package com.fantasy.goliath.ui.activities
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.Window
-import android.view.WindowInsets
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.fantasy.goliath.databinding.ActivitySplashBinding
+import com.fantasy.goliath.utility.Constants
+import com.fantasy.goliath.utility.PreferenceManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.fantasy.goliath.databinding.ActivitySplashBinding
-import com.fantasy.goliath.utility.Constants
-import com.fantasy.goliath.utility.PreferenceManager
 
 class SplashActivity : AppCompatActivity() {
     lateinit var preferenceManager: PreferenceManager

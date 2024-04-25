@@ -16,6 +16,7 @@
     <string name="please_wait">Please wait...</string>
     <string name="verify">Verify</string>
     <string name="didn_t_get_the_code_resend_now">Didn’t you receive the OTP?</string>
+    <string name="didn_t_get_the_code_resend">Didn’t you receive the OTP?<font color="#FF3F8BCA"> Resend</font></string>
     <string name="verify_otp">OTP Verification</string>
     <string name="loading">Loading</string>
     <string name="card_holder_name">Card holder name</string>
@@ -108,5 +109,13 @@
     <string name="_8_of_8_you_conquered_to_goliath">8 of 8\n\n You Conquered to Goliath</string>
     <string name="your_predictions">Your Predictions</string>
     <string name="check_result">Check Result</string>
+    <string name="correctly_predict_8_actions_in_one_over_and_share_50_of_the_prize_pool_pay_outs_from_5_of_8_correct_predictions">Correctly predict 8 actions in ONE over and\n share 50% of the prize pool!\n Pay Outs from 5 of 8 correct Predictions</string>
+    <string name="instant_cash_rewards">INSTANT CASH REWARDS</string>
+    <string name="enter_account_holder_name">Enter Account Holder Name</string>
+    <string name="outstanding_rewards">Outstanding Rewards</string>
+    <string name="view_result">View Result</string>
+    <string name="next">Next</string>
+    <string name="enter_the_otp_sent_to_91_987654321">Enter the OTP sent to +91 987654321</string>
+    <string name="enter_the_otp_sent_to">Enter the OTP sent to </string>
 
 </resources>

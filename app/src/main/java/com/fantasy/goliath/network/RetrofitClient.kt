@@ -1,14 +1,15 @@
 package com.fantasy.goliath.network
 
 
+import com.fantasy.goliath.BuildConfig
+import com.fantasy.goliath.utility.Constants
+import com.fantasy.goliath.utility.printLog
+
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.fantasy.goliath.BuildConfig
-import com.fantasy.goliath.utility.Constants
-import com.fantasy.goliath.utility.StaticData.Companion.printLog
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {

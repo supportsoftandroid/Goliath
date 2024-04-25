@@ -1,35 +1,43 @@
-package com.fantasy.goliath.ui.activities
+package com.fantasy.goliath.ui.fragments
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
-import androidx.appcompat.app.AppCompatActivity
+
 import androidx.lifecycle.ViewModelProvider
+
+import com.fantasy.goliath.databinding.FragmentSignUpBinding
+import com.fantasy.goliath.model.LoginResponse
+import com.fantasy.goliath.ui.base.BaseFragment
+import com.fantasy.goliath.utility.Constants
+import com.fantasy.goliath.utility.isNetworkConnected
+import com.fantasy.goliath.utility.showOTPDialogBottom
+import com.fantasy.goliath.utility.showToast
+
+
+import com.fantasy.goliath.viewmodal.SignUpViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.fantasy.goliath.databinding.ActivitySignUpBinding
-import com.fantasy.goliath.model.LoginResponse
-import com.fantasy.goliath.utility.Constants
-import com.fantasy.goliath.utility.PreferenceManager
-import com.fantasy.goliath.utility.StaticData.Companion.showToast
-import com.fantasy.goliath.utility.UtilsManager
-import com.fantasy.goliath.viewmodal.SignUpViewModel
 
-class SignupActivity : AppCompatActivity() {
+class SignupFragment : BaseFragment() {
     private val viewModal by lazy { ViewModelProvider(this)[SignUpViewModel::class.java] }
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
-        ActivitySignUpBinding.inflate(layoutInflater)
+        FragmentSignUpBinding.inflate(layoutInflater)
     }
-    lateinit var preferenceManager: PreferenceManager
+
 
     val activityScope = CoroutineScope(Dispatchers.Main)
     lateinit var dialogVerify: BottomSheetDialog
 
-    lateinit var utilsManager: UtilsManager
+
     var isLogin = false
     var isForgotPassword = false
     private var firebase_token = ""
@@ -44,12 +52,13 @@ class SignupActivity : AppCompatActivity() {
     lateinit var pgBar: ProgressBar
     lateinit var btnSubmit: Button
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        mContext=this@SignupActivity
-        preferenceManager = PreferenceManager(mContext)
-        utilsManager = UtilsManager(mContext)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+        mContext=requireActivity()
+
+
         binding.let {
             activityScope.launch {
                 clickListener()
@@ -59,7 +68,7 @@ class SignupActivity : AppCompatActivity() {
             }
         }
 
-
+        return binding.root
     }
 
     private fun initView() {
@@ -98,20 +107,18 @@ class SignupActivity : AppCompatActivity() {
         }
         */
         binding.btnSubmit.setOnClickListener() {
-          /*  startActivity(Intent(mContext, RewardGuideActivity::class.java))*/
-            utilsManager.showOTPDialogBottom(
+          /*  startActivity(Intent(mContext, RewardGuideFragment::class.java))*/
+            showOTPDialogBottom(
                 mContext, true,
                 { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
         }
         binding.imgBack.setOnClickListener() {
-            startActivity(Intent(mContext, LoginActivity::class.java))
-            finish()
+             onBackPressed()
 
         }
         binding.tvLogin.setOnClickListener() {
 
-         startActivity(Intent(mContext, LoginActivity::class.java))
-            finish()
+          onBackPressed()
         }
 
     }
@@ -183,11 +190,7 @@ class SignupActivity : AppCompatActivity() {
 
 
     private fun moveNextScreen() {
-        preferenceManager.saveBoolean(Constants.KEY_CHECK_LOGIN, true)
-        val i = Intent(mContext, RewardGuideActivity::class.java)
-        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(i)
-        finish()
+        addFragmentToBackStack(RewardGuideFragment())
     }
 
 
@@ -241,7 +244,7 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun callRequestOTPAPI() {
-        if (utilsManager.isNetworkConnected()) {
+        if (isNetworkConnected(mContext as Activity)) {
             viewModal.requestOTP(
                 mContext,
                 email,
@@ -249,7 +252,7 @@ class SignupActivity : AppCompatActivity() {
                 showToast(mContext, res.message)
                 if (res.status) {
                     if (isForgotPassword) {
-                        utilsManager.showOTPDialogBottom(
+                         showOTPDialogBottom(
                             mContext, true,
                             { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
 

@@ -8,9 +8,10 @@ import com.fantasy.goliath.model.CardResponse
 import com.fantasy.goliath.network.RetrofitClient
 import com.fantasy.goliath.utility.Constants
 import com.fantasy.goliath.utility.DialogManager
-import com.fantasy.goliath.utility.StaticData
-import com.fantasy.goliath.utility.StaticData.Companion.printLog
-import com.fantasy.goliath.utility.StaticData.Companion.showToast
+import com.fantasy.goliath.utility.InvalidSession
+import com.fantasy.goliath.utility.printLog
+import com.fantasy.goliath.utility.showToast
+
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -82,7 +83,7 @@ class StripCardRepository(
                         showToast(context, response.message())
                     }
                 } else if (response.code() == 401) {
-                    StaticData.InvalidSession(context, response.message())
+                    InvalidSession(context, response.message())
 
                 } else {
                     showToast(context, response.message())
@@ -116,7 +117,7 @@ class StripCardRepository(
                         )
                     }
                 } else if (response.code() == 401) {
-                    StaticData.InvalidSession(context, response.message())
+                    InvalidSession(context, response.message())
 
                 } else {
                     showToast(context, response.message())

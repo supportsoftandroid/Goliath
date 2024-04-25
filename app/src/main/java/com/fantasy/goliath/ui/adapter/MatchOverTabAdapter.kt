@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
-import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.databinding.ListTabOverItemBinding
+import com.fantasy.goliath.model.CommonDataItem
 
 
 class MatchOverTabAdapter(

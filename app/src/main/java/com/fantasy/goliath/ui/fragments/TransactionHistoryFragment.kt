@@ -14,11 +14,12 @@ import com.fantasy.goliath.databinding.FragmentTransactionHistoryBinding
 import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.ui.adapter.TransactionAdapter
+import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.utility.PreferenceManager
 import com.fantasy.goliath.utility.UtilsManager
 import com.fantasy.goliath.viewmodal.HomeViewModel
 
-class TransactionHistoryFragment : Fragment() {
+class TransactionHistoryFragment : BaseFragment() {
 
     companion object {
         fun newInstance(from: String ): TransactionHistoryFragment {
@@ -35,8 +36,7 @@ class TransactionHistoryFragment : Fragment() {
         FragmentTransactionHistoryBinding.inflate(layoutInflater)
     }
     lateinit var loginResponse: LoginResponse
-    lateinit var preferences: PreferenceManager
-    lateinit var utilsManager: UtilsManager
+
     lateinit var adapter: TransactionAdapter
     var dataList = mutableListOf<CommonDataItem>()
     var  type = "upcoming"
@@ -46,29 +46,25 @@ class TransactionHistoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val root: View = binding.root
+        super.onCreateView(inflater, container, savedInstanceState)
+
         binding.let {
-            preferences=PreferenceManager(requireActivity())
-            utilsManager=UtilsManager(requireActivity())
+
             initView()
             clickListener()
         }
 
 
-        return root
+        return binding.root
     }
     private fun clickListener() {
 
-        binding.btnBack.setOnClickListener() {
-
-            requireActivity().onBackPressed()
-
-        }
+        binding.viewHeader.setClickListener(this)
 
     }
 
     private fun initView() {
-        binding.viewHeader.txtTitle.text = requireActivity().getString(R.string.transaction_history)
+        binding.viewHeader.setTitle( requireActivity().getString(R.string.transaction_history))
         dataList.clear()
 
         dataList.add(CommonDataItem("Total Fee Pay","CSK",false))
@@ -133,7 +129,7 @@ class TransactionHistoryFragment : Fragment() {
 
     private fun onAdapterClick(pos: Int, type: String) {
         //MainActivity.hideNavigationTab()
-       /* StaticData.backStackAddFragment(
+       /* UiUtils.backStackAddFragment(
             requireActivity(),
             AddOverFragment.newInstance("add")
         )*/
@@ -142,5 +138,17 @@ class TransactionHistoryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
+
+    override fun onNotificationsIconClick() {
+        super.onNotificationsIconClick()
+    }
+
+    override fun onWalletIconClick() {
+        super.onWalletIconClick()
     }
 }

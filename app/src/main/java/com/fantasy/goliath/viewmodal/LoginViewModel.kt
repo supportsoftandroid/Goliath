@@ -2,11 +2,12 @@ package com.fantasy.goliath.viewmodal
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.fantasy.goliath.model.CardResponse
+import com.fantasy.goliath.model.LoginResponse
+import com.fantasy.goliath.network.repository.AuthRepository
+import com.fantasy.goliath.network.repository.StripCardRepository
 import com.google.gson.JsonObject
-import com.fantasy.goliath.model.*
-import com.fantasy.goliath.network.repository.*
 
 
 class LoginViewModel : ViewModel() {

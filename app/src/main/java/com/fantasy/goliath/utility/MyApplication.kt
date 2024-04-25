@@ -1,10 +1,9 @@
 package com.fantasy.goliath.utility
 
-import android.app.Application
 /*import com.google.android.libraries.places.api.Places
 import com.google.firebase.FirebaseApp*/
 
-import com.fantasy.goliath.R
+import android.app.Application
 
 class MyApplication : Application() {
     override fun onCreate() {

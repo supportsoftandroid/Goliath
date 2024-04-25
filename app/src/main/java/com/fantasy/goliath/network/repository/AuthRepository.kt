@@ -6,9 +6,12 @@ import com.fantasy.goliath.R
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.network.RetrofitClient
 import com.fantasy.goliath.utility.Constants
+import com.fantasy.goliath.utility.Constants.SOMETHING_WENT_WRONG_ERROR
 import com.fantasy.goliath.utility.DialogManager
-import com.fantasy.goliath.utility.StaticData
-import com.fantasy.goliath.utility.StaticData.Companion.showToast
+import com.fantasy.goliath.utility.InvalidSession
+import com.fantasy.goliath.utility.prepareFilePartFromUri
+import com.fantasy.goliath.utility.showToast
+
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -107,7 +110,7 @@ class AuthRepository(
             return callAPIService(callApiService)
         } else {
             val imageFile: MultipartBody.Part? =
-                imageFilePath?.let { StaticData.prepareFilePartFromUri("image", it) }
+                imageFilePath?.let { prepareFilePartFromUri("image", it) }
             callApiService = RetrofitClient.apiInterface.updateProfileImage(
                 userToken,
                 imageFile
@@ -139,44 +142,46 @@ class AuthRepository(
 
     fun callAPIService(call: Call<LoginResponse>): MutableLiveData<LoginResponse> {
         val modelRes = MutableLiveData<LoginResponse>()
-        call.enqueue(object : Callback<LoginResponse> {
-            override fun onResponse(
-                call: Call<LoginResponse>,
-                response: Response<LoginResponse>
-            ) {
-                progressDialog.dismissDialog()
-                if (response.isSuccessful) {
-                    val model: LoginResponse? = response.body()
-                    if (model != null) {
-                        modelRes.value = model!!
-                    } else {
-                        showToast(context, Constants.SOMETHING_WENT_WRONG_ERROR)
-                        showToast(
-                            context, response.message(),
-                        )
-                    }
-                } else {
-                    showToast(
-                        context, response.message(),
-                    )
-
-                }
-
+        makeApiCall(call, onSuccess = { data ->
+            // Handle successful response
+            // data is of type MyData or null
+            val model: LoginResponse? = data
+            if (model != null) {
+                modelRes.value = model!!
             }
 
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+        },
+            onError = { error ->
+                // Handle error
+            })
 
+        return modelRes
+        return modelRes
+
+    }
+    fun <T> makeApiCall(call: Call<T>, onSuccess: (T?) -> Unit, onError: (String) -> Unit) {
+
+        call.enqueue(object : Callback<T> {
+            override fun onResponse(call: Call<T>, response: Response<T>) {
+                progressDialog.dismissDialog()
+                if (response.isSuccessful) {
+                    onSuccess(response.body())
+                }else if (response.code()==401) {
+                    InvalidSession(context, response.message())
+                }  else {
+                    showToast(context, SOMETHING_WENT_WRONG_ERROR)
+                    showToast(context, response.message(),)
+
+                }
+            }
+
+            override fun onFailure(call: Call<T>, t: Throwable) {
                 progressDialog.dismissDialog()
                 showToast(context, t.message.toString())
 
             }
-
-        }
-        )
-        return modelRes;
-
+        })
     }
-
     private fun setProgressDialog() {
 
         progressDialog.showProgressDialog(context.getString(R.string.loading))

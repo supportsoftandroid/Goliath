@@ -8,27 +8,28 @@
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clv_card_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginEnd="@dimen/dp_13"
 
-        android:paddingVertical="@dimen/dp_5"
-        android:layout_marginBottom="@dimen/dp_5"
-        >
 
-        <TextView
+        android:layout_marginBottom="@dimen/dp_20">
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Over 1"
-            android:layout_marginEnd="@dimen/dp_5"
-            android:textColor="@color/colorWhite"
-            android:paddingVertical="@dimen/dp_5"
-            android:paddingHorizontal="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_7"
-            android:fontFamily="@font/visby_medium"
-            android:textSize="@dimen/sp_12"
-            android:background="@drawable/button_background_global"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/border_layout_blue_radius_5"
+            android:text="15"
+
+            android:maxLength="3"
+
+            android:textColor="@color/app_color"
+
+
+            app:fontFamily="@font/visby_medium"
+            android:textSize="@dimen/sp_15"
+
             android:gravity="center"
             android:layout_centerHorizontal="true"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,25 +39,7 @@
 
 
 
-        <ImageView
-            android:id="@+id/imgDelete"
-            android:layout_width="@dimen/dp_15"
-            android:layout_height="@dimen/dp_15"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_notification"
-            app:tint="@color/app_color"
 
-            android:layout_alignParentEnd="true"
-
-
-            android:padding="@dimen/dp_3"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/circle_white"
-            app:layout_constraintTop_toTopOf="parent"
-
-
-
-            />
 
 
 

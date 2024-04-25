@@ -4,24 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fantasy.goliath.R
-import com.fantasy.goliath.databinding.FragmentHomeBinding
 import com.fantasy.goliath.databinding.FragmentMatchHistoryBinding
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.MatchDataItem
-import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.adapter.MatchItemAdapter
-import com.fantasy.goliath.ui.fragments.AddOverFragment
+import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.utility.PreferenceManager
-import com.fantasy.goliath.utility.StaticData
 import com.fantasy.goliath.utility.UtilsManager
 import com.fantasy.goliath.viewmodal.HomeViewModel
 
-class MatchHistoryFragment : Fragment() {
+class MatchHistoryFragment : BaseFragment() {
 
     companion object {
         fun newInstance(from: String ): MatchHistoryFragment {
@@ -38,40 +34,35 @@ class MatchHistoryFragment : Fragment() {
         FragmentMatchHistoryBinding.inflate(layoutInflater)
     }
     lateinit var loginResponse: LoginResponse
-    lateinit var preferences: PreferenceManager
-    lateinit var utilsManager: UtilsManager
+
     lateinit var adapter: MatchItemAdapter
     var dataList = mutableListOf<MatchDataItem>()
     var  type = "upcoming"
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val root: View = binding.root
+        super.onCreateView(inflater, container, savedInstanceState)
+
         binding.let {
-            preferences=PreferenceManager(requireActivity())
-            utilsManager=UtilsManager(requireActivity())
+
             initView()
             clickListener()
         }
 
 
-        return root
+        return binding.root
     }
     private fun clickListener() {
 
-        binding.btnBack.setOnClickListener() {
-
-            requireActivity().onBackPressed()
-
-        }
-
+        binding.viewHeader.setClickListener(this)
     }
 
     private fun initView() {
-        binding.viewHeader.txtTitle.text = requireActivity().getString(R.string.matches_history)
+        binding.viewHeader.setTitle( requireActivity().getString(R.string.matches_history))
         dataList.clear()
 
         dataList.add(MatchDataItem("GT","CSK","T20"))
@@ -89,7 +80,7 @@ class MatchHistoryFragment : Fragment() {
 
     private fun onAdapterClick(pos: Int, type: String) {
         //MainActivity.hideNavigationTab()
-       /* StaticData.backStackAddFragment(
+       /* UiUtils.backStackAddFragment(
             requireActivity(),
             AddOverFragment.newInstance("add")
         )*/
@@ -98,5 +89,17 @@ class MatchHistoryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
+
+    override fun onNotificationsIconClick() {
+        super.onNotificationsIconClick()
+    }
+
+    override fun onWalletIconClick() {
+        super.onWalletIconClick()
     }
 }

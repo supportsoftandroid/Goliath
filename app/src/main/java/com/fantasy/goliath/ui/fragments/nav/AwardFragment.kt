@@ -13,13 +13,12 @@ import com.fantasy.goliath.databinding.FragmentAwardBinding
 import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.adapter.AwardAdapter
-import com.fantasy.goliath.ui.adapter.NotificationsAdapter
+import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.ui.fragments.NotificationsFragment
-import com.fantasy.goliath.utility.StaticData
 
 import com.fantasy.goliath.viewmodal.AwardViewModel
 
-class AwardFragment : Fragment() {
+class AwardFragment : BaseFragment() {
     private val viewModal by lazy { ViewModelProvider(this)[AwardViewModel::class.java] }
 
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
@@ -34,6 +33,7 @@ class AwardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
         val root: View = binding.root
         binding.let {
             initView()
@@ -52,8 +52,8 @@ class AwardFragment : Fragment() {
         binding.viewHeader.imgMenu2.setOnClickListener() {
 
             MainActivity.hideNavigationTab()
-            StaticData.backStackAddFragment(
-                requireActivity(),
+            addFragmentToBackStack(
+
                 NotificationsFragment()
             )
 

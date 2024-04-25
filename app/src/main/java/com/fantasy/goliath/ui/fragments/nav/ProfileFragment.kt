@@ -1,29 +1,37 @@
 package com.fantasy.goliath.ui.fragments.nav
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fantasy.goliath.R
 
 import com.fantasy.goliath.databinding.FragmentProfileBinding
+import com.fantasy.goliath.databinding.ListCommonItemBinding
+import com.fantasy.goliath.databinding.ListOverStatusItemBinding
 import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.ui.activities.MainActivity
+import com.fantasy.goliath.ui.activities.StaticPagesActivity
 import com.fantasy.goliath.ui.adapter.ProfileAdapter
+import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.ui.fragments.*
-import com.fantasy.goliath.utility.PreferenceManager
-import com.fantasy.goliath.utility.StaticData
-import com.fantasy.goliath.utility.UtilsManager
+import com.fantasy.goliath.utility.logoutFromApp
+
+import com.fantasy.goliath.utility.showAddAmountDialog
 
 import com.fantasy.goliath.viewmodal.ProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.health.kharma.ui.adapters.MyAdapter
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment() {
     private val viewModal by lazy { ViewModelProvider(this)[ProfileViewModel::class.java] }
 
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
@@ -32,50 +40,51 @@ class ProfileFragment : Fragment() {
 
     lateinit var adaper: ProfileAdapter
     var dataList = mutableListOf<CommonDataItem>()
-    lateinit var preferenceManager: PreferenceManager
-    lateinit var utilsManager: UtilsManager
+    var dataListOther = mutableListOf<CommonDataItem>()
+
     private lateinit var loginResponse: LoginResponse
+    lateinit var myAdapter: MyAdapter<CommonDataItem>
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val root: View = binding.root
-        preferenceManager= PreferenceManager(requireActivity())
-        utilsManager=UtilsManager(requireActivity())
-        binding.let{ initView()
-        clickListener()}
-        return root
+        super.onCreateView(inflater, container, savedInstanceState)
+
+        binding.let {
+            initView()
+            clickListener()
+        }
+        return binding.root
     }
 
     private fun clickListener() {
 
-        binding.tvAddMoney.setOnClickListener(){
-             utilsManager.showAddAmountDialog(requireActivity(),{amount,dialog->onAmountAdd(amount,dialog)})
-         }
-        binding.tvWalletLabel.setOnClickListener(){
+        binding.tvAddMoney.setOnClickListener() {
+            showAddAmountDialog(requireActivity(),
+                { amount, dialog -> onAmountAdd(amount, dialog) })
+        }
+        binding.tvWalletLabel.setOnClickListener() {
             openWallet()
         }
-        binding.llTotalDeposited.setOnClickListener(){
-           openWallet()
-         }
-         binding.llTotalWinning.setOnClickListener(){
-           openWallet()
-         }
-         binding.llTotalFreePaid.setOnClickListener(){
-           openWallet()
-         }
+        binding.llTotalDeposited.setOnClickListener() {
+            openWallet()
+        }
+        binding.llTotalWinning.setOnClickListener() {
+            openWallet()
+        }
+        binding.llTotalFreePaid.setOnClickListener() {
+            openWallet()
+        }
 
-        binding.llTotalWithdraw.setOnClickListener(){
-           openWallet()
-         }
+        binding.llTotalWithdraw.setOnClickListener() {
+            openWallet()
+        }
 
     }
 
     private fun openWallet() {
         MainActivity.hideNavigationTab()
-        StaticData.backStackAddFragment(
-            requireActivity(),
+        addFragmentToBackStack(
+
             WalletDetailsFragment.newInstance("add")
         )
     }
@@ -87,51 +96,79 @@ class ProfileFragment : Fragment() {
 
     fun initView() {
         binding.viewHeader.txtTitle.text = requireActivity().getString(R.string.my_profile)
+        binding.imgProfile.isVisible=false
+
         //setProfileData(loginResponse.user)
         dataList.clear()
-
         dataList.add(CommonDataItem("History", "View for matches", false))
-        dataList.add(CommonDataItem("My info & Settings", "Edit your info & additional information", false))
-        dataList.add(CommonDataItem("Change Password", "Manage your password change for more security", false))
+        dataList.add(
+            CommonDataItem(
+                "My info & Settings",
+                "Edit your info & additional information",
+                false
+            )
+        )
         dataList.add(CommonDataItem("Transaction History", "View your past transaction", false))
-        dataList.add(CommonDataItem("Logout", "Exit from application", false))
-
 
         adaper =
             ProfileAdapter(requireActivity(), dataList, { pos, type -> onAdapterClick(pos, type) })
         binding.rvList.layoutManager = LinearLayoutManager(requireActivity())
         binding.rvList.adapter = adaper
 
+        //Data Other
+        dataListOther.clear()
+        dataListOther.add(CommonDataItem(getString(R.string.terms_amp_conditions), "terms", false))
+        dataListOther.add(CommonDataItem(getString(R.string.privacy_policy), "privacy", false))
+        dataListOther.add(CommonDataItem(getString(R.string.help_amp_support), "help", false))
+        dataListOther.add(CommonDataItem(getString(R.string.about_us), "about", false))
+        dataListOther.add(CommonDataItem(getString(R.string.terms_amp_conditions), "logout", false))
+
+        myAdapter = MyAdapter(
+            R.layout.list_common_item,
+            dataListOther
+        ) { view, data, pos ->
+            ListCommonItemBinding.bind(view).apply {
+                tvTitle.text = data.title
+                clvMain.setOnClickListener {
+                    when (data.type.lowercase()) {
+                        "logout" -> {
+                            logOutFromApp()
+                        }
+                        else -> {
+                            StaticPagesActivity.newInstance(
+                                requireActivity(),
+                                data.title,
+                                data.type
+                            )
+                        }
+                    }
+                }
+
+
+            }
+        }
+        binding.rvList2.layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvList2.adapter = myAdapter
+
     }
 
     private fun onAdapterClick(pos: Int, type: String) {
-        if (type.equals("History",true)){
+        if (type.equals("History", true)) {
             MainActivity.hideNavigationTab()
-            StaticData.backStackAddFragment(
-                requireActivity(),
+            addFragmentToBackStack(
                 MatchHistoryFragment.newInstance("add")
             )
 
-        }else if (type.equals("My info & Settings")){
+        } else if (type.equals("My info & Settings")) {
             MainActivity.hideNavigationTab()
-            StaticData.backStackAddFragment(
-                requireActivity(),
+            addFragmentToBackStack(
                 EditProfileFragment.newInstance("add")
             )
-        }else if (type.equals("Change Password")){
+        } else if (type.equals("Transaction History")) {
             MainActivity.hideNavigationTab()
-            StaticData.backStackAddFragment(
-                requireActivity(),
-                ChangePasswordFragment.newInstance("add")
-            )
-        }else if (type.equals("Transaction History")){
-            MainActivity.hideNavigationTab()
-            StaticData.backStackAddFragment(
-                requireActivity(),
+            addFragmentToBackStack(
                 TransactionHistoryFragment.newInstance("add")
             )
-        }else if (type.equals("Logout")){
-            logOutFromApp()
         }
 
     }
@@ -142,7 +179,7 @@ class ProfileFragment : Fragment() {
         builder.setMessage(R.string.logout_message)
 
         builder.setPositiveButton(getString(R.string.yes)) { dialogInterface, which ->
-          StaticData.logoutFromApp(requireActivity())
+            logoutFromApp(requireActivity())
 
 
         }

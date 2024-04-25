@@ -12,32 +12,14 @@ import android.net.Uri
 import android.os.Build
 import android.text.TextUtils
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.fantasy.goliath.R
-import com.fantasy.goliath.databinding.DialogBottomAddAmountBinding
-import com.fantasy.goliath.databinding.DialogBottomAddCardBinding
-import com.fantasy.goliath.databinding.DialogImageUploadBinding
-import com.fantasy.goliath.databinding.DialogPredictErrorBinding
-import com.fantasy.goliath.databinding.DialogVerifyOtpBinding
-import com.fantasy.goliath.databinding.DialogWalletBalanceErrorBinding
-import com.fantasy.goliath.ui.activities.LoginActivity
+import com.fantasy.goliath.ui.fragments.LoginFragment
 import com.fantasy.goliath.utility.Constants.ERROR_ALERT
-import com.fantasy.goliath.utility.StaticData.Companion.IMAGE_CROP_REQUEST_CODE
-import com.fantasy.goliath.utility.StaticData.Companion.showToast
-import com.github.dhaval2404.imagepicker.ImagePicker
-import com.goodiebag.pinview.Pinview
-import com.goodiebag.pinview.Pinview.PinViewEventListener
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.stripe.android.view.CardMultilineWidget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -52,7 +34,7 @@ import java.util.regex.Pattern
  * Created by Shoukin Choudhary 9166900279  on 19/04/2023.
  */
 class UtilsManager(private val context: Context) {
-    private lateinit var dialogImageUpload: BottomSheetDialog
+
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     companion object {
@@ -105,86 +87,7 @@ class UtilsManager(private val context: Context) {
         return isSuccess
     }
 
-    fun showGallaryBottomModelSheet(activity: Activity, progressDialog: DialogManager) {
-        val bindingDialog =
-            DialogImageUploadBinding.inflate(LayoutInflater.from(context), null, false)
-        //val sheetView: View =  LayoutInflater.from(context).inflate(R.layout.dialog_image_upload,null)
-
-        dialogImageUpload = BottomSheetDialog(activity, R.style.GalleryDialog)
-        dialogImageUpload.setContentView(bindingDialog.root)
-
-
-        // checking for runtime permission
-        StaticData.checkFileAccessPermission(context)
-        bindingDialog.imgClose.setOnClickListener {
-            progressDialog.dismissDialog()
-            dialogImageUpload.dismiss()
-
-        }
-        bindingDialog.layoutCamera.setOnClickListener {
-            // Camera code here;
-            dialogImageUpload.dismiss()
-
-            //  StaticData.takeNewPicture(context as Activity)
-            ImagePicker.with(context as Activity)
-                .crop()
-                .cameraOnly()//Crop image(Optional), Check Customization for more option
-                .compress(150)            //Final image size will be less than 1 MB(Optional)
-                .createIntent { intent ->
-                    progressDialog.showProgressDialog("")
-                    activity.startActivityForResult(intent, IMAGE_CROP_REQUEST_CODE)
-                    //    startForImageResult.launch(intent)
-                }
-
-
-        }
-        bindingDialog.layoutGallery.setOnClickListener {
-            dialogImageUpload.dismiss()
-
-            ImagePicker.with(context as Activity)
-                .crop()
-                .galleryOnly()
-                .compress(150)            //Final image size will be less than 1 MB(Optional)
-                .createIntent { intent ->
-                    progressDialog.showProgressDialog("")
-                    activity.startActivityForResult(intent, IMAGE_CROP_REQUEST_CODE)
-                    //  startForImageResult.launch(intent)
-                }
-
-        }
-        dialogImageUpload.show()
-    }
-    fun showWalletError(context: Context,
-                                 onItemClick: (type: String,  dlg: BottomSheetDialog) -> Unit) {
-        val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
-        val dialogBinding =
-            DialogWalletBalanceErrorBinding.inflate(LayoutInflater.from(context), null, false)
-        val sheetView = dialogBinding.root
-        dialog.setContentView(sheetView)
-        dialog.setCancelable(false)
-
-        /*  val screenHeight = context.resources.displayMetrics.heightPixels
-          val layoutParams = sheetView.layoutParams
-          layoutParams.height = screenHeight
-          sheetView.layoutParams = layoutParams
-
-          // Set the bottom sheet to be fullscreen
-          dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED*/
-
-
-
-
-
-        dialogBinding.btnAdd.setOnClickListener {
-
-            onItemClick("submit",  dialog)
-
-        }
-
-        dialog.show()
-
-    }
-    fun showAlertConnectionError() {
+       fun showAlertConnectionError() {
         val builder =
             AlertDialog.Builder(context)
         builder.setCancelable(false)
@@ -253,201 +156,7 @@ class UtilsManager(private val context: Context) {
     }
 
 
-    fun showOTPDialogBottom(
-        context: Context, isCancelable: Boolean,
-        onItemClick: (type: String, otp: String, dlg: BottomSheetDialog) -> Unit
-    ) {
-        val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
-        val dialogBinding =
-            DialogVerifyOtpBinding.inflate(LayoutInflater.from(context), null, false)
-        val sheetView = dialogBinding.root
-        dialog.setContentView(sheetView)
-        dialog.setCancelable(isCancelable)
 
-        val screenHeight = context.resources.displayMetrics.heightPixels
-        val layoutParams = sheetView.layoutParams
-        layoutParams.height = screenHeight
-        sheetView.layoutParams = layoutParams
-
-        // Set the bottom sheet to be fullscreen
-        dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        dialog.behavior.isDraggable = false
-        if (isCancelable){
-            dialogBinding.imgBack.visibility=View.VISIBLE
-        }
-
-        dialogBinding.imgBack.setOnClickListener {
-            dialog.dismiss()
-
-        }
-        dialogBinding.tvResend.setOnClickListener {
-            onItemClick("resend", "", dialog)
-
-        }
-        dialogBinding.pinview.setPinViewEventListener(object :PinViewEventListener{
-            override fun onDataEntered(pinview: Pinview?, fromUser: Boolean) {
-                val pin = pinview!!.value
-
-                if (pin.length==4){
-
-                    dialogBinding.btnSubmit.setEnabled(true)
-                    dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorWhite))
-                }else{
-                    dialogBinding.btnSubmit.setEnabled(false)
-                    dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorBtn))
-
-
-                }
-            }
-        })
-        dialogBinding.btnSubmit.setOnClickListener {
-            val otp = dialogBinding.pinview.value.toString()
-
-
-            if (otp.length < 4) {
-                showToast(context, "Please Enter 4 digit OTP")
-            } else {
-                onItemClick("verify", dialogBinding.pinview.value.toString(), dialog)
-            }
-
-        }
-
-        dialog.show()
-
-    }
-
-    fun showDialogAddCard(
-        context: Context,
-        onItemClick: (name: String, cardParams: CardMultilineWidget, pgBar: ProgressBar, btnSubmit: Button, dlg: BottomSheetDialog) -> Unit
-    ) {
-        val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
-        val dialogBinding =
-            DialogBottomAddCardBinding.inflate(LayoutInflater.from(context), null, false)
-        val sheetView = dialogBinding.root
-        dialog.setContentView(sheetView)
-        dialog.setCancelable(false)
-
-        val screenHeight = context.resources.displayMetrics.heightPixels
-        val layoutParams = sheetView.layoutParams
-        layoutParams.height = screenHeight
-        sheetView.layoutParams = layoutParams
-
-        // Set the bottom sheet to be fullscreen
-        dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        dialog.behavior.isDraggable = false
-        dialogBinding.cardInputWidget.postalCodeRequired=false
-        dialogBinding.btnAdd.setOnClickListener {
-
-
-            if (TextUtils.isEmpty(dialogBinding.ediName.text.toString().trim())) {
-                dialogBinding.ediName.requestFocus()
-                showAlertMessageError(
-                    context, context.getString(R.string.please_enter_card_holder_name))
-
-            }else if (!dialogBinding.cardInputWidget.validateAllFields()) {
-            showAlertMessageError(context, context  .getString(R.string.invalid_card))
-        } else {
-                dialogBinding.ediName.clearFocus()
-                onItemClick(
-                    dialogBinding.ediName.text.toString(),
-                    dialogBinding.cardInputWidget,
-                    dialogBinding.progressBar,dialogBinding.btnAdd, dialog
-                )
-            }
-
-
-        }
-
-
-        dialog.show()
-
-    }
-
-    fun showPredictErrorDialog(
-        context: Context,
-        onItemClick: (name: String,  dlg: BottomSheetDialog) -> Unit
-    ) {
-        val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
-        val dialogBinding =
-            DialogPredictErrorBinding.inflate(LayoutInflater.from(context), null, false)
-        val sheetView = dialogBinding.root
-        dialog.setContentView(sheetView)
-        dialog.setCancelable(false)
-
-
-        dialogBinding.btnSubmit.setOnClickListener {
-            onItemClick("add",dialog)
-
-        }
-
-
-        dialog.show()
-
-    }
-
-    fun showWalletErrorDialog(
-        context: Context,
-        onItemClick: (name: String,  dlg: BottomSheetDialog) -> Unit
-    ) {
-        val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
-        val dialogBinding =
-            DialogWalletBalanceErrorBinding.inflate(LayoutInflater.from(context), null, false)
-        val sheetView = dialogBinding.root
-        dialog.setContentView(sheetView)
-        dialog.setCancelable(false)
-
-
-        dialogBinding.btnAdd.setOnClickListener {
-            onItemClick("add",dialog)
-
-        }
-
-
-        dialog.show()
-
-    }
-    fun showAddAmountDialog(
-        context: Context,
-        onItemClick: (name: String,  dlg: BottomSheetDialog) -> Unit
-    ) {
-        val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
-        val dialogBinding =
-            DialogBottomAddAmountBinding.inflate(LayoutInflater.from(context), null, false)
-        val sheetView = dialogBinding.root
-        dialog.setContentView(sheetView)
-        dialog.setCancelable(false)
-
-
-        dialogBinding.imgClose.setOnClickListener {
-          dialog.dismiss()
-
-        }
-        dialogBinding.tv1000.setOnClickListener {
-            dialogBinding.ediAmount.setText(dialogBinding.tv1000.text.toString())
-
-        }
-
-        dialogBinding.tv1500.setOnClickListener {
-            dialogBinding.ediAmount.setText(dialogBinding.tv1500.text.toString())
-
-        }
-        dialogBinding.tv2000.setOnClickListener {
-            dialogBinding.ediAmount.setText(dialogBinding.tv2000.text.toString())
-
-        }
-        dialogBinding.tv2500.setOnClickListener {
-            dialogBinding.ediAmount.setText(dialogBinding.tv2500.text.toString())
-
-        }
-        dialogBinding.btnAdd.setOnClickListener {
-            onItemClick("add",dialog)
-
-        }
-
-
-        dialog.show()
-
-    }
 
 
     fun showInvalidTokenError(activity: Activity) {
@@ -470,7 +179,7 @@ class UtilsManager(private val context: Context) {
             Constants.KEY_CHECK_LOGIN,
             false
         )
-        val intent = Intent(activity, LoginActivity::class.java)
+        val intent = Intent(activity, LoginFragment::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         activity.startActivity(intent)
         activity.finish() // call this to finish the current activity

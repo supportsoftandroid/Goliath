@@ -3,11 +3,10 @@ package com.fantasy.goliath.utility
 
 import android.content.Context
 import android.content.SharedPreferences
-
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.utility.Constants.KEY_ACCESS_TOKEN
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
 class PreferenceManager(context: Context) {

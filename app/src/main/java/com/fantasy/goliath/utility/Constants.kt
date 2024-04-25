@@ -25,7 +25,8 @@ object Constants {
     const val API_SIGNUP = "auth/register"
     const val API_REQUEST_OTP = "auth/send-otp"
     const val API_VERIFY_OTP = "auth/verify-otp"
-    const val API_RESET_PASSWORD = "auth/forgot-password"
+    const val API_HOW_TO_PLAY = "how-to-play"
+
     const val API_CHECK_EMAIL = "check-email"
     const val API_UPDATE_EMAIL = "update-email"
     const val API_CATEGORY = "categories"

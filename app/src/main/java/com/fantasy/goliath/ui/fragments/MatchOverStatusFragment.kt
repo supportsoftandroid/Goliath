@@ -15,12 +15,11 @@ import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.QuestionAnsItem
 import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
 import com.fantasy.goliath.ui.adapter.QuestionAnswerAdapter
-import com.fantasy.goliath.utility.PreferenceManager
-import com.fantasy.goliath.utility.StaticData
-import com.fantasy.goliath.utility.UtilsManager
+import com.fantasy.goliath.ui.base.BaseFragment
+
 import com.fantasy.goliath.viewmodal.AddOverViewModel
 
-class MatchOverStatusFragment : Fragment() {
+class MatchOverStatusFragment : BaseFragment() {
     companion object {
 
         fun newInstance(from: String): MatchOverStatusFragment {
@@ -41,12 +40,12 @@ class MatchOverStatusFragment : Fragment() {
         )
     }
     lateinit var loginResponse: LoginResponse
-    lateinit var preferences: PreferenceManager
-    lateinit var utilsManager: UtilsManager
+
     lateinit var adapter: MatchOverTabAdapter
     lateinit var questionAdapter: QuestionAnswerAdapter
     var dataList = mutableListOf<CommonDataItem>()
     var questionList = mutableListOf<QuestionAnsItem>()
+
 
 
     override fun onCreateView(
@@ -54,28 +53,27 @@ class MatchOverStatusFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val root: View = binding.root
+        super.onCreateView(inflater, container, savedInstanceState)
+
         binding.let {
-            preferences = PreferenceManager(requireActivity())
-            utilsManager = UtilsManager(requireActivity())
+
             initView()
             clickListener()
         }
 
-        return root
+        return binding.root
     }
 
     private fun clickListener() {
 
         binding.btnBack.setOnClickListener() {
 
-            requireActivity().onBackPressed()
+           onBackPressed()
 
         }
         binding.btnSubmit.setOnClickListener() {
 
-            StaticData.backStackAddFragment(
-                requireActivity(),
+            addFragmentToBackStack(
                 OverWiseResultFragment.newInstance("add")
             )
 
@@ -85,10 +83,10 @@ class MatchOverStatusFragment : Fragment() {
 
 
     private fun initView() {
+        binding.clvQuestion.visibility=View.GONE
         dataList.clear()
-
         dataList.add(CommonDataItem("1st Over", "", false))
-        dataList.add(CommonDataItem("2nd Over 2", "", false))
+        dataList.add(CommonDataItem("2nd Over ", "", false))
         dataList.add(CommonDataItem("3rd Over ", "", false))
         dataList.add(CommonDataItem("4th Over ", "", false))
         dataList.add(CommonDataItem("5th Over ", "", false))
@@ -112,14 +110,14 @@ class MatchOverStatusFragment : Fragment() {
         dataList.add(CommonDataItem("15th Over ", "", false))
 
         questionList.clear()
-        questionList.add(QuestionAnsItem("1. End Over EVEN runs.", "no","yes"))
-        questionList.add(QuestionAnsItem("2. First ball scoring?", "yes","no"))
-        questionList.add(QuestionAnsItem("3. Boundary", "no","yes"))
-        questionList.add(QuestionAnsItem("4. Sixes", "no","no"))
-        questionList.add(QuestionAnsItem("5. LBW", "no","yes"))
-        questionList.add(QuestionAnsItem("6. Dot Balls LESS than 2", "yes","yes"))
-        questionList.add(QuestionAnsItem("7. Maiden Over ( 0runs )", "yes","no"))
-        questionList.add(QuestionAnsItem("8. Out For a Duck", "no","yes"))
+        questionList.add(QuestionAnsItem("1. End Over EVEN runs.", "No","Yes"))
+        questionList.add(QuestionAnsItem("2. First ball scoring?", "Yes","No"))
+        questionList.add(QuestionAnsItem("3. Boundary", "No","Yes"))
+        questionList.add(QuestionAnsItem("4. Sixes", "No","No"))
+        questionList.add(QuestionAnsItem("5. LBW", "No","Yes"))
+        questionList.add(QuestionAnsItem("6. Dot Balls LESS than 2", "Yes","Yes"))
+        questionList.add(QuestionAnsItem("7. Maiden Over ( 0runs )", "Yes","No"))
+        questionList.add(QuestionAnsItem("8. Out For a Duck", "No","Yes"))
         questionAdapter = QuestionAnswerAdapter(
             requireActivity(),
             questionList,
