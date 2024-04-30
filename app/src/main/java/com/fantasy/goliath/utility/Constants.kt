@@ -21,9 +21,8 @@ object Constants {
     /*  APP URLs    */
     const val LIVE_URL = "http://staging.wowfeelgoodnow.com/api/"
     const val API_WELCOME_SCREEN = "on-boarding"
-    const val API_LOGIN = "auth/login"
-    const val API_SIGNUP = "auth/register"
-    const val API_REQUEST_OTP = "auth/send-otp"
+
+    const val API_SEND_OTP = "auth/send-otp"
     const val API_VERIFY_OTP = "auth/verify-otp"
     const val API_HOW_TO_PLAY = "how-to-play"
 
@@ -70,6 +69,7 @@ object Constants {
 
     const val KEY_CHECK_LOGIN = "check_login"
     const val KEY_ACCESS_TOKEN = "token"
+    const val KEY_USER_NAME = "user_name"
     const val KEY_LOGIN_DATA = "login_data"
     const val IN_APP_PERMISSION = "Need Permissions"
     const val PERMISSIONS_ACCESS_MESSAGE ="This app requires permissions to access your location and storage"

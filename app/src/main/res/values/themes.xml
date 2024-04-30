@@ -83,7 +83,8 @@
         <item name="android:fontFamily">@font/visby_medium</item>
         <item name="android:textColor">@color/colorText</item>
         <item name="colorAccent">@color/colorGray</item>
-        <item name="android:background">@null</item>
+        <item name="boxBackgroundColor">@color/colorWhite</item>
+
         <item name="android:textColorHint">@color/textPlaceHolder</item>
         <item name="android:textSize">@dimen/sp_16</item>
     </style>

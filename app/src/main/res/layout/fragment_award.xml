@@ -34,12 +34,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/viewHeader">
         <RadioGroup
-            android:id="@+id/rgStatus"
+            android:id="@+id/rg_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
             android:orientation="horizontal"
-            android:weightSum="3"
+            android:weightSum="2"
             android:backgroundTint="@color/colorWhite"
             android:background="@drawable/button_background_light_gray"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <RadioButton
-                android:id="@+id/rbDaily"
+                android:id="@+id/rbWinning"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_45"
                 android:layout_weight="1"
@@ -58,13 +58,14 @@
                 android:gravity="center"
                 android:inputType="text"
                 android:padding="@dimen/dp_5"
-                android:text="@string/daily"
+                android:text="@string/winnings"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/sp_16" />
 
+
             <RadioButton
-                android:id="@+id/rbWeekly"
+                android:id="@+id/rbMostPlayed"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_45"
                 android:layout_weight="1"
@@ -75,16 +76,62 @@
                 android:gravity="center"
                 android:inputType="text"
                 android:padding="@dimen/dp_5"
-                android:text="@string/weekly"
+                android:text="@string/most_played"
                 android:textAllCaps="true"
                 android:textColor="@color/textPlaceHolder"
                 android:textSize="@dimen/sp_16" />
+
+        </RadioGroup>
+        <RadioGroup
+            android:id="@+id/rgStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toBottomOf="@+id/rg_type">
+
+            <RadioButton
+                android:id="@+id/rbDaily"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_45"
+                android:layout_weight="1"
+                android:background="@drawable/tab_selecter_border"
+                android:button="@null"
+                android:checked="true"
+                android:fontFamily="@font/visby_semi_bold"
+                android:gravity="center"
+                android:inputType="text"
+                android:padding="@dimen/dp_5"
+                android:text="@string/daily"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_14" />
+
+            <RadioButton
+                android:id="@+id/rbWeekly"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_45"
+                android:layout_weight="1"
+                android:background="@drawable/tab_selecter_border"
+
+                android:button="@null"
+                android:fontFamily="@font/visby_medium"
+                android:gravity="center"
+                android:inputType="text"
+                android:padding="@dimen/dp_5"
+                android:text="@string/weekly"
+                android:textAllCaps="true"
+                android:textColor="@color/app_color"
+                android:textSize="@dimen/sp_14" />
             <RadioButton
                 android:id="@+id/rbMonthly"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_45"
                 android:layout_weight="1"
-                android:background="@drawable/tab_selecter"
+                android:background="@drawable/tab_selecter_border"
 
                 android:button="@null"
                 android:fontFamily="@font/visby_medium"
@@ -94,7 +141,7 @@
                 android:text="@string/monthly"
                 android:textAllCaps="true"
                 android:textColor="@color/textPlaceHolder"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_14" />
 
         </RadioGroup>
         <androidx.constraintlayout.widget.ConstraintLayout

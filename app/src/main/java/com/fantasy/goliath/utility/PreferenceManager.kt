@@ -4,7 +4,9 @@ package com.fantasy.goliath.utility
 import android.content.Context
 import android.content.SharedPreferences
 import com.fantasy.goliath.model.LoginResponse
+import com.fantasy.goliath.model.UserDetails
 import com.fantasy.goliath.utility.Constants.KEY_ACCESS_TOKEN
+import com.fantasy.goliath.utility.Constants.KEY_USER_NAME
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -22,11 +24,11 @@ class PreferenceManager(context: Context) {
         return sharedPreferences
     }
 
-    fun getLoginData(): LoginResponse? {
+    fun getLoginData(): UserDetails? {
         val json: String = sharedPreferences.getString(Constants.KEY_LOGIN_DATA, null).toString()
         val gson = Gson()
-        val type: Type = object : TypeToken<LoginResponse>() {}.getType()
-        val beans: LoginResponse = try {
+        val type: Type = object : TypeToken<UserDetails>() {}.getType()
+        val beans: UserDetails = try {
             gson.fromJson(json, type)
         } catch (e: Exception) {
             return null
@@ -34,7 +36,7 @@ class PreferenceManager(context: Context) {
         return beans
     }
 
-    fun setLoginData(beans: LoginResponse?) {
+    fun setLoginData(beans: UserDetails?) {
         val gson = Gson()
         val json: String = gson.toJson(beans)
 
@@ -55,6 +57,14 @@ class PreferenceManager(context: Context) {
 
     fun getAuthToken(): String {
         return sharedPreferences.getString(KEY_ACCESS_TOKEN, "").toString()
+    }
+    fun saveUserName(value: String?) {
+        editor.putString(KEY_USER_NAME, value)
+        editor.apply()
+    }
+
+    fun getUserName(): String {
+        return sharedPreferences.getString(KEY_USER_NAME, "").toString()
     }
 
     fun getString(key: String): String {

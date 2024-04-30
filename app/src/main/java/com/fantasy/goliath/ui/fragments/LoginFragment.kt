@@ -2,18 +2,22 @@ package com.fantasy.goliath.ui.fragments
 
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
+import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.FragmentLoginBinding
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.utility.Constants
+import com.fantasy.goliath.utility.Debouncer
 import com.fantasy.goliath.utility.isNetworkConnected
 
 import com.fantasy.goliath.utility.showOTPDialogBottom
@@ -38,21 +42,26 @@ class LoginFragment : BaseFragment() {
     var isLogin = false
     var isForgotPassword = false
     private var firebase_token = ""
-    private var email = ""
+    var inputType = ""
+    var country_code = ""
+    var emailMobile = ""
+    var email = ""
+    var mobile = ""
 
     var cardId = ""
-    lateinit var stripKey:String
-    lateinit var customerStripId:String
+    lateinit var stripKey: String
+    lateinit var customerStripId: String
 
-    lateinit var loginResponse: LoginResponse
-    lateinit var mContext:Context
+
+    lateinit var mContext: Context
     lateinit var pgBar: ProgressBar
     lateinit var btnSubmit: Button
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        mContext=requireActivity()
+        mContext = requireActivity()
 
 
         binding.let {
@@ -70,15 +79,46 @@ class LoginFragment : BaseFragment() {
 
     private fun initView() {
 
+        val debouncer = Debouncer(100)
+        binding.ediEmail.doOnTextChanged { text, _, _, _ ->
 
+            email = text.toString()
+            inputType = if (!TextUtils.isEmpty(email) ) {
+                "email"
+            }else ""
+            debouncer.debounce {
+                if (binding.ediPhone.text.toString().trim().length > 0) {
+                    binding.ediPhone.setText("")
+                    binding.ediPhone.clearFocus()
+                    inputType = "email"
+                }
+            }
+        }
+        binding.ediPhone.doOnTextChanged { text, _, _, _ ->
+            mobile = text.toString()
+            inputType =if (!TextUtils.isEmpty(mobile) ) {
+                "phone"
+            } else {
+                ""
+            }
+            debouncer.debounce {
+                if (binding.ediEmail.text.toString().trim().length > 0) {
+                    binding.ediEmail.setText("")
+                    binding.ediEmail.clearFocus()
+                    inputType = "phone"
+                }
+            }
+        }
     }
 
 
     private fun clickListener() {
         binding.btnSubmit.setOnClickListener() {
-            isForgotPassword=false
-            showOTPDialogBottom(mContext,true,{ type, otp, dialog -> onOTPVerified(type, otp, dialog) })
-
+            isForgotPassword = false
+            showOTPDialogBottom(
+                mContext,
+                true,
+                { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
 
 
         }
@@ -86,129 +126,104 @@ class LoginFragment : BaseFragment() {
             addFragmentToBackStack(SignupFragment())
 
         }
-       /* binding.btnLogin.setOnClickListener() {
-            isLogin = true
-            if (binding.edEmail.text.isEmpty()) {
-                showToast(mContext, getString(R.string.enter_email_address))
-                binding.edEmail.requestFocus()
-            } else if (!utilsManager.isValidEmailId(binding.edEmail.text.toString())) {
-                showToast(mContext, getString(R.string.enter_valid_email_address))
-                binding.edEmail.requestFocus()
-            } else if (binding.edPassword.text.isEmpty()) {
-                showToast(mContext, getString(R.string.enter_password))
-                binding.edPassword.requestFocus()
-            } else {
-                email=binding.edEmail.text.toString()
-                binding.edEmail.clearFocus()
-                binding.edPassword.clearFocus()
-                isLogin=true
-                callLoginAPI()
-            }
+         binding.btnSubmit.setOnClickListener() {
+
+             if (TextUtils.isEmpty(inputType)) {
+                 showToast(mContext, getString(R.string.enter_email_or_mobile))
+                 binding.ediEmail.requestFocus()
+             }else if (inputType.equals("email")&&binding.ediEmail.text.toString().isEmpty()) {
+                 showToast(mContext, getString(R.string.enter_email_address))
+                 binding.ediEmail.requestFocus()
+             } else if (inputType.equals("email")&&!utilsManager.isValidEmailId(binding.ediEmail.text.toString())) {
+                 showToast(mContext, getString(R.string.enter_valid_email_address))
+                 binding.ediEmail.requestFocus()
+             } else if (inputType.equals("phone")&&binding.ediPhone.text.toString().isEmpty()) {
+                 showToast(mContext, getString(R.string.enter_phone_number))
+                 binding.ediPhone.requestFocus()
+             }else if (inputType.equals("phone")&&binding.ediPhone.text!!.length < 4) {
+                 showToast(mContext, getString(R.string.enter_valid_phone_number))
+                 binding.ediPhone.requestFocus()
+             }  else {
+
+                 emailMobile=if (!TextUtils.isEmpty(binding.ediPhone.text.toString())) binding.ediPhone.text.toString() else binding.ediEmail.text.toString()
+                 binding.ediPhone.clearFocus()
+                 binding.ediEmail.clearFocus()
+                 isLogin=true
+                 country_code = binding.countryPickerView.selectedCountryCode.toString()
+                 if (!country_code.contains("+")) {
+                     country_code = "+" + country_code
+                 }
+                 callLoginAPI()
+             }
 
 
-        }
-        binding.tvForgotPassword.setOnClickListener() {
-            isLogin = false
-            showForgotPasswordBottomSheet()
+         }
 
 
-        }
-        */
+         binding.tvSignUp.setOnClickListener() {
+             addFragmentToBackStack(SignupFragment())
 
-       /* binding.tvSignUp.setOnClickListener() {
-            startActivity(Intent(mContext, SignupFragment::class.java))
-
-        }*/
+         }
 
     }
 
     // and displays on the screen
     private fun getFirebaseRegId() {
-      /*  FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w("TAG", "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            } else {
-                firebase_token = task.result
-                printLog("firebase_token", firebase_token.toString())
-                // Get new FCM registration token
-            }
-        })*/
+        /*  FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+              if (!task.isSuccessful) {
+                  Log.w("TAG", "Fetching FCM registration token failed", task.exception)
+                  return@OnCompleteListener
+              } else {
+                  firebase_token = task.result
+                  printLog("firebase_token", firebase_token.toString())
+                  // Get new FCM registration token
+              }
+          })*/
     }
 
     private fun callLoginAPI() {
-     /*   if (utilsManager.isNetworkConnected()) {
-            viewModal.getLogInData(
-                mContext,
-                binding.edEmail.text.toString(),
-                binding.edPassword.text.toString(),
-                firebase_token
-            ).observe(this,
-                Observer { res ->
-                    showToast(mContext, res.message)
-                    loginResponse=res
-                    if (res.status) {
+          if (utilsManager.isNetworkConnected()) {
 
-                        preferenceManager.setLoginData(res)
-                        preferenceManager.saveAuthToken("${loginResponse.token_type} ${loginResponse.access_token}")
-                        if (TextUtils.isEmpty(loginResponse.user.email_verified_at)||loginResponse.user.email_verified_at.equals("0")) {
-                            utilsManager.showOTPDialogBottom(
-                                mContext, true,
-                                { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
-                        }else if (loginResponse.user.is_payment.equals("1")) {
-                            moveNextScreen()
-                        }else{
-                            callPlanListAPI()
-                        }
+               viewModal.callLogin(
+                   mContext,
+                   emailMobile,
+                   country_code,
+                   "login",
+                   firebase_token
+               ).observe(viewLifecycleOwner,
+                   Observer { res ->
+                       showToast(mContext, res.message)
 
+                       if (isLogin) {
+                           if (res.status) {
 
-                    }else{
-                        if (res.message.equals("Please verify your email.",true)){
-                            utilsManager.showOTPDialogBottom(
-                                mContext, true,
-                                { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
-                        }
+                                   showOTPDialogBottom(
+                                       mContext, true,
+                                       { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
 
-                    }
+                           }
+                       }
 
-                })
-        }*/
+                   })
+           }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     private fun moveNextScreen() {
 
         preferenceManager.saveBoolean(Constants.KEY_CHECK_LOGIN, true)
-        addFragmentToBackStack( RewardGuideFragment())
+        addFragmentToBackStack(RewardGuideFragment())
 
     }
 
 
-
-
-
-
     private fun onOTPVerified(type: String, otp: String, dialog: BottomSheetDialog) {
         dialogVerify = dialog
-
         if (type.equals("resend")) {
-          //  callRequestOTPAPI()
+            isLogin=false
+             callLoginAPI()
         } else {
-            dialogVerify.dismiss()
-           moveNextScreen()
-           // callVerifyOTPAPI(otp)
+             callVerifyOTPAPI(otp)
         }
 
     }
@@ -217,49 +232,22 @@ class LoginFragment : BaseFragment() {
         if (isNetworkConnected(requireActivity())) {
             viewModal.verifyUser(
                 mContext,
-                email,
-                otp
-            ).observe(this, androidx.lifecycle.Observer { res ->
+                emailMobile,
+                country_code,
+                otp,firebase_token
+            ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
                 showToast(mContext, res.message)
                 if (res.status) {
-                    if (isLogin){
 
-                        loginResponse = res
-                        preferenceManager.saveAuthToken("${loginResponse.token_type} ${loginResponse.access_token}")
-                        loginResponse.user.email_verified_at="1"
-                        preferenceManager.setLoginData(loginResponse)
-                        if (loginResponse.user.is_payment.equals("1")) {
+                        preferenceManager.saveAuthToken("${res.data.token_type} ${res.data.access_token}")
+                    preferenceManager.saveUserName(res.data.user.full_name)
+                        preferenceManager.setLoginData(res.data.user)
+
                             dialogVerify.dismiss()
                             moveNextScreen()
-                        }
-                    }else{
-
-                        dialogVerify.dismiss()
-                    }
-
-
 
                 }
 
-            })
-        }
-    }
-
-    private fun callRequestOTPAPI() {
-        if (isNetworkConnected(requireActivity())) {
-            viewModal.requestOTP(
-                mContext,
-                email,
-            ).observe(this, androidx.lifecycle.Observer { res ->
-                showToast(mContext, res.message)
-                if (res.status) {
-                    if (isForgotPassword) {
-                        showOTPDialogBottom(
-                            mContext, true,
-                            { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
-
-                    }
-                }
             })
         }
     }

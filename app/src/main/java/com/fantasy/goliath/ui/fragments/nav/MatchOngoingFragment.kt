@@ -1,4 +1,4 @@
-package com.fantasy.goliath.ui.fragments
+package com.fantasy.goliath.ui.fragments.nav
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,21 +10,23 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.FragmentMatchHistoryBinding
+import com.fantasy.goliath.model.LoginData
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.MatchDataItem
+import com.fantasy.goliath.model.UserDetails
 import com.fantasy.goliath.ui.adapter.MatchItemAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.utility.PreferenceManager
 import com.fantasy.goliath.utility.UtilsManager
 import com.fantasy.goliath.viewmodal.HomeViewModel
 
-class MatchHistoryFragment : BaseFragment() {
+class MatchOngoingFragment : BaseFragment() {
 
     companion object {
-        fun newInstance(from: String ): MatchHistoryFragment {
+        fun newInstance(from: String ): MatchOngoingFragment {
             val args = Bundle()
             args.putString("from", from)
-            val fragment = MatchHistoryFragment()
+            val fragment = MatchOngoingFragment()
             fragment.arguments = args
             return fragment
         }
@@ -34,7 +36,7 @@ class MatchHistoryFragment : BaseFragment() {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         FragmentMatchHistoryBinding.inflate(layoutInflater)
     }
-    lateinit var loginResponse: LoginResponse
+
 
     lateinit var adapter: MatchItemAdapter
     var dataList = mutableListOf<MatchDataItem>()
@@ -63,9 +65,9 @@ class MatchHistoryFragment : BaseFragment() {
     }
 
     private fun initView() {
-        binding.viewMainHeader.toolbarTab.isVisible=false
-        binding.viewHeader.isVisible=true
-        binding.viewHeader.setTitle( requireActivity().getString(R.string.matches_history))
+        binding.viewMainHeader.toolbarTab.isVisible=true
+        binding.viewHeader.isVisible=false
+        //binding.viewHeader.setTitle( requireActivity().getString(R.string.matches_history))
         dataList.clear()
 
         dataList.add(MatchDataItem("GT","CSK","T20"))

@@ -14,7 +14,7 @@
         android:layout_above="@+id/btnSubmit"
 
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/list_transaction_item" />
+        tools:listitem="@layout/list_match_item" />
 
     <TextView
         android:id="@+id/tvMessage"

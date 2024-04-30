@@ -23,6 +23,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import android.Manifest
 import com.fantasy.goliath.ui.fragments.nav.AwardFragment
+import com.fantasy.goliath.ui.fragments.nav.MatchOngoingFragment
 import com.fantasy.goliath.ui.fragments.nav.ProfileFragment
 import com.fantasy.goliath.utility.PreferenceManager
 import com.fantasy.goliath.utility.hideKeyboard
@@ -132,10 +133,10 @@ open class BaseActivity : AppCompatActivity() {
             topFragment = supportFragmentManager.fragments.lastOrNull()?.tag.toString().trim()
         }
         val willVisible = topFragment.isNotBlank() && supportFragmentManager.backStackEntryCount < 1 &&
-                (topFragment == HomeFragment::class.java.simpleName.toString()
-            .trim()  || topFragment == AwardFragment::class.java.simpleName.toString()
-            .trim() || topFragment == ProfileFragment::class.java.simpleName.toString()
-            .trim() )
+                (topFragment == HomeFragment::class.java.simpleName.toString().trim()
+              || topFragment == AwardFragment::class.java.simpleName.toString().trim()
+              || topFragment == MatchOngoingFragment::class.java.simpleName.toString().trim()
+             || topFragment == ProfileFragment::class.java.simpleName.toString().trim() )
      //   printLog("topFragment",topFragment.toString())
       //  printLog("willVisible",willVisible.toString())
         willBottomNavVisible(willVisible)
@@ -160,8 +161,8 @@ open class BaseActivity : AppCompatActivity() {
 
     private fun handleOnBackPressedCall() {
         hideKeyboard()
-        printLog("havingFragments",havingFragments.toString())
-        printLog("minimumBackStackCount",minimumBackStackCount.toString())
+      //  printLog("havingFragments",havingFragments.toString())
+      //  printLog("minimumBackStackCount",minimumBackStackCount.toString())
         if (havingFragments) {
             if (supportFragmentManager.backStackEntryCount > minimumBackStackCount) {
                 supportFragmentManager.popBackStackImmediate()

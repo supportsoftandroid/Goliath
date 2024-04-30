@@ -111,9 +111,10 @@ const val LAYOUT_USER = 5
 const val LAYOUT_PODS = 6
 val PERMISSIONSList = getPermission()
 val PERMISSIONS_CAMERA_STORAGE_LIST = getCameraStoragePermission()
-private const val expression =
+  const val expression =
     "(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=player_embedded&v=|%2Fvideos%2F|embed%\u200C\u200B2F|youtu.be%2F|%2Fv%2F)[^#\\&\\?\\n]*"
-
+const val EMAIL_PATTERN = ("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@"
+        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
 /*  val  regex =("^[+]{1}(?:[0-9\\-\\(\\)\\/"
   "\\.]\\s?){6, 15}[0-9]{1}$");*/
 fun getTimeZoneId(): String {
@@ -153,6 +154,22 @@ fun getPermission(): Array<String> {
     }
 
     return permissionList.toTypedArray()
+}
+fun isValidEmailId(target: String?): Boolean {
+    return target != null && Pattern.compile(EMAIL_PATTERN).matcher(
+        target
+    ).matches()
+}
+fun getNumberFromString(text: String): String {
+    // var string = "vsdhfnmsdbvfuf121535435aewr"
+      if (isValidEmailId(text)){
+        return ""
+      }else{
+        printLog("result", text.filter { it.isDigit() })
+       return text.filter { it.isDigit() }
+    }
+
+
 }
 
 fun getCameraStoragePermission(): Array<String> {
@@ -480,6 +497,11 @@ fun Context.loadImage(url: String,imageView: ImageView) =  Glide.with(this)
     .load(url)
     .placeholder(R.drawable.ic_loading)
     .error(R.drawable.ic_logo)
+    .into(imageView)
+fun Context.loadProfileImage(url: String,imageView: ImageView) =  Glide.with(this)
+    .load(url)
+    .placeholder(R.drawable.ic_loading)
+    .error(R.drawable.dummy_profile)
     .into(imageView)
 
 

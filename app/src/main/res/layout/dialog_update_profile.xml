@@ -143,7 +143,7 @@
                 android:layout_weight="0.7"
                 android:fontFamily="@font/visby_medium"
 
-                android:hint="@string/enter_mobile_number"
+                android:hint="@string/enter_phone_number"
                 android:textColorHint="@color/colorA6A6AF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

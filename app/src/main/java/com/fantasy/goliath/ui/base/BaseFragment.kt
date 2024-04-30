@@ -18,6 +18,7 @@ import com.fantasy.goliath.ui.fragments.WalletDetailsFragment
 import com.fantasy.goliath.utility.PreferenceManager
 import com.fantasy.goliath.utility.UtilsManager
 import com.fantasy.goliath.utility.loadImage
+import com.fantasy.goliath.utility.loadProfileImage
 import com.fantasy.goliath.utility.showAlertDialogMessageError
 import com.fantasy.goliath.utility.showAlertMessageError
 
@@ -88,6 +89,7 @@ open class BaseFragment : Fragment(), MyToolBar.MyToolBarListener {
     fun showErrorToast(msg: String) = activity.showErrorToast(msg)
     fun showErrorToast(msgResId: Int) = activity.showErrorToast(getString(msgResId))
     fun loadImage(url: String,imageView: ImageView) = activity.loadImage(url,imageView)
+    fun loadProfileImage(url: String,imageView: ImageView) = activity.loadProfileImage(url,imageView)
     fun showAlertMessageError(msg: String) = activity.showAlertDialogMessageError(msg)
 
 

@@ -55,8 +55,6 @@
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-
                 android:hint="@string/enter_your_email"
                 android:paddingVertical="@dimen/dp_5"
                 android:textColorHint="@color/textPlaceHolder"
@@ -69,11 +67,8 @@
                     style="@style/AppTextInputEditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-                    android:imeOptions="actionNext"
-
+                    android:imeOptions="actionDone"
                     android:inputType="textEmailAddress"
-
                     android:singleLine="true"
 
                     />
@@ -104,6 +99,7 @@
                 android:layout_marginTop="@dimen/dp_15"
                 android:orientation="horizontal"
                 android:weightSum="1"
+                android:background="@color/colorWhite"
                 app:layout_constraintTop_toBottomOf="@+id/tvOr"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -115,7 +111,7 @@
                     android:paddingVertical="@dimen/dp_8"
                     android:textSize="@dimen/sp_16"
                     android:gravity="center_vertical"
-                    android:background="@drawable/border_layout_global_radius_5"
+
                     app:ccp_arrowSize="@dimen/dp_20"
                     app:ccp_autoDetectCountry="true"
                     app:ccp_contentColor="@color/colorText"
@@ -146,15 +142,11 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="-2.5dp"
-                    android:layout_marginBottom="@dimen/dp_5"
-
                     android:layout_weight="0.7"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/visby_medium"
-
-                    android:hint="@string/enter_mobile_number"
+                    android:hint="@string/enter_phone_number"
                     android:textColorHint="@color/colorA6A6AF"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/viewBorder"
@@ -165,9 +157,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/ediPhone"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         style="@style/AppTextInputEditTextTheme"
-
                         android:imeOptions="actionDone"
                         android:inputType="number"
                         android:maxLength="13"

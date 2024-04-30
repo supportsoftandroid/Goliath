@@ -1,59 +1,64 @@
 package com.fantasy.goliath.viewmodal
 
 import android.content.Context
+import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.fantasy.goliath.model.CardResponse
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.network.repository.AuthRepository
 import com.fantasy.goliath.network.repository.StripCardRepository
+import com.fantasy.goliath.utility.getNumberFromString
 import com.google.gson.JsonObject
 
 
 class LoginViewModel : ViewModel() {
 
-    fun getLogInData(
+    fun callLogin(
         context: Context,
-        mobile: String,
-        password: String,
-
+        mobileEmail: String,
+        country_code: String,
+        type: String,
         device_token: String
     ): LiveData<LoginResponse> {
-       return AuthRepository(context).userLogin(mobile, password, device_token)
+        val jsonObject=JsonObject()
+
+        val mobile= getNumberFromString(mobileEmail)
+
+        if (!TextUtils.isEmpty(mobile)) {
+            jsonObject.addProperty("country_code", country_code)
+            jsonObject.addProperty("phone", mobileEmail)
+        }else{
+            jsonObject.addProperty("email", mobileEmail)
+        }
+
+        jsonObject.addProperty("type", type)
+        jsonObject.addProperty("device_token", device_token)
+       return AuthRepository(context).loginSignup( jsonObject)
 
     }
 
 
-    fun addCard(
-        context: Context,
-        authToken: String,
-        customer_id: String,
-        card_id: String,
-        strName: String
-    ): LiveData<CardResponse> {
-        return StripCardRepository(context).addCard(authToken, customer_id, card_id, strName)
-
-    }
 
 
 
-    fun verifyUser(context: Context, email: String, otp: String): LiveData<LoginResponse> {
+    fun verifyUser(context: Context, mobileEmail: String,  country_code: String, otp: String, device_token: String): LiveData<LoginResponse> {
         val jsonObject = JsonObject()
-        // val jsonString = Gson().toJson(userDetails)  // json string
-        jsonObject.addProperty("email", email)
+        val mobile= getNumberFromString(mobileEmail)
+        if (!TextUtils.isEmpty(mobile)) {
+            jsonObject.addProperty("country_code", country_code)
+            jsonObject.addProperty("phone", mobileEmail)
+        }else{
+            jsonObject.addProperty("email", mobileEmail)
+        }
+
         jsonObject.addProperty("otp", otp)
+        jsonObject.addProperty("device_token", device_token)
+
 
       return AuthRepository(context).verifyOTP(jsonObject)
 
     }
 
-    fun requestOTP(context: Context, email: String): LiveData<LoginResponse> {
-       return AuthRepository(context).requestOTP(email, "forgot")
 
-    }
-
-    fun resetPassword(context: Context, email: String, password: String): LiveData<LoginResponse> {
-       return AuthRepository(context).resetPassword(email, password)
-
-    }
 }

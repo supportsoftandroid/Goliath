@@ -31,7 +31,8 @@
     <string name="please_enter_card_holder_name">Please enter card holder name</string>
     <string name="get_otp">Get OTP</string>
     <string name="or">Or</string>
-    <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="enter_phone_number">Enter Phone Number</string>
+    <string name="enter_valid_phone_number">Enter valid 4 to 12 digit phone number</string>
     <string name="enter_your_email">Enter Your Email</string>
     <string name="get_otp_for_sign_up">Get OTP for Sign up</string>
     <string name="get_started">Get Started</string>
@@ -117,5 +118,11 @@
     <string name="next">Next</string>
     <string name="enter_the_otp_sent_to_91_987654321">Enter the OTP sent to +91 987654321</string>
     <string name="enter_the_otp_sent_to">Enter the OTP sent to </string>
+    <string name="enter_email_address">Please enter email</string>
+    <string name="enter_email_or_mobile">Please enter email or mobile number</string>
+    <string name="enter_valid_email_address">Please enter valid email</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="most_played">Most Played</string>
+    <string name="winnings">Winnings</string>
 
 </resources>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,7 +52,7 @@ class AwardFragment : BaseFragment() {
         }*/
         binding.viewHeader.imgMenu2.setOnClickListener() {
 
-            MainActivity.hideNavigationTab()
+
             addFragmentToBackStack(
 
                 NotificationsFragment()
@@ -63,6 +64,7 @@ class AwardFragment : BaseFragment() {
 
     private fun initView() {
         binding.viewHeader.txtTitle.text=requireActivity().getString(R.string.leaderboard)
+        binding.viewHeader.imgProfile.isVisible=false
         dataList.clear()
 
 
@@ -116,7 +118,11 @@ class AwardFragment : BaseFragment() {
 
         }
     }
-
+    private fun setUserUIData() {
+        val userDetails = preferenceManager.getLoginData()!!
+        binding.viewHeader.txtTitle.text = "Hi,${userDetails?.full_name.toString()}"
+        loadProfileImage(userDetails?.avatar_full_path.toString(), binding.viewHeader.imgProfile)
+    }
     private fun onAdapterClick(pos: Int, type: String) {
 
     }

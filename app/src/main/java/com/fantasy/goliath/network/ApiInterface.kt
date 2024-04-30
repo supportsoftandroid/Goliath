@@ -13,24 +13,10 @@ public interface ApiInterface {
 
 
     @Headers(Constants.ACCEPT_JSON_HEADER)
-    @POST(Constants.API_SIGNUP)
-    fun signUp(
+    @POST(Constants.API_SEND_OTP)
+    fun loginSignupSendOTP(
         @Body body: JsonObject
     ): Call<LoginResponse>
-
-    @Headers(Constants.ACCEPT_JSON_HEADER)
-    @POST(Constants.API_LOGIN)
-    fun userLogin(
-        @Body body: JsonObject
-    ): Call<LoginResponse>
-
-
-    @Headers(Constants.ACCEPT_JSON_HEADER)
-    @POST(Constants.API_REQUEST_OTP)
-    fun request_otp(
-        @Body email: JsonObject
-    ): Call<LoginResponse>
-
     @Headers(Constants.ACCEPT_JSON_HEADER)
     @POST(Constants.API_VERIFY_OTP)
     fun verify_otp(

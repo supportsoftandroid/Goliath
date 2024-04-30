@@ -18,6 +18,7 @@ import com.fantasy.goliath.databinding.ListCommonItemBinding
 import com.fantasy.goliath.databinding.ListOverStatusItemBinding
 import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.LoginResponse
+import com.fantasy.goliath.model.UserDetails
 import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.activities.StaticPagesActivity
 import com.fantasy.goliath.ui.adapter.ProfileAdapter
@@ -42,7 +43,7 @@ class ProfileFragment : BaseFragment() {
     var dataList = mutableListOf<CommonDataItem>()
     var dataListOther = mutableListOf<CommonDataItem>()
 
-    private lateinit var loginResponse: LoginResponse
+    private lateinit var userDetails: UserDetails
     lateinit var myAdapter: MyAdapter<CommonDataItem>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -50,6 +51,7 @@ class ProfileFragment : BaseFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding.let {
+         userDetails=   preferenceManager.getLoginData()!!
             initView()
             clickListener()
         }
@@ -96,9 +98,9 @@ class ProfileFragment : BaseFragment() {
 
     fun initView() {
         binding.viewHeader.txtTitle.text = requireActivity().getString(R.string.my_profile)
-        binding.imgProfile.isVisible=false
+        binding.viewHeader.imgProfile.isVisible=false
 
-        //setProfileData(loginResponse.user)
+         setProfileUIData()
         dataList.clear()
         dataList.add(CommonDataItem("History", "View for matches", false))
         dataList.add(
@@ -121,7 +123,8 @@ class ProfileFragment : BaseFragment() {
         dataListOther.add(CommonDataItem(getString(R.string.privacy_policy), "privacy", false))
         dataListOther.add(CommonDataItem(getString(R.string.help_amp_support), "help", false))
         dataListOther.add(CommonDataItem(getString(R.string.about_us), "about", false))
-        dataListOther.add(CommonDataItem(getString(R.string.terms_amp_conditions), "logout", false))
+        dataListOther.add(CommonDataItem(getString(R.string.logout), "logout", false))
+
 
         myAdapter = MyAdapter(
             R.layout.list_common_item,
@@ -150,6 +153,12 @@ class ProfileFragment : BaseFragment() {
         binding.rvList2.layoutManager = LinearLayoutManager(requireActivity())
         binding.rvList2.adapter = myAdapter
 
+    }
+
+    private fun setProfileUIData() {
+         binding.tvName.setText(userDetails.full_name)
+         binding.tvEmail.setText(userDetails.email)
+        loadProfileImage(userDetails.avatar_full_path,binding.imgProfile)
     }
 
     private fun onAdapterClick(pos: Int, type: String) {

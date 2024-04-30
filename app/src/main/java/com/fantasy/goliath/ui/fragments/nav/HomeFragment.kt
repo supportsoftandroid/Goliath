@@ -33,7 +33,7 @@ class HomeFragment : BaseFragment() {
 
     lateinit var adapter: MatchItemAdapter
     var dataList = mutableListOf<MatchDataItem>()
-    var  type = "upcoming"
+    var type = "upcoming"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -47,31 +47,23 @@ class HomeFragment : BaseFragment() {
         }
 
 
-        return  binding.root
+        return binding.root
     }
+
     private fun clickListener() {
 
         binding.viewHeader.imgProfile.setOnClickListener() {
-
-             MainActivity.navProfileTab()
-
+            MainActivity.navProfileTab()
         }
         binding.viewHeader.imgMenu2.setOnClickListener() {
-
             MainActivity.hideNavigationTab()
-            addFragmentToBackStack(
-
-                NotificationsFragment()
-            )
+            addFragmentToBackStack(NotificationsFragment())
 
         }
         binding.viewHeader.imgMenu1.setOnClickListener() {
 
             MainActivity.hideNavigationTab()
-           addFragmentToBackStack(
-
-                WalletDetailsFragment()
-            )
+            addFragmentToBackStack(WalletDetailsFragment())
 
         }
 
@@ -79,27 +71,52 @@ class HomeFragment : BaseFragment() {
 
     private fun initView() {
         dataList.clear()
+        setUserUIData()
 
-        dataList.add(MatchDataItem("GT","CSK","T20"))
-        dataList.add(MatchDataItem("PBKS","KKR","One day"))
-        dataList.add(MatchDataItem("DC","LSG","T20"))
-        dataList.add(MatchDataItem("SRH","RR","One day"))
-        dataList.add(MatchDataItem("MI","RCB","T20"))
-        adapter = MatchItemAdapter(requireActivity(), dataList, { pos, type -> onAdapterClick(pos, type) })
+        dataList.add(MatchDataItem("GT", "CSK", "T20"))
+        dataList.add(MatchDataItem("PBKS", "KKR", "One day"))
+        dataList.add(MatchDataItem("DC", "LSG", "T20"))
+        dataList.add(MatchDataItem("SRH", "RR", "One day"))
+        dataList.add(MatchDataItem("MI", "RCB", "T20"))
+        adapter = MatchItemAdapter(
+            requireActivity(),
+            dataList,
+            { pos, type -> onAdapterClick(pos, type) })
         binding.viewBody.rvList.layoutManager = LinearLayoutManager(requireActivity())
         binding.viewBody.rvList.adapter = adapter
         binding.rgStatus.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.rbUpcoming -> {
-                    binding.rbUpcoming.setTextColor(ContextCompat.getColor(requireActivity(), R.color.app_color))
-                    binding.rbLive.setTextColor(ContextCompat.getColor(requireActivity(), R.color.textPlaceHolder))
+                    binding.rbUpcoming.setTextColor(
+                        ContextCompat.getColor(
+                            requireActivity(),
+                            R.color.app_color
+                        )
+                    )
+                    binding.rbLive.setTextColor(
+                        ContextCompat.getColor(
+                            requireActivity(),
+                            R.color.textPlaceHolder
+                        )
+                    )
                     type = "upcoming"
                     adapter.updateMatchType(type)
 
                 }
+
                 R.id.rbLive -> {
-                    binding.rbLive.setTextColor(ContextCompat.getColor(requireActivity(), R.color.app_color))
-                    binding.rbUpcoming.setTextColor(ContextCompat.getColor(requireActivity(), R.color.textPlaceHolder))
+                    binding.rbLive.setTextColor(
+                        ContextCompat.getColor(
+                            requireActivity(),
+                            R.color.app_color
+                        )
+                    )
+                    binding.rbUpcoming.setTextColor(
+                        ContextCompat.getColor(
+                            requireActivity(),
+                            R.color.textPlaceHolder
+                        )
+                    )
                     type = "live"
                     adapter.updateMatchType(type)
 
@@ -109,6 +126,12 @@ class HomeFragment : BaseFragment() {
         }
 
 
+    }
+
+    private fun setUserUIData() {
+        val userDetails = preferenceManager.getLoginData()!!
+        binding.viewHeader.txtTitle.text = "Hi,${userDetails?.full_name.toString()}"
+        loadProfileImage(userDetails?.avatar_full_path.toString(), binding.viewHeader.imgProfile)
     }
 
     private fun onAdapterClick(pos: Int, type: String) {

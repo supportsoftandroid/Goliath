@@ -6,32 +6,43 @@
     android:layout_height="match_parent"
     android:background="@color/colorAppBg"
     tools:context=".ui.fragments.nav.HomeFragment">
+
     <ImageView
         android:id="@+id/imgGradient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_gradient_header"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/viewMainHeader"
+        layout="@layout/layout_toolbar_tab"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.fantasy.goliath.ui.components.MyToolBar
         android:id="@+id/viewHeader"
         android:layout_width="0dp"
-        app:show_team_icon="false"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/viewMainHeader"
+        app:show_team_icon="false" />
 
     <RadioGroup
         android:id="@+id/rgStatus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_20"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        android:visibility="gone"
         android:background="@color/colorWhite"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewHeader">
@@ -58,10 +69,10 @@
             android:layout_width="@dimen/dp_1"
             android:layout_height="@dimen/dp_25"
 
-            android:background="@color/colorGray"
-
-            android:button="@null"
             android:layout_gravity="center_vertical"
+
+            android:background="@color/colorGray"
+            android:button="@null"
             android:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:inputType="text"
@@ -70,6 +81,7 @@
             android:textAllCaps="true"
             android:textColor="@color/textPlaceHolder"
             android:textSize="@dimen/sp_16" />
+
         <RadioButton
             android:id="@+id/rbLive"
             android:layout_width="@dimen/dp_0"
@@ -93,11 +105,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingHorizontal="@dimen/dp_20"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="@dimen/dp_15"
+        android:paddingHorizontal="@dimen/dp_15"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-     app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rgStatus">
 
 
@@ -110,8 +122,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

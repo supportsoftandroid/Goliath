@@ -18,7 +18,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AuthRepository(
+class RemoteRepository(
     mContext: Context,
 ) {
 
@@ -40,12 +40,6 @@ class AuthRepository(
 
 
 
-    fun verifyOTP(jsonObject: JsonObject): MutableLiveData<LoginResponse> {
-        jsonObject.addProperty("device_type", Constants.DEVICE_TYPE)
-        val call = RetrofitClient.apiInterface.verify_otp(jsonObject)
-        setProgressDialog()
-        return callAPIService(call);
-    }
 
 
 

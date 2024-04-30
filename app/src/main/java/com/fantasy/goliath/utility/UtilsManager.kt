@@ -31,16 +31,13 @@ import java.net.URLDecoder
 import java.util.regex.Pattern
 
 /**
- * Created by Shoukin Choudhary 9166900279  on 19/04/2023.
+ * Created by Shoukin Choudhary 9166900279  on 19/04/2024.
  */
 class UtilsManager(private val context: Context) {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
-    companion object {
-        private const val EMAIL_PATTERN = ("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@"
-                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
-    }
+
 
     fun dpToPx(dp: Int): Int {
         val r = context.resources

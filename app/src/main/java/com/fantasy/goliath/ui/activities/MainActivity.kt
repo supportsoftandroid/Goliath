@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
+
 
 import androidx.core.view.isVisible
 import com.fantasy.goliath.R
@@ -12,15 +12,13 @@ import com.fantasy.goliath.databinding.ActivityMainBinding
 import com.fantasy.goliath.ui.base.BaseActivity
 import com.fantasy.goliath.ui.fragments.nav.AwardFragment
 import com.fantasy.goliath.ui.fragments.nav.HomeFragment
+import com.fantasy.goliath.ui.fragments.nav.MatchOngoingFragment
 import com.fantasy.goliath.ui.fragments.nav.ProfileFragment
 
 import com.fantasy.goliath.utility.adjustFontScale
-import com.fantasy.goliath.utility.changeStatusBarColor
-import com.fantasy.goliath.utility.showToast
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+
 
 class MainActivity : BaseActivity() {
     companion object {
@@ -82,7 +80,7 @@ class MainActivity : BaseActivity() {
                     return@setOnItemSelectedListener true
                 }
                 R.id.nav_result -> {
-                    replaceFragment( AwardFragment())
+                    replaceFragment( MatchOngoingFragment())
                     return@setOnItemSelectedListener true
                 }
                 R.id.nav_profile -> {

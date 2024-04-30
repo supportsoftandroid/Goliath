@@ -53,7 +53,7 @@
 
                 android:hint="@string/enter_your_name"
                 android:paddingVertical="@dimen/dp_5"
-                android:background="@color/colorWhite"
+
                 android:textColorHint="@color/textPlaceHolder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -92,10 +92,12 @@
                     style="@style/AppTextInputEditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:imeOptions="actionNext"
-                    android:background="@color/colorWhite"
                     android:inputType="textEmailAddress"
+                    android:editable="false"
+                    android:focusable="false"
+                    app:drawableTint="@color/app_color"
+                    android:drawableEnd="@drawable/ic_edit"
 
                     android:singleLine="true"
 
@@ -123,6 +125,7 @@
                     android:layout_height="wrap_content"
 
                     android:layout_marginBottom="@dimen/dp_0"
+                    android:focusable="false"
 
                     android:background="@drawable/border_layout_global_radius_5"
                     android:gravity="center_vertical"
@@ -165,7 +168,7 @@
                     android:layout_weight="0.7"
                     android:fontFamily="@font/visby_medium"
 
-                    android:hint="@string/enter_mobile_number"
+                    android:hint="@string/enter_phone_number"
                     android:textColorHint="@color/colorA6A6AF"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -176,11 +179,14 @@
                         android:id="@+id/ediPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:imeOptions="actionNext"
                         android:inputType="number"
                         android:maxLength="13"
                         android:singleLine="true"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:drawableEnd="@drawable/ic_edit"
+                        app:drawableTint="@color/app_color"
                         android:textColorHint="@color/colorA6A6AF"
                         android:textSize="@dimen/sp_16" />
 
