@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/tvLeft"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_20"
         android:fontFamily="@font/visby_bold"
@@ -49,13 +49,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/imgLeft"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.35"
 
 
         />
 
     <TextView
         android:id="@+id/tvLeftFullName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
 
         android:fontFamily="@font/visby_regular"
@@ -70,7 +71,7 @@
         app:layout_constraintStart_toEndOf="@id/imgLeft"
         app:layout_constraintTop_toBottomOf="@id/tvLeft"
 
-
+        app:layout_constraintWidth_percent="0.35"
         />
 
 
@@ -105,11 +106,12 @@
 
     <ImageView
         android:id="@+id/imgVs"
-        android:layout_width="wrap_content"
+        android:layout_width="55dp"
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_vs"
         android:visibility="gone"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,6 +141,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_10"
         android:visibility="gone"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -219,13 +222,16 @@
 
     <TextView
         android:id="@+id/tvRight"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_20"
+        android:layout_marginStart="@dimen/dp_5"
         android:fontFamily="@font/visby_bold"
         android:padding="@dimen/dp_5"
+
         android:src="@drawable/ic_team_gujrat_titan"
         android:text="PBKS"
+        android:gravity="end"
         android:textAllCaps="true"
         android:textColor="@color/colorText"
         android:textStyle="bold"
@@ -234,18 +240,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/imgRight"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvLeft"
+
 
         />
 
     <TextView
         android:id="@+id/tvRightFullName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_5"
 
         android:fontFamily="@font/visby_regular"
         android:padding="@dimen/dp_5"
         android:src="@drawable/ic_team_gujrat_titan"
         android:text="Gujarat Titans"
+        android:gravity="end"
 
         android:textColor="@color/colorText"
         android:textSize="@dimen/sp_10"
@@ -253,7 +263,7 @@
 
         app:layout_constraintEnd_toStartOf="@id/imgRight"
         app:layout_constraintTop_toBottomOf="@id/tvRight"
-
+        app:layout_constraintStart_toEndOf="@+id/tvLeft"
 
         />
 

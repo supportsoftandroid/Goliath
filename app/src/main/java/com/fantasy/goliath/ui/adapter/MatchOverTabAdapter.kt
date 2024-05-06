@@ -8,15 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.ListTabOverItemBinding
 import com.fantasy.goliath.model.CommonDataItem
+import com.fantasy.goliath.model.OverItem
 
 
 class MatchOverTabAdapter(
     mContext: Context,
-    dataItem: MutableList<CommonDataItem>,
+    dataItem: ArrayList<OverItem>,
     val listenerClick: (Int, String) -> Unit
 ) :
     RecyclerView.Adapter<MatchOverTabAdapter.MainViewHolder>() {
-    var dataList = mutableListOf<CommonDataItem>()
+    var dataList = arrayListOf<OverItem>()
 
 
     var mContext: Context
@@ -38,7 +39,7 @@ class MatchOverTabAdapter(
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
         holder.bind(current)
-        holder.binding.tvTitle.text =current.title
+        holder.binding.tvTitle.text ="Over ${current.over_number}"
         holder.itemView.setOnClickListener {
             selectedPos=position
             listenerClick(position,"")
@@ -75,7 +76,7 @@ class MatchOverTabAdapter(
 
     class MainViewHolder(val binding: ListTabOverItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(modal: CommonDataItem) {
+        fun bind(modal: OverItem) {
             binding.modal = modal
         }
     }

@@ -3,7 +3,12 @@ package com.fantasy.goliath.network.repository
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.fantasy.goliath.R
+import com.fantasy.goliath.model.HowToPlayResponse
 import com.fantasy.goliath.model.LoginResponse
+import com.fantasy.goliath.model.MatchDetailsData
+import com.fantasy.goliath.model.MatchesDetailsRes
+import com.fantasy.goliath.model.MatchesResponse
+import com.fantasy.goliath.model.QuestionListRes
 import com.fantasy.goliath.network.RetrofitClient
 import com.fantasy.goliath.utility.Constants
 import com.fantasy.goliath.utility.Constants.SOMETHING_WENT_WRONG_ERROR
@@ -30,68 +35,73 @@ class RemoteRepository(
         progressDialog = DialogManager(context)
     }
 
-    fun loginSignup(
-        jsonObject: JsonObject ): MutableLiveData<LoginResponse> {
-        jsonObject.addProperty("device_type", Constants.DEVICE_TYPE)
-        val call = RetrofitClient.apiInterface.loginSignupSendOTP(jsonObject)
-        setProgressDialog()
-        return callAPIService(call);
-    }
 
-
-
-
-
-
-
-
-    fun getProfile(
+    fun getHowToPlayList(
         userToken: String,
-        type: String?,
-        imageFilePath: String?
-    ): MutableLiveData<LoginResponse> {
-        var callApiService: Call<LoginResponse>? = null
-        if (type == "get") {
-            callApiService = RetrofitClient.apiInterface.getProfile(userToken)
-            return callAPIService(callApiService)
-        } else {
-            val imageFile: MultipartBody.Part? =
-                imageFilePath?.let { prepareFilePartFromUri("image", it) }
-            callApiService = RetrofitClient.apiInterface.updateProfileImage(
-                userToken,
-                imageFile
-            )
-            return callAPIService(callApiService)
-        }
+    ): MutableLiveData<HowToPlayResponse> {
+        val json = JsonObject()
 
-    }
+        val callApiService = RetrofitClient.apiInterface.how_to_play(
+            userToken, json
 
-    fun updateProfile(
-        userToken: String,
-        name: String,
-        email: String,
-        country_code: String,
-        mobile: String,
-    ): MutableLiveData<LoginResponse> {
-        val jsonObject = JsonObject()
-        jsonObject.addProperty("name", name)
-
-        jsonObject.addProperty("email", email)
-        jsonObject.addProperty("country_code", country_code)
-        jsonObject.addProperty("mobile_number", mobile)
-        val callApiService = RetrofitClient.apiInterface.updateProfile(
-            userToken,
-            jsonObject
         )
-        return callAPIService(callApiService)
+        setProgressDialog()
+        return callHowToPlayAPIService(callApiService)
     }
 
-    fun callAPIService(call: Call<LoginResponse>): MutableLiveData<LoginResponse> {
-        val modelRes = MutableLiveData<LoginResponse>()
+    fun getMatchesList(
+        userToken: String,
+        page: Int,
+        json: JsonObject,
+    ): MutableLiveData<MatchesResponse> {
+        val callApiService = RetrofitClient.apiInterface.getMatchesList(
+            userToken, page, json
+
+        )
+        setProgressDialog()
+        return callMatchAPIService(callApiService)
+    }
+
+    fun getMatchDetails(
+        userToken: String,
+        json: JsonObject,
+    ): MutableLiveData<MatchesDetailsRes> {
+        val callApiService = RetrofitClient.apiInterface.getMatchDetails(
+            userToken, json
+
+        )
+        setProgressDialog()
+        return callMatchDetailsAPIService(callApiService)
+    }
+  fun getQuestionsList(
+        userToken: String,
+        json: JsonObject,
+    ): MutableLiveData<MatchesDetailsRes> {
+        val callApiService = RetrofitClient.apiInterface.getQuestionList(
+            userToken, json
+
+        )
+      setProgressDialog()
+        return callMatchDetailsAPIService(callApiService)
+    }
+    fun saveQuestionsList(
+        userToken: String,
+        json: JsonObject,
+    ): MutableLiveData<MatchesDetailsRes> {
+        val callApiService = RetrofitClient.apiInterface.saveUserPrediction(
+            userToken, json
+
+        )
+        setProgressDialog()
+        return callMatchDetailsAPIService(callApiService)
+    }
+
+    fun callHowToPlayAPIService(call: Call<HowToPlayResponse>): MutableLiveData<HowToPlayResponse> {
+        val modelRes = MutableLiveData<HowToPlayResponse>()
         makeApiCall(call, onSuccess = { data ->
             // Handle successful response
             // data is of type MyData or null
-            val model: LoginResponse? = data
+            val model: HowToPlayResponse? = data
             if (model != null) {
                 modelRes.value = model!!
             }
@@ -105,6 +115,66 @@ class RemoteRepository(
 
 
     }
+
+    fun callMatchAPIService(call: Call<MatchesResponse>): MutableLiveData<MatchesResponse> {
+        val modelRes = MutableLiveData<MatchesResponse>()
+        makeApiCall(call, onSuccess = { data ->
+            // Handle successful response
+            // data is of type MyData or null
+            val model: MatchesResponse? = data
+            if (model != null) {
+                modelRes.value = model!!
+            }
+
+        },
+            onError = { error ->
+                // Handle error
+            })
+
+        return modelRes
+
+
+    }
+
+    fun callMatchDetailsAPIService(call: Call<MatchesDetailsRes>): MutableLiveData<MatchesDetailsRes> {
+        val modelRes = MutableLiveData<MatchesDetailsRes>()
+        makeApiCall(call, onSuccess = { data ->
+            // Handle successful response
+            // data is of type MyData or null
+            val model: MatchesDetailsRes? = data
+            if (model != null) {
+                modelRes.value = model!!
+            }
+
+        },
+            onError = { error ->
+                // Handle error
+            })
+
+        return modelRes
+
+
+    }
+    fun callQuestionListAPIService(call: Call<QuestionListRes>): MutableLiveData<QuestionListRes> {
+        val modelRes = MutableLiveData<QuestionListRes>()
+        makeApiCall(call, onSuccess = { data ->
+            // Handle successful response
+            // data is of type MyData or null
+            val model: QuestionListRes? = data
+            if (model != null) {
+                modelRes.value = model!!
+            }
+
+        },
+            onError = { error ->
+                // Handle error
+            })
+
+        return modelRes
+
+
+    }
+
     fun <T> makeApiCall(call: Call<T>, onSuccess: (T?) -> Unit, onError: (String) -> Unit) {
 
         call.enqueue(object : Callback<T> {
@@ -112,11 +182,11 @@ class RemoteRepository(
                 progressDialog.dismissDialog()
                 if (response.isSuccessful) {
                     onSuccess(response.body())
-                }else if (response.code()==401) {
+                } else if (response.code() == 401) {
                     InvalidSession(context, response.message())
-                }  else {
+                } else {
                     showToast(context, SOMETHING_WENT_WRONG_ERROR)
-                    showToast(context, response.message(),)
+                    showToast(context, response.message())
 
                 }
             }
@@ -128,6 +198,7 @@ class RemoteRepository(
             }
         })
     }
+
     private fun setProgressDialog() {
 
         progressDialog.showProgressDialog(context.getString(R.string.loading))

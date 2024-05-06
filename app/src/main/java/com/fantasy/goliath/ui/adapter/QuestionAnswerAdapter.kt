@@ -3,6 +3,7 @@ package com.fantasy.goliath.ui.adapter
 
 import android.content.Context
 import android.text.Html
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +12,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.ListQuestionAnswerItemBinding
 import com.fantasy.goliath.model.QuestionAnsItem
+import com.fantasy.goliath.utility.printLog
 
 
 class QuestionAnswerAdapter(
     mContext: Context,
-    dataItem: MutableList<QuestionAnsItem>,
+    dataItem: ArrayList<QuestionAnsItem>,
     val listenerClick: (Int, String) -> Unit
 ) :
     RecyclerView.Adapter<QuestionAnswerAdapter.MainViewHolder>() {
-    var dataList = mutableListOf<QuestionAnsItem>()
+    var dataList = arrayListOf<QuestionAnsItem>()
 
 
     var mContext: Context
@@ -40,11 +42,13 @@ class QuestionAnswerAdapter(
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
         holder.bind(current)
-        holder.binding.tvQuestion.text =Html.fromHtml( current.question)
-        holder.binding.tvYourAnswer.text =Html.fromHtml( if (current.your_answer.equals("yes")) mContext.getString(
+        printLog("position",position.toString())
+        val count=position+1
+        holder.binding.tvQuestion.text =Html.fromHtml("${count}. ${ current.question}")
+        holder.binding.tvYourAnswer.text =Html.fromHtml( if (!TextUtils.isEmpty(current.your_answer)&&current.your_answer.equals("1")) mContext.getString(
             R.string.your_answer_yes) else  mContext.getString(
             R.string.your_answer_no))
-        if (current.correct_answer.equals("")){
+        if (TextUtils.isEmpty(current.correct_answer)){
             holder.binding.tvYourAnswer.visibility=View.GONE
             holder.binding.imgNo.visibility=View.GONE
             holder.binding.imgNo.visibility=View.GONE
@@ -52,7 +56,7 @@ class QuestionAnswerAdapter(
             holder.binding.tvYes.visibility=View.VISIBLE
         }else{
             holder.binding.tvYourAnswer.visibility=View.VISIBLE
-            if (current.correct_answer.equals("yes",true)){
+            if (current.correct_answer.equals("1",true)){
                 holder.binding.imgYes.visibility=View.VISIBLE
             }else{
                 holder.binding.imgNo.visibility=View.VISIBLE
@@ -61,17 +65,19 @@ class QuestionAnswerAdapter(
             holder.binding.tvYes.visibility=View.GONE
         }
 
-        if (current.your_answer.equals("yes")){
+        if (!TextUtils.isEmpty(current.your_answer)&&current.your_answer.equals("1")){
             changeTvColorAndBg(holder.binding.tvYes,holder.binding.tvNo)
-        }else if (current.your_answer.equals("no")){
+        }else if (!TextUtils.isEmpty(current.your_answer)&&current.your_answer.equals("2")){
             changeTvColorAndBg(holder.binding.tvNo,holder.binding.tvYes)
         }
         holder.binding.tvYes.setOnClickListener(){
-            dataList[position].your_answer="yes"
+            dataList[position].your_answer="1"
+            listenerClick(position, dataList[position].your_answer)
             notifyDataSetChanged()
         }
         holder.binding.tvNo.setOnClickListener(){
-            dataList[position].your_answer="no"
+            dataList[position].your_answer="2"
+            listenerClick(position, dataList[position].your_answer)
             notifyDataSetChanged()
         }
     }

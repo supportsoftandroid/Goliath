@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fantasy.goliath.databinding.FragmentAddQuestionBinding
 import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.LoginResponse
+import com.fantasy.goliath.model.OverItem
 import com.fantasy.goliath.model.QuestionAnsItem
 import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
 import com.fantasy.goliath.ui.adapter.QuestionAnswerStatusAdapter
@@ -42,8 +43,8 @@ class OverQuestionStatusFragment : BaseFragment() {
 
     lateinit var adapter: MatchOverTabAdapter
     lateinit var questionAdapter: QuestionAnswerStatusAdapter
-    var dataList = mutableListOf<CommonDataItem>()
-    var questionList = mutableListOf<QuestionAnsItem>()
+    var dataList = arrayListOf<OverItem>()
+    var questionList = arrayListOf<QuestionAnsItem>()
 
 
 
@@ -64,7 +65,7 @@ class OverQuestionStatusFragment : BaseFragment() {
     }
 
     private fun clickListener() {
-        binding.clvHeader.setClickListener(this)
+        binding.viewHeader.setClickListener(this)
 
         binding.btnSubmit.setOnClickListener() {
 
@@ -82,13 +83,11 @@ class OverQuestionStatusFragment : BaseFragment() {
     private fun initView() {
         dataList.clear()
 
-        dataList.add(CommonDataItem("1st Over", "", false))
-        dataList.add(CommonDataItem("2nd Over", "", false))
-        dataList.add(CommonDataItem("3rd Over ", "", false))
-        dataList.add(CommonDataItem("4th Over ", "", false))
-        dataList.add(CommonDataItem("5th Over ", "", false))
-        dataList.add(CommonDataItem("10th Over ", "", false))
-        dataList.add(CommonDataItem("15th Over ", "", false))
+        dataList.add(OverItem("", "Over 1", "", false))
+        dataList.add(OverItem("", "Over 2", "", false))
+        dataList.add(OverItem("", "Over 5", "", false))
+        dataList.add(OverItem("", "Over 10", "", false))
+        dataList.add(OverItem("", "Over 15", "", false))
 
         adapter = MatchOverTabAdapter(
             requireActivity(),
@@ -97,27 +96,25 @@ class OverQuestionStatusFragment : BaseFragment() {
         binding.rvOverList.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
         binding.rvOverList.adapter = adapter
 
-        dataList.add(CommonDataItem("Over 1", "", false))
-        dataList.add(CommonDataItem("Over 2", "", false))
-        dataList.add(CommonDataItem("Over 5", "", false))
-        dataList.add(CommonDataItem("Over 10", "", false))
-        dataList.add(CommonDataItem("Over 15", "", false))
 
-        questionList.clear()
-        questionList.add(QuestionAnsItem("1. End Over EVEN runs.", "No",""))
-        questionList.add(QuestionAnsItem("2. First ball scoring?", "Yes",""))
-        questionList.add(QuestionAnsItem("3. Boundary", "Yes",""))
-        questionList.add(QuestionAnsItem("4. Sixes", "No",""))
-        questionList.add(QuestionAnsItem("5. LBW", "No",""))
-        questionList.add(QuestionAnsItem("6. Dot Balls LESS than 2", "",""))
-        questionList.add(QuestionAnsItem("7. Maiden Over ( 0runs )", "",""))
-        questionList.add(QuestionAnsItem("8. Out For a Duck", "No",""))
-        questionAdapter = QuestionAnswerStatusAdapter(
-            requireActivity(),
-            questionList,
-            { pos, type -> onQuestionAdapterClick(pos, type) })
-        binding.rvQuestionList.layoutManager = LinearLayoutManager(requireActivity())
-        binding.rvQuestionList.adapter = questionAdapter
+
+        with(questionList) {
+            clear()
+            add(QuestionAnsItem("","","End Over EVEN runs.", "No","Yes"))
+            add(QuestionAnsItem("","","First ball scoring?", "Yes","No"))
+            add(QuestionAnsItem("","","Boundary", "No","Yes"))
+            add(QuestionAnsItem("","","Sixes", "No","No"))
+            add(QuestionAnsItem("","","LBW", "No","Yes"))
+            add(QuestionAnsItem("","","Dot Balls LESS than 2", "Yes","Yes"))
+            add(QuestionAnsItem("","","Maiden Over ( 0runs )", "Yes","No"))
+            add(QuestionAnsItem("","","Out For a Duck", "No","Yes"))
+            questionAdapter = QuestionAnswerStatusAdapter(
+                requireActivity(),
+                this,
+                { pos, type -> onQuestionAdapterClick(pos, type) })
+        }
+        binding .rvList.layoutManager = LinearLayoutManager(requireActivity())
+        binding. rvList.adapter = questionAdapter
 
 
     }

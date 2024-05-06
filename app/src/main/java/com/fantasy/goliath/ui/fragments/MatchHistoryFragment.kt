@@ -1,22 +1,22 @@
 package com.fantasy.goliath.ui.fragments
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.FragmentMatchHistoryBinding
 import com.fantasy.goliath.model.LoginResponse
-import com.fantasy.goliath.model.MatchDataItem
+import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.ui.adapter.MatchItemAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
-import com.fantasy.goliath.utility.PreferenceManager
-import com.fantasy.goliath.utility.UtilsManager
 import com.fantasy.goliath.viewmodal.HomeViewModel
+import com.google.gson.JsonObject
 
 class MatchHistoryFragment : BaseFragment() {
 
@@ -37,9 +37,13 @@ class MatchHistoryFragment : BaseFragment() {
     lateinit var loginResponse: LoginResponse
 
     lateinit var adapter: MatchItemAdapter
-    var dataList = mutableListOf<MatchDataItem>()
-    var  type = "upcoming"
+    var dataList = arrayListOf<MatchItem>()
 
+    var matchStatus = "Completed"
+    var isLoading=false
+    var currentPage=1
+    var selectedPos=-1
+    var totalPage=""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +56,7 @@ class MatchHistoryFragment : BaseFragment() {
 
             initView()
             clickListener()
+            callListAPI()
         }
 
 
@@ -68,14 +73,35 @@ class MatchHistoryFragment : BaseFragment() {
         binding.viewHeader.setTitle( requireActivity().getString(R.string.matches_history))
         dataList.clear()
 
-        dataList.add(MatchDataItem("GT","CSK","T20"))
-        dataList.add(MatchDataItem("PBKS","KKR","One day"))
-        dataList.add(MatchDataItem("DC","LSG","T20"))
-        adapter = MatchItemAdapter(requireActivity(), dataList, { pos, type -> onAdapterClick(pos, type) })
-        binding.viewBody.rvList.layoutManager = LinearLayoutManager(requireActivity())
+        matchStatus = "Completed"
+        adapter = MatchItemAdapter(
+            requireActivity(),
+            dataList,
+            { pos, type -> onAdapterClick(pos, type) })
+        val layoutManager= LinearLayoutManager(requireActivity())
+        binding.viewBody.rvList.layoutManager =layoutManager
         binding.viewBody.rvList.adapter = adapter
-        type = "completed"
-        adapter.updateMatchType(type)
+
+        binding.viewBody.rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(
+                recyclerView: RecyclerView,
+                dx: Int, dy: Int
+            ) {
+                super.onScrolled(recyclerView, dx, dy)
+                val visibleItemCount: Int = layoutManager.getChildCount()
+                val totalItemCount: Int = layoutManager.getItemCount()
+                val firstVisibleItemPosition: Int = layoutManager.findFirstVisibleItemPosition()
+                if (visibleItemCount + firstVisibleItemPosition >= totalItemCount
+                    && firstVisibleItemPosition >= 0
+                ) {
+                    if (!isLoading &&!TextUtils.isEmpty(totalPage)) {
+                        callListAPI()
+                    }
+                }
+
+            }
+        })
+
 
 
 
@@ -104,5 +130,42 @@ class MatchHistoryFragment : BaseFragment() {
 
     override fun onWalletIconClick() {
         super.onWalletIconClick()
+    }
+
+    private fun callListAPI( ) {
+
+            if (utilsManager.isNetworkConnected()) {
+                isLoading=true
+                val  json= JsonObject()
+                json.addProperty("status", matchStatus)
+
+
+                viewModal.getMatchesList(
+                    requireActivity(), preferenceManager.getAuthToken(), currentPage, json).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
+                    if (res.status) {
+                        totalPage=res.data.matchlist.next_page_url
+                        dataList.addAll(res.data.matchlist.data)
+                        currentPage++
+
+                    }else{
+                        totalPage=""
+                    }
+
+                    isLoading=false
+                    updateUI(res.message)
+                })
+            }
+
+
+    }
+
+    private fun updateUI(message:String) {
+        adapter.updateMatchType(matchStatus)
+        if (dataList.isEmpty()){
+            binding.viewBody.tvMessage.isVisible=true
+            binding.viewBody.tvMessage.text=message
+        }else{
+            binding.viewBody.tvMessage.isVisible=false
+        }
     }
 }

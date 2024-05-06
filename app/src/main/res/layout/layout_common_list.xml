@@ -24,7 +24,7 @@
         android:fontFamily="@font/visby_regular"
         android:gravity="center"
         android:text="@string/loading"
-        android:visibility="gone"
+
         android:textColor="@color/colorTextHint"
         android:textSize="@dimen/sp_17"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -12,21 +12,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.ListOverItemBinding
 import com.fantasy.goliath.model.CommonDataItem
+import com.fantasy.goliath.model.OverItem
 
 
 class SelectedOverAdapter(
     mContext: Context,
-    dataItem: MutableList<CommonDataItem>,
-    val listenerClick: (Int, String) -> Unit
+    parentPosition: Int,
+    dataItem: ArrayList<OverItem>,
+    val listenerClick: (Int,Int, String) -> Unit
 ) :
     RecyclerView.Adapter<SelectedOverAdapter.MainViewHolder>() {
-    var dataList = mutableListOf<CommonDataItem>()
+    var dataList = arrayListOf<OverItem>()
 
 
     var mContext: Context
+      var parentPos:Int=-1
+    var selectedPos = -1
 
     init {
         this.dataList = dataItem
+        this.parentPos = parentPosition
         this.mContext = mContext
 
 
@@ -41,16 +46,18 @@ class SelectedOverAdapter(
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
         holder.bind(current)
-        holder.binding.tvTitle.text =  current.title
+        holder.binding.tvTitle.text = current.over_number
         val tvTitle = holder.binding.tvTitle
         tvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.app_color))
-        if (current.type.equals("available",true)){
+        if (current.over_status.equals("available", true)) {
             holder.itemView.setOnClickListener {
-                dataList[position].is_selected=!current.is_selected
+                selectedPos = position
+                dataList[position].is_selected = !current.is_selected
+                listenerClick(parentPos,position, current.over_status)
                 notifyDataSetChanged()
             }
         }
-        when (current.type.lowercase()) {
+        when (current.over_status.lowercase()) {
 
             "completed" -> {
                 setTexAndBgColor(tvTitle, R.color.colorWhite, R.color.colorRedLight)
@@ -74,16 +81,16 @@ class SelectedOverAdapter(
             }*/
 
             "available" -> {
-                if (current.is_selected) {
+                if (position == selectedPos) {
                     setTexAndBgColor(tvTitle, R.color.colorWhite, R.color.app_color)
-                }else{
+                } else {
 
                     tvTitle.setBackgroundResource(R.drawable.border_layout_blue_radius_5)
                 }
 
             }
 
-            "upcoming" -> {
+            "upcoming", "not available" -> {
                 tvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.colorUpcoming))
                 tvTitle.setBackgroundResource(R.drawable.border_layout_blue_light_radius_5)
             }
@@ -104,7 +111,7 @@ class SelectedOverAdapter(
 
     class MainViewHolder(val binding: ListOverItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(modal: CommonDataItem) {
+        fun bind(modal: OverItem) {
             binding.modal = modal
         }
     }

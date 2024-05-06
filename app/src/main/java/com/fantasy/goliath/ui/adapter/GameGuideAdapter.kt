@@ -8,15 +8,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.databinding.ListHowToPlayItemBinding
 import com.fantasy.goliath.model.CommonDataItem
+import com.fantasy.goliath.model.HowToPlayItem
 
 
 class GameGuideAdapter(
     mContext: Context,
-    dataItem: MutableList<CommonDataItem>,
+    dataItem: MutableList<HowToPlayItem>,
     val listenerClick: (Int, String) -> Unit
 ) :
     RecyclerView.Adapter<GameGuideAdapter.MainViewHolder>() {
-    var dataList = mutableListOf<CommonDataItem>()
+    var dataList = mutableListOf<HowToPlayItem>()
 
 
     var mContext: Context
@@ -47,7 +48,7 @@ class GameGuideAdapter(
 
     class MainViewHolder(val binding: ListHowToPlayItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(modal: CommonDataItem) {
+        fun bind(modal: HowToPlayItem) {
             binding.modal = modal
         }
     }

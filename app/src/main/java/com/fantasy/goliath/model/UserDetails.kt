@@ -8,5 +8,6 @@ data class UserDetails(
     var phone: String,
     var avatar_full_path: String,
     val status: String,
+    val device_token: String,
 
 )

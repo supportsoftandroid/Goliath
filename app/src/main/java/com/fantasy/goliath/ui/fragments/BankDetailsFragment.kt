@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.fantasy.goliath.R
@@ -48,6 +49,8 @@ class BankDetailsFragment : BaseFragment() {
 
     private fun clickListener() {
         binding.viewHeader.setClickListener(this)
+        binding.viewHeader.getToolBarView().imgMenu1.isVisible=false
+        binding.viewHeader.getToolBarView().imgMenu2.isVisible=false
         /*binding.viewHeader.getToolBarView().imgBack.setOnClickListener {
             onBackPressed()
         }*/

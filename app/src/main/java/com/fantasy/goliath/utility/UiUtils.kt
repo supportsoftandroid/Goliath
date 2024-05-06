@@ -49,9 +49,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.fantasy.goliath.BuildConfig
 import com.fantasy.goliath.R
@@ -59,6 +62,7 @@ import com.fantasy.goliath.databinding.DialogBottomAddAmountBinding
 import com.fantasy.goliath.databinding.DialogBottomAddCardBinding
 import com.fantasy.goliath.databinding.DialogImageUploadBinding
 import com.fantasy.goliath.databinding.DialogPredictErrorBinding
+import com.fantasy.goliath.databinding.DialogUpdateProfileBinding
 import com.fantasy.goliath.databinding.DialogVerifyOtpBinding
 import com.fantasy.goliath.databinding.DialogWalletBalanceErrorBinding
 import com.fantasy.goliath.ui.activities.AuthActivity
@@ -90,9 +94,9 @@ const val MILLIS_PER_DAY = 24 * 60 * 60 * 1000L
 val msgDateFormat = "dd-MMM-yyyy HH:mm:ss a"
 const val FCM_BROADCAST: String = "FCM_BROADCAST"
 const val KEY_IS_CHAT = "is_chat"
-const val CHANNEL_ID = "schrood"
-const val CHANNEL_NAME = "schrood Channel"
-const val CHANNEL_DESCRIPTION = "schrood Channel Description"
+const val CHANNEL_ID = "goliath"
+const val CHANNEL_NAME = "goliath Channel"
+const val CHANNEL_DESCRIPTION = "goliath Channel Description"
 const val PERMISSION_REQUEST_CODE = 133
 const val CAMERA_REQUEST_CODE = 201
 const val GALLARY_REQUEST_CODE = 202
@@ -102,13 +106,7 @@ const val LOCATION_MAP_ADD_REQUEST_CODE = 9883
 const val MANAGE_ALL_FILES_ACCESS_REQUEST_CODE: Int = 2296
 const val REQUEST_CODE_ASK_CAMERA_STORAGE_PERMISSIONS = 1324
 const val PERMISSION_ALL = 2296
-const val LAYOUT_IMAGE = 0
-const val LAYOUT_IMAGE_BORDER = 1
-const val LAYOUT_BOOK = 2
-const val LAYOUT_AUDIO = 3
-const val LAYOUT_VIDEO = 4
-const val LAYOUT_USER = 5
-const val LAYOUT_PODS = 6
+
 val PERMISSIONSList = getPermission()
 val PERMISSIONS_CAMERA_STORAGE_LIST = getCameraStoragePermission()
   const val expression =
@@ -498,10 +496,17 @@ fun Context.loadImage(url: String,imageView: ImageView) =  Glide.with(this)
     .placeholder(R.drawable.ic_loading)
     .error(R.drawable.ic_logo)
     .into(imageView)
-fun Context.loadProfileImage(url: String,imageView: ImageView) =  Glide.with(this)
+fun Context.loadProfileImage(url: String,imageView: ImageView) =
+
+    Glide.with(this)
     .load(url)
     .placeholder(R.drawable.ic_loading)
     .error(R.drawable.dummy_profile)
+    .apply(
+        RequestOptions().placeholder(R.drawable.ic_loading)
+            .error(R.drawable.dummy_profile)
+        .transform(CenterCrop(), RoundedCorners(150))
+    )
     .into(imageView)
 
 
@@ -623,7 +628,7 @@ fun askIsNotificationPermission(context: Context): Boolean {
     return isGranted;
 }
 
-fun loadImage(imageView: ImageView, imageURL: String) {
+fun loadImage( imageURL: String, imageView: ImageView) {
     Glide.with(imageView.getContext())
         .setDefaultRequestOptions(RequestOptions())
         .load(imageURL)
@@ -703,11 +708,9 @@ fun Activity.hideKeyboard() {
 }
 fun isNetworkConnected(activity: Activity): Boolean {
     val isConnected: Boolean
-    val connectivityManager =
-        activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val connectivityManager = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val network = connectivityManager.activeNetwork
-    val networkCapabilities =
-        connectivityManager.getNetworkCapabilities(network as Network?)
+    val networkCapabilities = connectivityManager.getNetworkCapabilities(network as Network?)
     isConnected =
         networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             ?: false
@@ -922,7 +925,7 @@ fun showWalletError(context: Context,
 }
 
 fun showOTPDialogBottom(
-    context: Context, isCancelable: Boolean,
+    context: Context, isCancelable: Boolean,emailMobile: String,
     onItemClick: (type: String, otp: String, dlg: BottomSheetDialog) -> Unit
 ) {
     val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
@@ -940,10 +943,11 @@ fun showOTPDialogBottom(
     // Set the bottom sheet to be fullscreen
     dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
     dialog.behavior.isDraggable = false
-    if (isCancelable){
+    if (!isCancelable){
         dialogBinding.imgBack.visibility=View.VISIBLE
     }
 
+    dialogBinding.tvEnterLabel.text=context.getString(R.string.enter_the_otp_sent_to)+" "+emailMobile
     dialogBinding.imgBack.setOnClickListener {
         dialog.dismiss()
 
@@ -952,16 +956,26 @@ fun showOTPDialogBottom(
         onItemClick("resend", "", dialog)
 
     }
+    dialogBinding.tvChangeNumber.isVisible=isCancelable
+    dialogBinding.view1.isVisible=isCancelable
+    dialogBinding.tvChangeNumber.setOnClickListener {
+        dialog.dismiss()
+
+    }
+
+
     dialogBinding.pinview.setPinViewEventListener(object : Pinview.PinViewEventListener {
+
         override fun onDataEntered(pinview: Pinview?, fromUser: Boolean) {
             val pin = pinview!!.value
 
             if (pin.length==4){
-
-                dialogBinding.btnSubmit.setEnabled(true)
+                dialogBinding.btnSubmit.isEnabled=true
+                dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.button_background_global)
                 dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorWhite))
             }else{
-                dialogBinding.btnSubmit.setEnabled(false)
+                dialogBinding.btnSubmit.isEnabled=false
+                dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.btn_selecter)
                 dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorBtn))
 
 
@@ -970,11 +984,191 @@ fun showOTPDialogBottom(
     })
     dialogBinding.btnSubmit.setOnClickListener {
         val otp = dialogBinding.pinview.value.toString()
+        printLog("verify otp ",dialogBinding.pinview.value.toString())
+        if (otp.length==4){
 
+            dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.button_background_global)
+            dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorWhite))
+            dialogBinding.btnSubmit.isEnabled=true
+        }else{
 
+            dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.btn_selecter)
+            dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorBtn))
+            dialogBinding.btnSubmit.isEnabled=false
+        }
         if (otp.length < 4) {
-            showToast(context, "Please Enter 4 digit OTP")
+            showToast(context, context.getString(R.string.please_enter_4_digit_otp))
         } else {
+
+            onItemClick("verify", dialogBinding.pinview.value.toString(), dialog)
+        }
+
+    }
+
+    dialog.show()
+
+}
+
+fun showUpdateEmailMobileBottom(
+    context: Context, isCancelable: Boolean,type: String,
+    onItemClick: (type: String, country_code: String,emailMobile: String, dlg: BottomSheetDialog) -> Unit
+) {
+    val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
+    val dialogBinding =
+        DialogUpdateProfileBinding.inflate(LayoutInflater.from(context), null, false)
+    val sheetView = dialogBinding.root
+    dialog.setContentView(sheetView)
+    dialog.setCancelable(isCancelable)
+
+ /*   val screenHeight = context.resources.displayMetrics.heightPixels
+    val layoutParams = sheetView.layoutParams
+    layoutParams.height = screenHeight
+    sheetView.layoutParams = layoutParams
+
+    // Set the bottom sheet to be fullscreen
+    dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+    dialog.behavior.isDraggable = false*/
+    dialogBinding.imgClose.visibility=View.VISIBLE
+    if (type.equals("email")){
+        dialogBinding.tvTitle.text= context.getString(R.string.update_email)
+        dialogBinding.txtInputEmail.isVisible=true
+        dialogBinding.clvCountry.isVisible=false
+    }else{
+        dialogBinding.tvTitle.text= context.getString(R.string.update_phone_number)
+        dialogBinding.txtInputEmail.isVisible=false
+        dialogBinding.clvCountry.isVisible=true
+    }
+
+    dialogBinding.tvDontRecieve.isVisible=false
+
+
+    dialogBinding.imgClose.setOnClickListener {
+        dialog.dismiss()
+
+    }
+
+
+    dialogBinding.btnSubmit.setOnClickListener {
+        if (type.equals("email")&&dialogBinding.ediEmail.text.toString().trim().isEmpty()){
+            showToast(context,context.getString(R.string.enter_email_address))
+            dialogBinding.ediEmail.requestFocus()
+        }else if (type.equals("email")&& !isValidEmailId(dialogBinding.ediEmail.text.toString())){
+            showToast(context,context.getString(R.string.enter_valid_email_address))
+            dialogBinding.ediEmail.requestFocus()
+        }else if (type.equals("phone")&&dialogBinding.ediPhone.text.toString().trim().isEmpty()){
+            showToast(context,context.getString(R.string.enter_mobile_number))
+            dialogBinding.ediPhone.requestFocus()
+        }else if (type.equals("email")&& dialogBinding.ediPhone.text!!.length < 4){
+            showToast(context,context.getString(R.string.enter_valid_phone_number))
+            dialogBinding.ediPhone.requestFocus()
+        }else{
+            dialogBinding.ediEmail.clearFocus()
+            dialogBinding.ediPhone.clearFocus()
+          var emailMobile=""
+          var countryCode=""
+          if (type.equals("email")){
+              emailMobile=dialogBinding.ediEmail.text.toString()
+          }else{
+              emailMobile=dialogBinding.ediPhone.text.toString()
+              countryCode=dialogBinding.countryPickerView.selectedCountryCode.toString()
+              if (!countryCode.contains("+")){
+                  countryCode="+"+countryCode
+              }
+          }
+
+            onItemClick("submit", countryCode,emailMobile , dialog)
+        }
+
+
+
+
+
+    }
+
+    dialog.show()
+
+}
+
+fun showVerifyOTPEmailMobileBottom(
+    context: Context, isCancelable: Boolean,emailMobile: String,
+    onItemClick: (type: String, otp: String , dlg: BottomSheetDialog) -> Unit
+) {
+    val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
+    val dialogBinding =
+        DialogUpdateProfileBinding.inflate(LayoutInflater.from(context), null, false)
+    val sheetView = dialogBinding.root
+    dialog.setContentView(sheetView)
+    dialog.setCancelable(isCancelable)
+
+    /*val screenHeight = context.resources.displayMetrics.heightPixels
+    val layoutParams = sheetView.layoutParams
+    layoutParams.height = screenHeight
+    sheetView.layoutParams = layoutParams
+
+    // Set the bottom sheet to be fullscreen
+    dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+    dialog.behavior.isDraggable = false*/
+    dialogBinding.imgClose.visibility=View.VISIBLE
+
+
+
+    dialogBinding.imgClose.setOnClickListener {
+        dialog.dismiss()
+    }
+    dialogBinding.tvDontRecieve.setOnClickListener {
+        onItemClick("resend", "", dialog)
+
+    }
+    dialogBinding.tvTitle.text=context.getString(R.string.verify_otp)
+    dialogBinding.tvEnterLabel.text=context.getString(R.string.enter_the_otp_sent_to)+" "+emailMobile
+    dialogBinding.tvEnterLabel.isVisible=true
+
+    dialogBinding.txtInputEmail.isVisible=false
+    dialogBinding.clvCountry.isVisible=false
+
+    dialogBinding.tvDontRecieve.isVisible=true
+    dialogBinding.pinview.isVisible=true
+    dialogBinding.btnSubmit.text=context.getString(R.string.verify)
+    dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.btn_selecter)
+    dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorBtn))
+
+    dialogBinding.pinview.setPinViewEventListener(object : Pinview.PinViewEventListener {
+
+        override fun onDataEntered(pinview: Pinview?, fromUser: Boolean) {
+            val pin = pinview!!.value
+
+            if (pin.length==4){
+                dialogBinding.btnSubmit.isEnabled=true
+                dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.button_background_global)
+                dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorWhite))
+            }else{
+                dialogBinding.btnSubmit.isEnabled=false
+                dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.btn_selecter)
+                dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorBtn))
+
+
+            }
+        }
+    })
+
+    dialogBinding.btnSubmit.setOnClickListener {
+        val otp = dialogBinding.pinview.value.toString()
+        printLog("verify otp ",dialogBinding.pinview.value.toString())
+        if (otp.length==4){
+
+            dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.button_background_global)
+            dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorWhite))
+            dialogBinding.btnSubmit.isEnabled=true
+        }else{
+
+            dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.btn_selecter)
+            dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorBtn))
+            dialogBinding.btnSubmit.isEnabled=false
+        }
+        if (otp.length < 4) {
+            showToast(context, context.getString(R.string.please_enter_4_digit_otp))
+        } else {
+
             onItemClick("verify", dialogBinding.pinview.value.toString(), dialog)
         }
 
@@ -1140,15 +1334,8 @@ fun setAddressFrom(context: Context, addresses: MutableList<Address>) {
         val country = addresses[0].countryName
         val zipcodeFromMap = addresses[0].postalCode
 
-        var locality = houseNo + "," + landmark + "," + city
+        val locality = houseNo + "," + landmark + "," + city
 
-        printLog("setAddressFrom latitude", addresses[0].latitude.toString())
-        printLog("setAddressFrom longitude", addresses[0].longitude.toString())
-        printLog("setAddressFrom knownName", houseNo.toString())
-        printLog("setAddressFrom thoroughfare", thoroughfare + "")
-        printLog("setAddressFrom landmark", landmark + "")
-        printLog("setAddressFrom city", city + "")
-        printLog("setAddressFrom state", state + "")
         printLog("setAddressFrom locality", locality + "")
         printLog("setAddressFrom address", address + "")
 

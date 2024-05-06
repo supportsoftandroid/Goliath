@@ -6,7 +6,7 @@
 
         <variable
             name="modal"
-            type="com.fantasy.goliath.model.MatchDataItem" />
+            type="com.fantasy.goliath.model.MatchItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clv_left"
-            android:layout_width="@dimen/dp_105"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_120"
             android:background="@color/colorTeamBg"
 
@@ -61,18 +61,19 @@
 
             <TextView
                 android:id="@+id/tvLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp_20"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/dp_10"
                 android:fontFamily="@font/visby_bold"
                 android:padding="@dimen/dp_5"
+                android:gravity="center"
+                android:maxLines="2"
                 android:src="@drawable/ic_team_gujrat_titan"
-                android:text="GT"
+                android:text="@string/dummy_description"
                 android:textAllCaps="true"
                 android:textColor="@color/colorText"
                 android:textStyle="bold"
-
-
+                app:layout_constraintTop_toBottomOf="@+id/imgLeft"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -241,18 +242,18 @@
 
             <TextView
                 android:id="@+id/tvRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp_20"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/dp_10"
                 android:fontFamily="@font/visby_bold"
                 android:padding="@dimen/dp_5"
                 android:src="@drawable/ic_team_gujrat_titan"
                 android:text="PBKS"
+                android:gravity="center"
                 android:textAllCaps="true"
                 android:textColor="@color/colorText"
                 android:textStyle="bold"
-
-
+                app:layout_constraintTop_toBottomOf="@+id/imgRight"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

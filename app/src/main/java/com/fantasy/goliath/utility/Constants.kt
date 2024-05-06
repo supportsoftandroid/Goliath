@@ -12,14 +12,22 @@ object Constants {
 
     /*  API CALL CONSTANTS  */
 
+    //const val ACCEPT_JSON_HEADER = "Content-Type: application/json,Accept: application/json"
+
+    /* val  JSON_HEADER = arrayOf(
+         "Content-Type: application/json",
+         "Accept: application/json",
+
+
+     )*/
+
+
+   // const val ACCEPT_JSON_HEADER = "Content-Type: application/json"
     const val ACCEPT_JSON_HEADER = "Accept: application/json"
-
-
-    // const val ACCEPT_JSON_HEADER = "Content-Type: application/json"
     const val PROFILE_EDIT_REQUEST_KEY = "profile_edit_"
 
     /*  APP URLs    */
-    const val LIVE_URL = "http://staging.wowfeelgoodnow.com/api/"
+    const val LIVE_URL = "https://projects.commnext.com.au/goliath/public/api/"
     const val API_WELCOME_SCREEN = "on-boarding"
 
     const val API_SEND_OTP = "auth/send-otp"
@@ -28,25 +36,23 @@ object Constants {
 
     const val API_CHECK_EMAIL = "check-email"
     const val API_UPDATE_EMAIL = "update-email"
-    const val API_CATEGORY = "categories"
+    const val API_COMPETITION_LIST = "competition-list"
+    const val API_MATCHES_LIST = "matches-list"
+    const val API_MATCH_DETAIL = "matches-detail"
+    const val API_QUESTION_LIST_FOR_DETAIL = "question-list-for-over"
+    const val API_SAVE_USER_PREDICTION = "save-user-prediction"
 
     const val API_CATEGORY_DETAILS = "category-detail"
     const val API_ITEM_DETAILS = "item-detail"
-    const val API_PROFILE_DETAILS = "user-detail"
+    const val API_PROFILE_DETAILS = "user"
     const val API_EDIT_PROFILE = "update-profile"
     const val API_CHANGE_PASSWORD = "change-password"
-    const val API_FAVORITE = "favorites"
-    const val API_FAVORITE_ACTION = "favorite-action"
-    const val API_REMOVE_ALLFAVORITE = "remove-favorites"
+
     const val API_ADD_CARD = "add-payment-method"
     const val API_GET_CARD_LIST = "payment-methods"
     const val API_DELETE_CARD = "delete-payment-method"
     const val API_DEFAULT_CARD = "add-default-payment-method"
-    const val API_SUBSCRIPTION_LIST = "plans"
-    const val API_MY_SUBSCRIPTION = "my-subscription"
-    const val API_PURCHASE_SUBSCRIPTION = "make-subscription"
-    const val API_CANCEL_SUBSCRIPTION = "cancel-subscription"
-    const val API_RENEW_SUBSCRIPTION = "resume-subscription"
+
     const val API_LOGOUT = "logout"
     const val API_DELETE_ACCOUNT = "deleteAccount"
     const val API_APP_CONTENT_PAGES = "pages"
@@ -72,6 +78,8 @@ object Constants {
     const val KEY_USER_NAME = "user_name"
     const val KEY_LOGIN_DATA = "login_data"
     const val IN_APP_PERMISSION = "Need Permissions"
-    const val PERMISSIONS_ACCESS_MESSAGE ="This app requires permissions to access your location and storage"
-
+    const val PERMISSIONS_ACCESS_MESSAGE =
+        "This app requires permissions to access your location and storage"
+ const val EDIT_PROFILE_REQUEST_KEY = "edit_Profile"
+ const val EDIT_PROFILE_OTHER_REQUEST_KEY = "edit_Profile_other"
 }

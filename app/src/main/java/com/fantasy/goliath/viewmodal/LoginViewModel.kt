@@ -42,7 +42,7 @@ class LoginViewModel : ViewModel() {
 
 
 
-    fun verifyUser(context: Context, mobileEmail: String,  country_code: String, otp: String, device_token: String): LiveData<LoginResponse> {
+    fun verifyUser(context: Context, mobileEmail: String,  country_code: String, otp: String,type: String, device_token: String): LiveData<LoginResponse> {
         val jsonObject = JsonObject()
         val mobile= getNumberFromString(mobileEmail)
         if (!TextUtils.isEmpty(mobile)) {
@@ -53,6 +53,7 @@ class LoginViewModel : ViewModel() {
         }
 
         jsonObject.addProperty("otp", otp)
+        jsonObject.addProperty("type", type)
         jsonObject.addProperty("device_token", device_token)
 
 

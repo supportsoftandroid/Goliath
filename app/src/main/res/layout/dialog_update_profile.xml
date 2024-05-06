@@ -5,62 +5,79 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:layout_marginHorizontal="@dimen/dp_10"
+    android:orientation="vertical"
+
     android:background="@drawable/background_white_top_radius"
     android:minHeight="@dimen/dp_180"
 
 
     android:paddingBottom="@dimen/dp_40"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginHorizontal="@dimen/dp_10"
+          >
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvTitle"
 
-
+        app:fontFamily="@font/visby_bold"
+        android:text="@string/app_name"
+        android:textColor="@color/colorText"
+        android:textSize="@dimen/sp_24"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <ImageView
+        android:layout_width="@dimen/dp_35"
+        android:layout_height="@dimen/dp_35"
+        android:id="@+id/img_close"
+        android:src="@drawable/ic_close_24"
+        android:layout_marginEnd="@dimen/dp_10"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_100"
-
+        android:layout_marginTop="@dimen/dp_15"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/dp_20">
-
-         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inptxtName"
-            style="@style/TextInputLayoutTheme"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_30"
+            android:id="@+id/tvEnterLabel"
+            android:layout_marginTop="@dimen/dp_15"
 
-            android:hint="@string/enter_your_name"
-            android:paddingVertical="@dimen/dp_5"
-            android:background="@color/colorWhite"
-            android:textColorHint="@color/textPlaceHolder"
+            android:fontFamily="@font/visby_medium"
+            android:gravity="center"
+            android:visibility="gone"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/enter_the_otp_sent_to_91_987654321"
+            android:textColor="@color/textPlaceHolder"
+
+            android:textSize="@dimen/sp_14"
+
+
+            android:layout_marginBottom="@dimen/dp_20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ediName"
-                style="@style/AppTextInputEditTextTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:singleLine="true"
-
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-         <com.google.android.material.textfield.TextInputLayout
+            app:layout_constraintBottom_toTopOf="@+id/pinview" />
+        <com.google.android.material.textfield.TextInputLayout
 
             style="@style/TextInputLayoutTheme"
             android:layout_width="match_parent"
+            android:id="@+id/txt_input_email"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
 
+            android:background="@color/colorWhite"
             android:hint="@string/enter_your_email"
             android:paddingVertical="@dimen/dp_5"
-            android:background="@color/colorWhite"
             android:textColorHint="@color/textPlaceHolder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:inputType="text"
                 android:singleLine="true"
 
@@ -81,16 +98,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clvCountry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_15"
+            android:background="@color/colorWhite"
             android:orientation="horizontal"
             android:weightSum="1"
-            android:background="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/inptxtName">
@@ -99,9 +114,7 @@
                 android:id="@+id/countryPickerView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_marginBottom="@dimen/dp_0"
-
                 android:background="@drawable/border_layout_global_radius_5"
                 android:gravity="center_vertical"
                 android:paddingVertical="@dimen/dp_8"
@@ -156,7 +169,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:inputType="number"
                     android:maxLength="13"
                     android:singleLine="true"
@@ -168,36 +181,35 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_30"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
+
             <TextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="@string/sms_notification"
-                android:textSize="@dimen/sp_16"
                 android:fontFamily="@font/visby_medium"
+                android:text="@string/sms_notification"
                 android:textColor="@color/colorText"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="@dimen/sp_16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <CheckBox
                 android:id="@+id/cbSMS"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:checked="true"
                 android:button="@drawable/switch_selecter"
-                app:layout_constraintTop_toTopOf="parent"
+                android:checked="true"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -206,26 +218,28 @@
             android:id="@+id/pinview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_15"
 
             android:gravity="center"
+            android:visibility="gone"
             app:cursorVisible="false"
+
             app:forceKeyboard="true"
 
+
             app:hint="-"
-
-
             app:inputType="number"
+            app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent"
             app:password="false"
             app:pinBackground="@drawable/border_border_blue_edit_text"
             app:pinHeight="@dimen/dp_60"
-
             app:pinLength="4"
             app:pinWidth="@dimen/dp_60"
-            app:textSize="@dimen/sp_16"
-            android:layout_marginBottom="@dimen/dp_15"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnSubmit"/>
+            app:textSize="@dimen/sp_16" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSubmit"
             style="@style/AppButtonStyle"
@@ -234,24 +248,26 @@
             android:layout_marginTop="@dimen/dp_35"
             android:layout_marginBottom="@dimen/dp_5"
             android:fontFamily="@font/visby_bold"
-            android:text="@string/save"
+            android:text="@string/submit"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sp_20"
             app:layout_constraintBottom_toTopOf="@+id/btnBack"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTotalAmount" />
+
         <TextView
             android:id="@+id/tvDontRecieve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_15"
             android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginBottom="@dimen/dp_25"
             android:fontFamily="@font/visby_medium"
             android:gravity="start"
+            android:visibility="gone"
             android:text="@string/didn_t_get_the_code_resend"
             android:textColor="@color/colorText"
-            android:layout_marginBottom="@dimen/dp_25"
             android:textSize="@dimen/sp_14"
             app:layout_constraintBottom_toTopOf="@+id/llResend"
             app:layout_constraintEnd_toEndOf="parent"

@@ -47,12 +47,14 @@
                 android:layout_marginBottom="@dimen/dp_100">
 
 
-                <ImageView
-                    android:id="@+id/imgProfile"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgProfiles"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="@dimen/dp_100"
                     android:background="@drawable/circle_white"
-                    android:padding="@dimen/dp_2"
+                    android:padding="@dimen/dp_5"
+
+                    android:scaleType="fitXY"
                     android:src="@drawable/dummy_profile"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -68,8 +70,8 @@
                     android:backgroundTint="@color/app_color"
                     android:padding="@dimen/dp_10"
                     android:src="@drawable/ic_edit"
-                    app:layout_constraintEnd_toEndOf="@+id/imgProfile"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile"
+                    app:layout_constraintEnd_toEndOf="@+id/imgProfiles"
+                    app:layout_constraintTop_toBottomOf="@+id/imgProfiles"
 
                     />
 
@@ -85,7 +87,7 @@
                     android:textSize="@dimen/sp_22"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
+                    app:layout_constraintTop_toBottomOf="@+id/imgProfiles" />
 
                 <TextView
                     android:id="@+id/tvEmail"

@@ -41,7 +41,7 @@ class LoginFragment : BaseFragment() {
 
     var isLogin = false
     var isForgotPassword = false
-    private var firebase_token = ""
+    private var firebase_token = "test android"
     var inputType = ""
     var country_code = ""
     var emailMobile = ""
@@ -113,15 +113,7 @@ class LoginFragment : BaseFragment() {
 
 
     private fun clickListener() {
-        binding.btnSubmit.setOnClickListener() {
-            isForgotPassword = false
-            showOTPDialogBottom(
-                mContext,
-                true,
-                { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
 
-
-        }
         binding.tvSignUp.setOnClickListener() {
             addFragmentToBackStack(SignupFragment())
 
@@ -198,7 +190,7 @@ class LoginFragment : BaseFragment() {
                            if (res.status) {
 
                                    showOTPDialogBottom(
-                                       mContext, true,
+                                       mContext, true,emailMobile,
                                        { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
 
                            }
@@ -234,7 +226,7 @@ class LoginFragment : BaseFragment() {
                 mContext,
                 emailMobile,
                 country_code,
-                otp,firebase_token
+                otp,"login",firebase_token
             ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
                 showToast(mContext, res.message)
                 if (res.status) {

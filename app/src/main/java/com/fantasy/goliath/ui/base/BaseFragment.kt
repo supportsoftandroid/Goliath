@@ -18,6 +18,7 @@ import com.fantasy.goliath.ui.fragments.WalletDetailsFragment
 import com.fantasy.goliath.utility.PreferenceManager
 import com.fantasy.goliath.utility.UtilsManager
 import com.fantasy.goliath.utility.loadImage
+
 import com.fantasy.goliath.utility.loadProfileImage
 import com.fantasy.goliath.utility.showAlertDialogMessageError
 import com.fantasy.goliath.utility.showAlertMessageError

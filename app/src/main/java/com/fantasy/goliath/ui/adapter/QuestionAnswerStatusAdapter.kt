@@ -3,6 +3,7 @@ package com.fantasy.goliath.ui.adapter
 
 import android.content.Context
 import android.text.Html
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ import com.fantasy.goliath.model.QuestionAnsItem
 
 class QuestionAnswerStatusAdapter(
     mContext: Context,
-    dataItem: MutableList<QuestionAnsItem>,
+    dataItem: ArrayList<QuestionAnsItem>,
     val listenerClick: (Int, String) -> Unit
 ) :
     RecyclerView.Adapter<QuestionAnswerStatusAdapter.MainViewHolder>() {
@@ -40,12 +41,13 @@ class QuestionAnswerStatusAdapter(
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
         holder.bind(current)
-        holder.binding.tvQuestion.text =Html.fromHtml( current.question)
-        holder.binding.tvYourAnswer.text =Html.fromHtml( if (current.your_answer.equals("yes")) mContext.getString(
+        holder.binding.tvQuestion.text =Html.fromHtml("${position+1}. ${ current.question}")
+
+        holder.binding.tvYourAnswer.text =Html.fromHtml( if (!TextUtils.isEmpty(current.your_answer)&&current.your_answer.equals("1")) mContext.getString(
             R.string.your_answer_yes) else  mContext.getString(
             R.string.your_answer_no))
         holder.binding.tvYourAnswer.visibility=View.VISIBLE
-        if (current.your_answer.equals("")){
+        if (!TextUtils.isEmpty(current.your_answer)){
             holder.binding.imgNo.visibility=View.GONE
             holder.binding.imgNo.visibility=View.GONE
             holder.binding.tvNo.visibility=View.GONE

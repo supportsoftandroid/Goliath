@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,7 +40,7 @@ class NotificationsFragment : BaseFragment() {
         return binding.root
     }
     private fun clickListener() {
-
+        binding.viewHeader.getToolBarView().imgMenu2.isVisible=false
         binding.viewHeader.setClickListener(this)
 
 
@@ -61,7 +62,7 @@ class NotificationsFragment : BaseFragment() {
         binding.viewBody.rvList.layoutManager = LinearLayoutManager(requireActivity())
         binding.viewBody.rvList.adapter = adapter
 
-
+        binding.viewBody.tvMessage.isVisible = false
 
     }
 

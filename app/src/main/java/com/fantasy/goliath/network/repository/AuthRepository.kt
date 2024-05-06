@@ -46,7 +46,13 @@ class AuthRepository(
         setProgressDialog()
         return callAPIService(call);
     }
-
+    fun updateEmailMobileOTP(
+        jsonObject: JsonObject ): MutableLiveData<LoginResponse> {
+        jsonObject.addProperty("device_type", Constants.DEVICE_TYPE)
+        val call = RetrofitClient.apiInterface.loginSignupSendOTP(jsonObject)
+        setProgressDialog()
+        return callAPIService(call);
+    }
 
 
 
@@ -57,38 +63,34 @@ class AuthRepository(
         imageFilePath: String?
     ): MutableLiveData<LoginResponse> {
         var callApiService: Call<LoginResponse>? = null
-        if (type == "get") {
+        if (type.equals("GET",true)) {
             callApiService = RetrofitClient.apiInterface.getProfile(userToken)
             return callAPIService(callApiService)
         } else {
             val imageFile: MultipartBody.Part? =
-                imageFilePath?.let { prepareFilePartFromUri("image", it) }
+                imageFilePath?.let { prepareFilePartFromUri("avatar", it) }
             callApiService = RetrofitClient.apiInterface.updateProfileImage(
                 userToken,
                 imageFile
             )
+            setProgressDialog()
             return callAPIService(callApiService)
         }
 
     }
 
+
     fun updateProfile(
         userToken: String,
-        name: String,
-        email: String,
-        country_code: String,
-        mobile: String,
+       jsonObject: JsonObject
     ): MutableLiveData<LoginResponse> {
-        val jsonObject = JsonObject()
-        jsonObject.addProperty("name", name)
 
-        jsonObject.addProperty("email", email)
-        jsonObject.addProperty("country_code", country_code)
-        jsonObject.addProperty("mobile_number", mobile)
+
         val callApiService = RetrofitClient.apiInterface.updateProfile(
             userToken,
             jsonObject
         )
+        setProgressDialog()
         return callAPIService(callApiService)
     }
 

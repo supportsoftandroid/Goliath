@@ -23,42 +23,53 @@ class SignUpViewModel : ViewModel() {
         type: String,
         device_token: String
     ): LiveData<LoginResponse> {
-        val jsonObject=JsonObject()
-      //  val mobile=  mobileEmail.replace("[^0-9]".toRegex(), "")
-        val mobile= getNumberFromString(mobileEmail)
+        val json = JsonObject()
+        //  val mobile=  mobileEmail.replace("[^0-9]".toRegex(), "")
+        val mobile = getNumberFromString(mobileEmail)
 
-        jsonObject.addProperty("full_name", name)
+        json.addProperty("full_name", name)
         if (!TextUtils.isEmpty(mobile)) {
-            jsonObject.addProperty("country_code", country_code)
-            jsonObject.addProperty("phone", mobileEmail)
-        }else{
-            jsonObject.addProperty("email", mobileEmail)
+            json.addProperty("country_code", country_code)
+            json.addProperty("phone", mobileEmail)
+        } else {
+            json.addProperty("email", mobileEmail)
         }
 
-        jsonObject.addProperty("type", type)
-        jsonObject.addProperty("device_token", device_token)
+        json.addProperty("type", type)
+        json.addProperty("device_token", device_token)
 
-        return AuthRepository(context).loginSignup( jsonObject)
+        return AuthRepository(context).loginSignup(json)
 
     }
 
-    fun verifyUser(context: Context,  mobileEmail: String,  country_code: String, otp: String, device_token: String): LiveData<LoginResponse> {
-        val jsonObject = JsonObject()
-        val mobile= getNumberFromString(mobileEmail)
+    fun verifyUser(
+        context: Context,
+        name: String,
+        mobileEmail: String,
+        country_code: String,
+        otp: String,
+        type: String,
+        device_token: String
+    ): LiveData<LoginResponse> {
+        val json = JsonObject()
+        val mobile = getNumberFromString(mobileEmail)
+        json.addProperty("full_name", name)
         if (!TextUtils.isEmpty(mobile)) {
-            jsonObject.addProperty("country_code", country_code)
-            jsonObject.addProperty("phone", mobileEmail)
-        }else{
-            jsonObject.addProperty("email", mobileEmail)
+            json.addProperty("country_code", country_code)
+            json.addProperty("phone", mobileEmail)
+        } else {
+            json.addProperty("email", mobileEmail)
         }
 
-        jsonObject.addProperty("otp", otp)
-        jsonObject.addProperty("device_token", device_token)
+        json.addProperty("otp", otp)
+        json.addProperty("type", type)
+        json.addProperty("device_token", device_token)
 
 
-        return AuthRepository(context).verifyOTP(jsonObject)
+        return AuthRepository(context).verifyOTP(json)
 
     }
+
     fun callResendOTP(
         context: Context,
         mobileEmail: String,
@@ -66,19 +77,19 @@ class SignUpViewModel : ViewModel() {
         type: String,
         device_token: String
     ): LiveData<LoginResponse> {
-        val jsonObject=JsonObject()
+        val json = JsonObject()
 
-        val mobile=  mobileEmail.replace("[^0-9]".toRegex(), "")
+        val mobile = mobileEmail.replace("[^0-9]".toRegex(), "")
         if (!TextUtils.isEmpty(mobile)) {
-            jsonObject.addProperty("country_code", country_code)
-            jsonObject.addProperty("phone", mobileEmail)
-        }else{
-            jsonObject.addProperty("email", mobileEmail)
+            json.addProperty("country_code", country_code)
+            json.addProperty("phone", mobileEmail)
+        } else {
+            json.addProperty("email", mobileEmail)
         }
 
-        jsonObject.addProperty("type", type)
-        jsonObject.addProperty("push_token", device_token)
-        return AuthRepository(context).loginSignup( jsonObject)
+        json.addProperty("type", type)
+        json.addProperty("push_token", device_token)
+        return AuthRepository(context).loginSignup(json)
 
     }
 

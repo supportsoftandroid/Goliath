@@ -1,32 +1,44 @@
 package com.fantasy.goliath.ui.fragments.nav
 
-import android.content.res.ColorStateList
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.fantasy.goliath.R
 
 import com.fantasy.goliath.databinding.FragmentProfileBinding
 import com.fantasy.goliath.databinding.ListCommonItemBinding
-import com.fantasy.goliath.databinding.ListOverStatusItemBinding
 import com.fantasy.goliath.model.CommonDataItem
-import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.UserDetails
 import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.activities.StaticPagesActivity
 import com.fantasy.goliath.ui.adapter.ProfileAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.ui.fragments.*
+import com.fantasy.goliath.utility.Constants
+import com.fantasy.goliath.utility.Constants.EDIT_PROFILE_REQUEST_KEY
+import com.fantasy.goliath.utility.DialogManager
+import com.fantasy.goliath.utility.IMAGE_CROP_REQUEST_CODE
 import com.fantasy.goliath.utility.logoutFromApp
+import com.fantasy.goliath.utility.printLog
 
 import com.fantasy.goliath.utility.showAddAmountDialog
+import com.fantasy.goliath.utility.showGallaryBottomModelSheet
+import com.fantasy.goliath.utility.showToast
 
 import com.fantasy.goliath.viewmodal.ProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -45,51 +57,59 @@ class ProfileFragment : BaseFragment() {
 
     private lateinit var userDetails: UserDetails
     lateinit var myAdapter: MyAdapter<CommonDataItem>
+    lateinit var dialogManager: DialogManager
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding.let {
-         userDetails=   preferenceManager.getLoginData()!!
+            dialogManager = DialogManager(requireActivity())
             initView()
             clickListener()
+            callgetProfileInfoAPI()
         }
         return binding.root
     }
 
     private fun clickListener() {
-
+        binding.imgCamera.setOnClickListener {
+            showGallaryBottomModelSheet(requireActivity(), dialogManager)
+        }
         binding.tvAddMoney.setOnClickListener() {
             showAddAmountDialog(requireActivity(),
                 { amount, dialog -> onAmountAdd(amount, dialog) })
         }
+        binding.viewHeader.imgMenu1.setOnClickListener() {
+
+            onWalletIconClick()
+
+        }
+        binding.viewHeader.imgMenu2.setOnClickListener() {
+            onNotificationsIconClick()
+
+        }
         binding.tvWalletLabel.setOnClickListener() {
-            openWallet()
+            onWalletIconClick()
         }
         binding.llTotalDeposited.setOnClickListener() {
-            openWallet()
+            onWalletIconClick()
         }
         binding.llTotalWinning.setOnClickListener() {
-            openWallet()
+            onWalletIconClick()
         }
         binding.llTotalFreePaid.setOnClickListener() {
-            openWallet()
+            onWalletIconClick()
         }
 
         binding.llTotalWithdraw.setOnClickListener() {
-            openWallet()
+            onWalletIconClick()
         }
 
     }
 
-    private fun openWallet() {
-        MainActivity.hideNavigationTab()
-        addFragmentToBackStack(
 
-            WalletDetailsFragment.newInstance("add")
-        )
-    }
 
     private fun onAmountAdd(amount: String, dialog: BottomSheetDialog) {
 
@@ -98,9 +118,11 @@ class ProfileFragment : BaseFragment() {
 
     fun initView() {
         binding.viewHeader.txtTitle.text = requireActivity().getString(R.string.my_profile)
-        binding.viewHeader.imgProfile.isVisible=false
+        binding.viewHeader.imgProfile.isVisible = false
 
-         setProfileUIData()
+
+
+        setProfileUIData()
         dataList.clear()
         dataList.add(CommonDataItem("History", "View for matches", false))
         dataList.add(
@@ -137,6 +159,7 @@ class ProfileFragment : BaseFragment() {
                         "logout" -> {
                             logOutFromApp()
                         }
+
                         else -> {
                             StaticPagesActivity.newInstance(
                                 requireActivity(),
@@ -152,13 +175,28 @@ class ProfileFragment : BaseFragment() {
         }
         binding.rvList2.layoutManager = LinearLayoutManager(requireActivity())
         binding.rvList2.adapter = myAdapter
+        setFragmentResultListener(EDIT_PROFILE_REQUEST_KEY) { key, bundle ->
+            // Any type can be passed via to the bundle
+            val from = bundle.getString("from").toString()
+            if (from.equals("edit_profile")) {
+                setProfileUIData()
+            }
+            // Do something with the result...
+        }
 
     }
 
     private fun setProfileUIData() {
-         binding.tvName.setText(userDetails.full_name)
-         binding.tvEmail.setText(userDetails.email)
-        loadProfileImage(userDetails.avatar_full_path,binding.imgProfile)
+        userDetails = preferenceManager.getLoginData()!!
+        loadImage(userDetails.avatar_full_path, binding.imgProfiles)
+        binding.tvName.setText(userDetails.full_name)
+
+        if (!TextUtils.isEmpty(userDetails.email)) binding.tvEmail.setText(userDetails.email) else binding.tvEmail.setText(
+            userDetails.country_code + " " + userDetails.phone
+        )
+        printLog("avatar_full_path", userDetails.avatar_full_path)
+
+        loadImage(userDetails.avatar_full_path)
     }
 
     private fun onAdapterClick(pos: Int, type: String) {
@@ -197,6 +235,88 @@ class ProfileFragment : BaseFragment() {
         val alertDialog: AlertDialog = builder.create()
         alertDialog.setCancelable(false)
         alertDialog.show()
+    }
+
+    fun callProfileImageUploadAPI(imagefilePath: String) {
+        if (utilsManager.isNetworkConnected()) {
+            viewModal.profilePicUpdate(
+                requireActivity(), preferenceManager.getAuthToken(), "Post", imagefilePath
+            ).observe(viewLifecycleOwner, Observer { res ->
+                showToast(requireActivity(), res.message)
+                if (res.status) {
+                    userDetails = res.data.user
+                    preferenceManager.setLoginData(userDetails)
+                    val bundle = Bundle()
+                    bundle.putString("from", "edit_profile")
+
+                    parentFragmentManager.setFragmentResult(
+                        Constants.EDIT_PROFILE_OTHER_REQUEST_KEY,
+                        bundle
+                    )
+                    setProfileUIData()
+                }
+
+
+            })
+        }
+    }
+
+    fun callgetProfileInfoAPI() {
+        if (utilsManager.isNetworkConnected()) {
+            viewModal.getUserInfo(
+                requireActivity(), preferenceManager.getAuthToken(), "GET", ""
+            ).observe(viewLifecycleOwner, Observer { res ->
+
+                if (res.status) {
+                    userDetails = res.data.user
+                    preferenceManager.setLoginData(userDetails)
+                    setProfileUIData()
+                }
+
+
+            })
+        }
+    }
+
+
+    fun loadImage(pathUrl: String) {
+        printLog("pathUrl", pathUrl)
+        Glide.with(requireActivity())
+            .load(pathUrl)
+            .apply(
+                RequestOptions().placeholder(R.drawable.ic_loading)
+                    .error(R.drawable.dummy_profile)
+                    .transform(CenterCrop(), RoundedCorners(190))
+            ).into(binding.imgProfiles)
+
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == IMAGE_CROP_REQUEST_CODE) {
+            dialogManager.dismissDialog()
+            if (resultCode == Activity.RESULT_OK) {
+                //Image Uri will not be null for RESULT_OK
+                val imagefileUri = data?.data!!
+                if (imagefileUri != null) {
+                    val imagefilePath = imagefileUri?.path.toString()
+                    loadImage(imagefilePath)
+                    callProfileImageUploadAPI(imagefilePath)
+                }
+
+            } else if (resultCode == com.github.dhaval2404.imagepicker.ImagePicker.RESULT_ERROR) {
+                Toast.makeText(
+                    context,
+                    com.github.dhaval2404.imagepicker.ImagePicker.getError(data),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            } else {
+                showToast(requireActivity(), "Task Cancelled")
+            }
+        }
     }
 
     override fun onDestroyView() {

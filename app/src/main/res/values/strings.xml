@@ -103,6 +103,7 @@
     <string name="transaction_history">Transaction History</string>
     <string name="wallet_details" >Wallet Details</string>
     <string name="matches_history">Matches History</string>
+    <string name="my_predictions">My Predictions</string>
     <string name="deposit">Deposit</string>
     <string name="predicts_now">Predicts now</string>
     <string name="total_winnings">Total Winnings</string>
@@ -124,5 +125,12 @@
     <string name="enter_mobile_number">Enter Mobile Number</string>
     <string name="most_played">Most Played</string>
     <string name="winnings">Winnings</string>
+    <string name="change_number">Change Number</string>
+    <string name="please_enter_4_digit_otp">Please Enter 4 digit OTP</string>
+    <string name="no_internet_connection_please_try_again">No Internet Connection,Please Try again!</string>
+    <string name="update_email">Update Email</string>
+    <string name="update_phone_number">Update Phone Number </string>
+    <string name="you_have_to_pay_501_from_your_wallet">You have to pay ₹501 from your wallet</string>
+    <string name="confirm_pay"><![CDATA[Confirm & Pay]]></string>
 
 </resources>

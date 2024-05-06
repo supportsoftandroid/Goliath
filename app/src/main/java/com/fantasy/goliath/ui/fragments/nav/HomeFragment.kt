@@ -1,25 +1,30 @@
 package com.fantasy.goliath.ui.fragments.nav
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
+import androidx.core.view.isVisible
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.FragmentHomeBinding
 import com.fantasy.goliath.model.LoginResponse
-import com.fantasy.goliath.model.MatchDataItem
+import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.adapter.MatchItemAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.ui.fragments.AddOverFragment
 import com.fantasy.goliath.ui.fragments.NotificationsFragment
 import com.fantasy.goliath.ui.fragments.WalletDetailsFragment
+import com.fantasy.goliath.utility.Constants
 
 import com.fantasy.goliath.viewmodal.HomeViewModel
+import com.google.gson.JsonObject
 
 class HomeFragment : BaseFragment() {
 
@@ -32,9 +37,12 @@ class HomeFragment : BaseFragment() {
     lateinit var loginResponse: LoginResponse
 
     lateinit var adapter: MatchItemAdapter
-    var dataList = mutableListOf<MatchDataItem>()
-    var type = "upcoming"
-
+    var dataList = mutableListOf<MatchItem>()
+    var matchStatus = "Scheduled"
+    var isLoading=false
+    var currentPage=1
+    var selectedPos=-1
+    var totalPage=""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -44,25 +52,26 @@ class HomeFragment : BaseFragment() {
 
             initView()
             clickListener()
+            callListAPI()
         }
 
 
         return binding.root
     }
 
-    private fun clickListener() {
+      fun clickListener() {
 
         binding.viewHeader.imgProfile.setOnClickListener() {
             MainActivity.navProfileTab()
         }
         binding.viewHeader.imgMenu2.setOnClickListener() {
-            MainActivity.hideNavigationTab()
+
             addFragmentToBackStack(NotificationsFragment())
 
         }
         binding.viewHeader.imgMenu1.setOnClickListener() {
 
-            MainActivity.hideNavigationTab()
+
             addFragmentToBackStack(WalletDetailsFragment())
 
         }
@@ -71,19 +80,8 @@ class HomeFragment : BaseFragment() {
 
     private fun initView() {
         dataList.clear()
+        binding.viewBody.tvMessage.isVisible=true
         setUserUIData()
-
-        dataList.add(MatchDataItem("GT", "CSK", "T20"))
-        dataList.add(MatchDataItem("PBKS", "KKR", "One day"))
-        dataList.add(MatchDataItem("DC", "LSG", "T20"))
-        dataList.add(MatchDataItem("SRH", "RR", "One day"))
-        dataList.add(MatchDataItem("MI", "RCB", "T20"))
-        adapter = MatchItemAdapter(
-            requireActivity(),
-            dataList,
-            { pos, type -> onAdapterClick(pos, type) })
-        binding.viewBody.rvList.layoutManager = LinearLayoutManager(requireActivity())
-        binding.viewBody.rvList.adapter = adapter
         binding.rgStatus.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.rbUpcoming -> {
@@ -99,8 +97,7 @@ class HomeFragment : BaseFragment() {
                             R.color.textPlaceHolder
                         )
                     )
-                    type = "upcoming"
-                    adapter.updateMatchType(type)
+                    matchStatus = "Scheduled"
 
                 }
 
@@ -117,15 +114,55 @@ class HomeFragment : BaseFragment() {
                             R.color.textPlaceHolder
                         )
                     )
-                    type = "live"
-                    adapter.updateMatchType(type)
+                    matchStatus = "Live"
+
+
 
                 }
-            }
 
+            }
+            binding.viewBody.tvMessage.isVisible=true
+            binding.viewBody.tvMessage.text=requireActivity().getString(R.string.loading)
+            dataList.clear()
+            currentPage=1
+            callListAPI()
         }
 
+        adapter = MatchItemAdapter(
+            requireActivity(),
+            dataList,
+            { pos, type -> onAdapterClick(pos, type) })
+        val layoutManager= LinearLayoutManager(requireActivity())
+        binding.viewBody.rvList.layoutManager =layoutManager
+        binding.viewBody.rvList.adapter = adapter
 
+        binding.viewBody.rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(
+                recyclerView: RecyclerView,
+                dx: Int, dy: Int
+            ) {
+                super.onScrolled(recyclerView, dx, dy)
+                val visibleItemCount: Int = layoutManager.getChildCount()
+                val totalItemCount: Int = layoutManager.getItemCount()
+                val firstVisibleItemPosition: Int = layoutManager.findFirstVisibleItemPosition()
+                if (visibleItemCount + firstVisibleItemPosition >= totalItemCount
+                    && firstVisibleItemPosition >= 0
+                ) {
+                    if (!isLoading &&!TextUtils.isEmpty(totalPage)) {
+                        callListAPI()
+                    }
+                }
+
+            }
+        })
+        setFragmentResultListener(Constants.EDIT_PROFILE_OTHER_REQUEST_KEY) { key, bundle ->
+            // Any type can be passed via to the bundle
+            val from = bundle.getString("from").toString()
+            if (from.equals("edit_profile")) {
+                setUserUIData()
+            }
+            // Do something with the result...
+        }
     }
 
     private fun setUserUIData() {
@@ -138,8 +175,44 @@ class HomeFragment : BaseFragment() {
         MainActivity.hideNavigationTab()
         addFragmentToBackStack(
 
-            AddOverFragment.newInstance("add")
+            AddOverFragment.newInstance("add",dataList[pos])
         )
+    }
+    private fun callListAPI( ) {
+
+            if (utilsManager.isNetworkConnected()) {
+                isLoading=true
+                val  json= JsonObject()
+                json.addProperty("status", matchStatus)
+                viewModal.getMatchesList(
+                    requireActivity(), preferenceManager.getAuthToken(), currentPage, json).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
+                    totalPage=""
+                        if (res.status) {
+                            if(res.data.matchlist!=null) {
+                                totalPage = res.data.matchlist.next_page_url
+                                dataList.addAll(res.data.matchlist.data)
+                                currentPage++
+                            }
+
+                    }else{
+                        totalPage=""
+                    }
+                    isLoading=false
+                    updateUI(res.message)
+                })
+            }
+
+
+    }
+
+    private fun updateUI(message:String) {
+        adapter.updateMatchType(matchStatus)
+        if (dataList.isEmpty()){
+            binding.viewBody.tvMessage.isVisible=true
+            binding.viewBody.tvMessage.text=message
+        }else{
+            binding.viewBody.tvMessage.isVisible=false
+        }
     }
 
     override fun onDestroyView() {

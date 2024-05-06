@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,7 +59,8 @@ class TransactionHistoryFragment : BaseFragment() {
         return binding.root
     }
     private fun clickListener() {
-
+        binding.viewHeader.getToolBarView().imgMenu1.isVisible=false
+        binding.viewHeader.getToolBarView().imgMenu2.isVisible=false
         binding.viewHeader.setClickListener(this)
 
     }
@@ -66,7 +68,7 @@ class TransactionHistoryFragment : BaseFragment() {
     private fun initView() {
         binding.viewHeader.setTitle( requireActivity().getString(R.string.transaction_history))
         dataList.clear()
-
+        binding.viewBody.tvMessage.isVisible = false
         dataList.add(CommonDataItem("Total Fee Pay","CSK",false))
         dataList.add(CommonDataItem("Total Fee Pay","CSK",false))
         dataList.add(CommonDataItem("Total Fee Pay","CSK",false))

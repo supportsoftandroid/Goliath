@@ -40,7 +40,7 @@ class SignupFragment : BaseFragment() {
     val activityScope = CoroutineScope(Dispatchers.Main)
     lateinit var dialogVerify: BottomSheetDialog
 
-    private var firebase_token = ""
+    private var firebase_token = "test android"
     private var country_code = ""
     private var emailMobile = ""
     private var inputType = ""
@@ -191,11 +191,9 @@ class SignupFragment : BaseFragment() {
                     showToast(mContext, res.message)
 
                     if (res.status) {
-                        binding.ediName.setText("")
-                        binding.ediEmail.setText("")
-                        binding.ediPhone.setText("")
+
                         showOTPDialogBottom(
-                            mContext, true,
+                            mContext, false,emailMobile,
                             { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
                     }
 
@@ -226,9 +224,10 @@ class SignupFragment : BaseFragment() {
         if (isNetworkConnected(requireActivity())) {
             viewModal.verifyUser(
                 mContext,
+                binding.ediName.text.toString().capitalize(),
                 emailMobile,
                 country_code,
-                otp, firebase_token
+                otp,"register" ,firebase_token
             ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
                 showToast(mContext, res.message)
                 if (res.status) {
@@ -248,11 +247,11 @@ class SignupFragment : BaseFragment() {
     private fun callResendOTPAPI() {
         if (utilsManager.isNetworkConnected()) {
 
-            viewModal.callResendOTP(
+            viewModal.callSignUp(
                 mContext,
+                binding.ediName.text.toString().capitalize(),
                 emailMobile,
-                country_code,
-                "register",
+                country_code, "register",
                 firebase_token
             ).observe(viewLifecycleOwner,
                 Observer { res ->

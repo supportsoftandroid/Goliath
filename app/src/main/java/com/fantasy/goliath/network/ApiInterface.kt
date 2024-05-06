@@ -10,13 +10,12 @@ import retrofit2.http.*
 
 public interface ApiInterface {
 
-
-
     @Headers(Constants.ACCEPT_JSON_HEADER)
     @POST(Constants.API_SEND_OTP)
     fun loginSignupSendOTP(
         @Body body: JsonObject
     ): Call<LoginResponse>
+
     @Headers(Constants.ACCEPT_JSON_HEADER)
     @POST(Constants.API_VERIFY_OTP)
     fun verify_otp(
@@ -26,8 +25,9 @@ public interface ApiInterface {
     @Headers(Constants.ACCEPT_JSON_HEADER)
     @POST(Constants.API_HOW_TO_PLAY)
     fun how_to_play(
+        @Header("Authorization") authorization: String,
         @Body body: JsonObject
-    ): Call<LoginResponse>
+    ): Call<HowToPlayResponse>
 
     @Headers(Constants.ACCEPT_JSON_HEADER)
     @POST(Constants.API_CHECK_EMAIL)
@@ -44,8 +44,41 @@ public interface ApiInterface {
     ): Call<CommonResponse>
 
 
+    @Headers(Constants.ACCEPT_JSON_HEADER)
+    @POST(Constants.API_COMPETITION_LIST)
+    fun getCompetitionList(
+        @Header("Authorization") authorization: String,
+        @Body body: JsonObject
+    ): Call<CommonResponse>
 
+    @Headers(Constants.ACCEPT_JSON_HEADER)
+    @POST(Constants.API_MATCHES_LIST)
+    fun getMatchesList(
+        @Header("Authorization") authorization: String,
+        @Query("page") page: Int,
+        @Body body: JsonObject
+    ): Call<MatchesResponse>
 
+    @Headers(Constants.ACCEPT_JSON_HEADER)
+    @POST(Constants.API_MATCH_DETAIL)
+    fun getMatchDetails(
+        @Header("Authorization") authorization: String,
+        @Body body: JsonObject
+    ): Call<MatchesDetailsRes>
+
+    @Headers(Constants.ACCEPT_JSON_HEADER)
+    @POST(Constants.API_QUESTION_LIST_FOR_DETAIL)
+    fun getQuestionList(
+        @Header("Authorization") authorization: String,
+        @Body body: JsonObject
+    ): Call<MatchesDetailsRes>
+
+    @Headers(Constants.ACCEPT_JSON_HEADER)
+    @POST(Constants.API_SAVE_USER_PREDICTION)
+    fun saveUserPrediction(
+        @Header("Authorization") authorization: String,
+        @Body body: JsonObject
+    ): Call<MatchesDetailsRes>
 
 
     @Headers(Constants.ACCEPT_JSON_HEADER)
@@ -58,8 +91,7 @@ public interface ApiInterface {
     @POST(Constants.API_EDIT_PROFILE)
     fun updateProfile(
         @Header("Authorization") authorization: String?,
-
-        @Body longitude: JsonObject,
+        @Body json: JsonObject,
     ): Call<LoginResponse>
 
     @Multipart()
@@ -68,7 +100,6 @@ public interface ApiInterface {
         @Header("Authorization") authorization: String?,
         @Part file_1: MultipartBody.Part?,
     ): Call<LoginResponse>
-
 
 
     @Headers(Constants.ACCEPT_JSON_HEADER)
@@ -138,6 +169,7 @@ public interface ApiInterface {
         @Header("Authorization") authorization: String?,
         @Body body: JsonObject
     ): Call<CommonResponse>
+
     @Headers(Constants.ACCEPT_JSON_HEADER)
 
     @POST(Constants.API_LOGOUT)

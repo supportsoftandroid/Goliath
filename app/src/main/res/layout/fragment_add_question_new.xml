@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorVeryLightGray">
+
+    <ImageView
+        android:id="@+id/imgGradient"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_200"
+        android:background="@drawable/bg_gradient_header"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <com.fantasy.goliath.ui.components.MyToolBar
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewHeader"
+
+        app:show_team_icon="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+
+
+
+
+
+
+    </com.fantasy.goliath.ui.components.MyToolBar>
+
+
+    <include
+        android:id="@+id/clv_match_card"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_80"
+        android:layout_marginHorizontal="@dimen/dp_7"
+        layout="@layout/layout_team_card"
+
+         android:background="@color/colorVeryLightGray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewHeader"
+        />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvOverName"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_35"
+        android:text="Over Number: 12"
+        android:layout_marginTop="@dimen/dp_15"
+        android:textColor="@color/app_color"
+        android:paddingVertical="@dimen/dp_5"
+        android:paddingHorizontal="@dimen/dp_20"
+
+        app:fontFamily="@font/visby_semi_bold"
+        android:textSize="@dimen/sp_18"
+
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/border_layout_blue_radius_5"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clv_match_card"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOverList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_15"
+        tools:listitem="@layout/list_tab_over_item"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_1"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOverName"
+
+        />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_20"
+        app:layout_constraintEnd_toEndOf="parent"
+
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvOverList">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/dp_15"
+
+        android:layout_marginBottom="@dimen/dp_35"
+        >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:nestedScrollingEnabled="true"
+                android:padding="10dp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_marginHorizontal="@dimen/dp_5"
+                 tools:listitem="@layout/list_question_answer_item"
+
+                />
+            <TextView
+                android:id="@+id/tvMessage_loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:fontFamily="@font/visby_regular"
+                android:paddingVertical="@dimen/dp_120"
+                android:layout_gravity="center"
+
+                android:gravity="center"
+
+                android:text="@string/loading"
+
+                android:textColor="@color/colorTextHint"
+                android:textSize="@dimen/sp_17"
+                 />
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppButtonStyle"
+            android:layout_marginTop="@dimen/dp_35"
+            android:layout_marginBottom="@dimen/dp_25"
+            android:textSize="@dimen/sp_20"
+            android:fontFamily="@font/visby_bold"
+            android:text="@string/submit"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clvQuesAnswer"
+            app:layout_constraintBottom_toTopOf="@+id/tv_price_guide"
+            />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_price_guide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_15"
+            android:fontFamily="@font/visby_medium"
+            android:text="@string/you_have_to_pay_501_from_your_wallet"
+            android:gravity="center"
+            android:textColor="@color/app_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="@dimen/dp_100"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            />
+    </LinearLayout>
+
+
+</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

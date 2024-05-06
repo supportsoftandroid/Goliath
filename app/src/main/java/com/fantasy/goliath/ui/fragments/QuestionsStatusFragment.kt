@@ -1,40 +1,42 @@
 package com.fantasy.goliath.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.FragmentAddQuestionBinding
-import com.fantasy.goliath.databinding.FragmentAddQuestionNewBinding
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.model.OverItem
 import com.fantasy.goliath.model.QuestionAnsItem
+import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
-import com.fantasy.goliath.ui.adapter.QuestionAnswerAdapter
+import com.fantasy.goliath.ui.adapter.QuestionAnswerStatusAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
-import com.fantasy.goliath.utility.printLog
-
-import com.fantasy.goliath.utility.showPredictErrorDialog
 import com.fantasy.goliath.viewmodal.QuestionsViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 
-class AddQuestionsFragment : BaseFragment() {
+class QuestionsStatusFragment : BaseFragment() {
     companion object {
 
-        fun newInstance(from: String,over_id: String,over_name: String, matchItem: MatchItem): AddQuestionsFragment {
+        fun newInstance(
+            from: String,
+            over_id: String,
+            over_name: String,
+            matchItem: MatchItem
+        ): QuestionsStatusFragment {
             val args = Bundle()
             args.putString("from", from)
             args.putString("over_id", over_id)
             args.putString("over_name", over_name)
             args.putSerializable("match_item", matchItem)
-            val fragment = AddQuestionsFragment()
+            val fragment = QuestionsStatusFragment()
             fragment.arguments = args
             return fragment
         }
@@ -44,7 +46,7 @@ class AddQuestionsFragment : BaseFragment() {
 
     private val viewModal by lazy { ViewModelProvider(this)[QuestionsViewModel::class.java] }
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
-        FragmentAddQuestionNewBinding.inflate(
+        FragmentAddQuestionBinding.inflate(
             layoutInflater
         )
     }
@@ -52,7 +54,7 @@ class AddQuestionsFragment : BaseFragment() {
 
 
     lateinit var adapter: MatchOverTabAdapter
-    lateinit var questionAdapter: QuestionAnswerAdapter
+    lateinit var questionAdapter: QuestionAnswerStatusAdapter
 
     var questionList = arrayListOf<QuestionAnsItem>()
     var selectedOverPos = 0
@@ -70,9 +72,10 @@ class AddQuestionsFragment : BaseFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding.let {
-            over_id=requireArguments().getString("over_id")!!
-            over_name=requireArguments().getString("over_name")!!
-            matchItem=arguments?.getSerializable("match_item") as MatchItem
+            over_id = requireArguments().getString("over_id")!!
+            over_name = requireArguments().getString("over_name")!!
+            matchItem = arguments?.getSerializable("match_item") as MatchItem
+            match_id = matchItem.match_id
 
 
             initView()
@@ -84,34 +87,14 @@ class AddQuestionsFragment : BaseFragment() {
     }
 
     private fun clickListener() {
+
         binding.viewHeader.setClickListener(this)
         binding.btnSubmit.setOnClickListener() {
+            startActivity(Intent(requireActivity(), MainActivity::class.java))
+            requireActivity().finishAffinity()
 
-            onBackPressed()
 
-        }
-        binding.btnSubmit.setOnClickListener() {
-            var isfill=true
-            val jsonArray=JsonArray()
-            for (item in questionList){
-                if (TextUtils.isEmpty(item.your_answer)){
-                    isfill=false
-                    showAlertMessageError("Please select answer of:- '${item.question}'")
-
-                    break
-                    return@setOnClickListener
-                }else{
-                    val json = JsonObject()
-                    json.addProperty("question_id", item.question_id)
-                    json.addProperty("answere", item.your_answer)
-                    jsonArray.add(json)
-                }
-            }
-            if (isfill){
-               callSaveQuestionPredictionAPI(jsonArray)
-
-            }
-           /* showPredictErrorDialog(requireActivity(),
+            /*showPredictErrorDialog(requireActivity(),
                 { type, dialog -> onPredictCheck(type, dialog) })*/
 
 
@@ -124,14 +107,17 @@ class AddQuestionsFragment : BaseFragment() {
         dialog.dismiss()
         addFragmentToBackStack(
 
-            QuestionsStatusFragment.newInstance("add",over_id,over_name,matchItem))
+            QuestionsStatusFragment.newInstance("add", over_id, over_name, matchItem)
+        )
+
     }
 
 
     private fun initView() {
 
-       binding.tvOverName.text="Over Number: ${over_name}"
-           loadImage(matchItem.teama.logo_url, binding.viewHeader.getToolBarView().imgTeam1)
+        binding.clvQuestion.isVisible = false
+        binding.tvOverName.text = "Over Number: ${over_name}"
+        loadImage(matchItem.teama.logo_url, binding.viewHeader.getToolBarView().imgTeam1)
         loadImage(matchItem.teamb.logo_url, binding.viewHeader.getToolBarView().imgTeam2)
         binding.viewHeader.setTitle("${matchItem.short_title}  ")
         binding.clvMatchCard.tvLeft.text = "${matchItem.teama.short_name}"
@@ -140,10 +126,11 @@ class AddQuestionsFragment : BaseFragment() {
         binding.clvMatchCard.tvRightFullName.text = "${matchItem.teamb.name}"
         loadImage(matchItem.teama.logo_url, binding.clvMatchCard.imgLeft)
         loadImage(matchItem.teamb.logo_url, binding.clvMatchCard.imgRight)
+        binding.btnSubmit.text= getString(R.string.confirm_pay)
 
 
 
-        questionAdapter = QuestionAnswerAdapter(
+        questionAdapter = QuestionAnswerStatusAdapter(
             requireActivity(),
             questionList,
             { pos, type -> onQuestionAdapterClick(pos, type) })
@@ -154,9 +141,7 @@ class AddQuestionsFragment : BaseFragment() {
     }
 
 
-
     private fun onQuestionAdapterClick(pos: Int, type: String) {
-        questionList[pos].your_answer=type
 
 
     }
@@ -174,13 +159,11 @@ class AddQuestionsFragment : BaseFragment() {
     }
 
     private fun callQuestionAPI() {
-        binding.tvMessageLoading.isVisible=true
-        binding.btnSubmit.isVisible=false
-        binding.tvPriceGuide.text=""
+
         if (utilsManager.isNetworkConnected()) {
 
             val json = JsonObject()
-            json.addProperty("match_id", matchItem.match_id)
+            json.addProperty("match_id", match_id)
             json.addProperty("over_id", over_id)
             viewModal.getQuestions(
                 requireActivity(), preferenceManager.getAuthToken(), json
@@ -188,9 +171,8 @@ class AddQuestionsFragment : BaseFragment() {
                 questionList.clear()
                 if (res.status) {
                     matchItem = res.data.matchdetail
-                    questionList.addAll(res.data.matchdetail.question)
-                    binding.btnSubmit.isVisible=true
-                    binding.tvPriceGuide.text=""
+                    questionList.addAll(matchItem.question)
+
                 } else {
                     showErrorToast(res.message)
                 }
@@ -201,44 +183,17 @@ class AddQuestionsFragment : BaseFragment() {
 
 
     }
-    private fun callSaveQuestionPredictionAPI(questionsArray: JsonArray) {
-
-        if (utilsManager.isNetworkConnected()) {
-            val json = JsonObject()
-            json.addProperty("match_id", matchItem.match_id)
-            json.addProperty("over_id", over_id)
-            json.add("questionans", questionsArray)
-            viewModal.saveQuestions(
-                requireActivity(), preferenceManager.getAuthToken(), json
-            ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
-                questionList.clear()
-                if (res.status) {
-                    matchItem.question = questionList
-                    addFragmentToBackStack(
-                        QuestionsStatusFragment.newInstance("add",over_id,over_name,matchItem))
-
-                } else {
-                    showErrorToast(res.message)
-                }
-
-
-            })
-        }
-
-
-    }
 
     private fun setUIData(message: String) {
 
         questionAdapter.notifyDataSetChanged()
-        printLog("questionList",questionList.size.toString())
 
         if (questionList.isEmpty()) {
             binding.tvMessageLoading.isVisible = true
             binding.tvMessageLoading.text = message
         } else {
             binding.tvMessageLoading.isVisible = false
-            binding.btnSubmit.isVisible=true
+            binding.btnSubmit.isVisible = true
 
         }
     }

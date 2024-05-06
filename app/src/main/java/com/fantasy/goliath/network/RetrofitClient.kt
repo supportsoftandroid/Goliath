@@ -36,13 +36,16 @@ object RetrofitClient {
             }
         })
         logging.setLevel(levelType)
+        //logging.redactHeader("Content-Type: application/json")
         val okhttpClient = OkHttpClient.Builder()
         okhttpClient.addInterceptor(logging)
+
         okhttpClient.callTimeout(connectionTimeOUT, TimeUnit.SECONDS)
         okhttpClient.readTimeout(connectionTimeOUT, TimeUnit.SECONDS)
         okhttpClient.writeTimeout(connectionTimeOUT, TimeUnit.SECONDS)
         Retrofit.Builder()
             .baseUrl(Constants.LIVE_URL)
+
             .client(okhttpClient.build())
             .addConverterFactory(GsonConverterFactory.create())
     }

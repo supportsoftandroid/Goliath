@@ -12,6 +12,7 @@ import com.fantasy.goliath.databinding.FragmentMatchPredictionStatusBinding
 
 import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.LoginResponse
+import com.fantasy.goliath.model.OverItem
 import com.fantasy.goliath.model.QuestionAnsItem
 import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
 import com.fantasy.goliath.ui.adapter.QuestionAnswerAdapter
@@ -43,8 +44,8 @@ class MatchOverStatusFragment : BaseFragment() {
 
     lateinit var adapter: MatchOverTabAdapter
     lateinit var questionAdapter: QuestionAnswerAdapter
-    var dataList = mutableListOf<CommonDataItem>()
-    var questionList = mutableListOf<QuestionAnsItem>()
+    var dataList = arrayListOf<OverItem>()
+    var questionList = arrayListOf<QuestionAnsItem>()
 
 
 
@@ -65,12 +66,8 @@ class MatchOverStatusFragment : BaseFragment() {
     }
 
     private fun clickListener() {
+        binding.viewHeader.setClickListener(this)
 
-        binding.btnBack.setOnClickListener() {
-
-           onBackPressed()
-
-        }
         binding.btnSubmit.setOnClickListener() {
 
             addFragmentToBackStack(
@@ -85,13 +82,13 @@ class MatchOverStatusFragment : BaseFragment() {
     private fun initView() {
         binding.clvQuestion.visibility=View.GONE
         dataList.clear()
-        dataList.add(CommonDataItem("1st Over", "", false))
-        dataList.add(CommonDataItem("2nd Over ", "", false))
-        dataList.add(CommonDataItem("3rd Over ", "", false))
-        dataList.add(CommonDataItem("4th Over ", "", false))
-        dataList.add(CommonDataItem("5th Over ", "", false))
-        dataList.add(CommonDataItem("10th Over ", "", false))
-        dataList.add(CommonDataItem("15th Over ", "", false))
+        dataList.add(OverItem("","1st Over", "", false))
+        dataList.add(OverItem("","2nd Over ", "", false))
+        dataList.add(OverItem("","3rd Over ", "", false))
+        dataList.add(OverItem("","4th Over ", "", false))
+        dataList.add(OverItem("", "5th Over ",  "", false))
+        dataList.add(OverItem("","10th Over ", "", false))
+        dataList.add(OverItem("","15th Over ", "", false))
 
 
         adapter = MatchOverTabAdapter(
@@ -101,23 +98,17 @@ class MatchOverStatusFragment : BaseFragment() {
         binding.rvOverList.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
         binding.rvOverList.adapter = adapter
 
-        dataList.add(CommonDataItem("1st Over", "", false))
-        dataList.add(CommonDataItem("2nd Over 2", "", false))
-        dataList.add(CommonDataItem("3rd Over ", "", false))
-        dataList.add(CommonDataItem("4th Over ", "", false))
-        dataList.add(CommonDataItem("5th Over ", "", false))
-        dataList.add(CommonDataItem("10th Over ", "", false))
-        dataList.add(CommonDataItem("15th Over ", "", false))
+
 
         questionList.clear()
-        questionList.add(QuestionAnsItem("1. End Over EVEN runs.", "No","Yes"))
-        questionList.add(QuestionAnsItem("2. First ball scoring?", "Yes","No"))
-        questionList.add(QuestionAnsItem("3. Boundary", "No","Yes"))
-        questionList.add(QuestionAnsItem("4. Sixes", "No","No"))
-        questionList.add(QuestionAnsItem("5. LBW", "No","Yes"))
-        questionList.add(QuestionAnsItem("6. Dot Balls LESS than 2", "Yes","Yes"))
-        questionList.add(QuestionAnsItem("7. Maiden Over ( 0runs )", "Yes","No"))
-        questionList.add(QuestionAnsItem("8. Out For a Duck", "No","Yes"))
+        questionList.add(QuestionAnsItem("","","1. End Over EVEN runs.", "No","Yes"))
+        questionList.add(QuestionAnsItem("","","2. First ball scoring?", "Yes","No"))
+        questionList.add(QuestionAnsItem("","","3. Boundary", "No","Yes"))
+        questionList.add(QuestionAnsItem("","","4. Sixes", "No","No"))
+        questionList.add(QuestionAnsItem("","","5. LBW", "No","Yes"))
+        questionList.add(QuestionAnsItem("","","6. Dot Balls LESS than 2", "Yes","Yes"))
+        questionList.add(QuestionAnsItem("","","7. Maiden Over ( 0runs )", "Yes","No"))
+        questionList.add(QuestionAnsItem("","","8. Out For a Duck", "No","Yes"))
         questionAdapter = QuestionAnswerAdapter(
             requireActivity(),
             questionList,
