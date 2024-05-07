@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 
 import androidx.lifecycle.ViewModelProvider
 import com.fantasy.goliath.R
@@ -72,7 +73,7 @@ class WalletDetailsFragment : BaseFragment() {
     }
 
     fun initView() {
-
+        binding.viewHeader.getToolBarView().imgMenu1.isVisible=false
         binding.viewHeader.setTitle( requireActivity().getString(R.string.wallet_details))
     }
 

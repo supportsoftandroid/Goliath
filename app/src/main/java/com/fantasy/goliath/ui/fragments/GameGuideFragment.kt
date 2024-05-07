@@ -1,6 +1,5 @@
 package com.fantasy.goliath.ui.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -57,7 +56,7 @@ class GameGuideFragment : BaseFragment() {
         dataList.add(HowToPlayItem("","Make your predictions" ))
         dataList.add(HowToPlayItem("","Load your Wallet" ))
 
-        strText = "Entry fee" + getBoldText("₹501") + "  per OVER"
+        strText = "Entry fee" + getBoldText("₹400") + "  per OVER"
 
         dataList.add(HowToPlayItem( "",strText))
         dataList.add(HowToPlayItem("","Check the APP"))

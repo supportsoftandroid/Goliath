@@ -22,6 +22,8 @@ import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.model.OverItem
 import com.fantasy.goliath.ui.adapter.InningItemAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
+import com.fantasy.goliath.utility.getMatchDate
+import com.fantasy.goliath.utility.getMatchTime
 import com.fantasy.goliath.utility.showWalletErrorDialog
 
 
@@ -106,10 +108,35 @@ class AddOverFragment : BaseFragment() {
         loadImage(matchItem.teama.logo_url, binding.clvHeader.getToolBarView().imgTeam1)
         loadImage(matchItem.teamb.logo_url, binding.clvHeader.getToolBarView().imgTeam2)
         binding.clvHeader.setTitle("${matchItem.short_title}  ")
+        binding.clvMatchCard.tvMatchType.text = "${matchItem.formate}"
         binding.clvMatchCard.tvLeft.text = "${matchItem.teama.short_name}"
         binding.clvMatchCard.tvRight.text = "${matchItem.teamb.short_name}"
         binding.clvMatchCard.tvLeftFullName.text = "${matchItem.teama.name}"
         binding.clvMatchCard.tvRightFullName.text = "${matchItem.teamb.name}"
+
+
+        if (matchItem.status.equals("live",true)||matchItem.status.equals("completed",true)){
+            binding.clvMatchCard.llMatchTime.visibility=View.GONE
+            binding.clvMatchCard.tvLive.visibility=View.VISIBLE
+            binding.clvMatchCard.tvLeftScore.isVisible=true
+            binding.clvMatchCard.tvRightScore.isVisible=true
+            binding.clvMatchCard.tvLive.text=matchItem.status.uppercase()
+            binding.clvMatchCard.tvLeftScore.text = "${matchItem.teama.scores_full}"
+            binding.clvMatchCard.tvRightScore.text = "${matchItem.teamb.scores_full}"
+            if (matchItem.status.equals("completed",true)){
+                binding.clvMatchCard.tvLive.setBackgroundResource(R.drawable.button_bg_green)
+            }else{
+                binding.clvMatchCard.tvLive.setBackgroundResource(R.drawable.button_bg_red_round)
+            }
+        }else{
+            binding.clvMatchCard.llMatchTime.isVisible=true
+            binding.clvMatchCard.tvLeftScore.isVisible=false
+            binding.clvMatchCard.tvRightScore.isVisible=false
+            binding.clvMatchCard.tvDay.text= getMatchDate("${matchItem.match_start_date} ${ matchItem.match_start_time }")
+            binding.clvMatchCard.tvTime.text= getMatchTime("${matchItem.match_start_date} ${ matchItem.match_start_time }")
+            binding.clvMatchCard.tvLive.isVisible=false
+
+        }
         loadImage(matchItem.teama.logo_url, binding.clvMatchCard.imgLeft)
         loadImage(matchItem.teamb.logo_url, binding.clvMatchCard.imgRight)
         adapter = InningItemAdapter(requireActivity(), dataList, { parentPosition, pos, type ->

@@ -175,7 +175,6 @@ class LoginFragment : BaseFragment() {
 
     private fun callLoginAPI() {
           if (utilsManager.isNetworkConnected()) {
-
                viewModal.callLogin(
                    mContext,
                    emailMobile,
@@ -185,12 +184,10 @@ class LoginFragment : BaseFragment() {
                ).observe(viewLifecycleOwner,
                    Observer { res ->
                        showToast(mContext, res.message)
-
                        if (isLogin) {
                            if (res.status) {
-
                                    showOTPDialogBottom(
-                                       mContext, true,emailMobile,
+                                       mContext, true,country_code+" "+emailMobile,
                                        { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
 
                            }

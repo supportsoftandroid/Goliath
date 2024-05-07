@@ -122,8 +122,13 @@ class EditProfileFragment : BaseFragment() {
         binding.ediEmail.setText(userDetails.email)
         binding.ediPhone.setText(userDetails.phone)
         binding.ediName.setText(userDetails.full_name)
+        if (!TextUtils.isEmpty(userDetails.country_code)){
+            binding.countryPickerView.setCountryForPhoneCode(userDetails.country_code.toInt())
+        }
+
         binding.ediEmail.isVisible = !userDetails.email.isEmpty()
-        binding.ediPhone.isVisible = !userDetails.phone.isEmpty()
+        binding.clvCountry.isVisible = !userDetails.phone.isEmpty()
+
 
 
     }
@@ -161,7 +166,7 @@ class EditProfileFragment : BaseFragment() {
 
                         showVerifyOTPEmailMobileBottom(requireActivity(),
                             false,
-                            country_code + emailMobile,
+                            country_code +" "+ emailMobile,
                             { type, otp, dlg ->
                                 dialogVerifyOTP = dlg
                                 if (type.equals("verify")) {

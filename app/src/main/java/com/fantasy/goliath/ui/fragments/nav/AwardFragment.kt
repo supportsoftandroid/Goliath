@@ -16,6 +16,7 @@ import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.adapter.AwardAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.ui.fragments.NotificationsFragment
+import com.fantasy.goliath.ui.fragments.WalletDetailsFragment
 
 import com.fantasy.goliath.viewmodal.AwardViewModel
 
@@ -56,6 +57,15 @@ class AwardFragment : BaseFragment() {
             addFragmentToBackStack(
 
                 NotificationsFragment()
+            )
+
+        }
+        binding.viewHeader.imgMenu1.setOnClickListener() {
+
+
+            addFragmentToBackStack(
+
+                WalletDetailsFragment()
             )
 
         }

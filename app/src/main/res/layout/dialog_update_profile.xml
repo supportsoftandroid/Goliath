@@ -115,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp_0"
-                android:background="@drawable/border_layout_global_radius_5"
+
                 android:gravity="center_vertical"
                 android:paddingVertical="@dimen/dp_8"
                 android:textSize="@dimen/sp_16"
@@ -168,7 +168,6 @@
                     style="@style/AppTextInputEditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:maxLength="13"
@@ -181,38 +180,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_30"
-            android:orientation="horizontal"
-            android:visibility="gone">
 
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:fontFamily="@font/visby_medium"
-                android:text="@string/sms_notification"
-                android:textColor="@color/colorText"
-                android:textSize="@dimen/sp_16"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <CheckBox
-                android:id="@+id/cbSMS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:button="@drawable/switch_selecter"
-                android:checked="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.goodiebag.pinview.Pinview
             android:id="@+id/pinview"

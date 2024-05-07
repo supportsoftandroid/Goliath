@@ -12,6 +12,8 @@ import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.ListMatchItemBinding
 import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.utility.dateChangeInDMY
+import com.fantasy.goliath.utility.getMatchDate
+import com.fantasy.goliath.utility.getMatchTime
 import com.fantasy.goliath.utility.loadImage
 
 
@@ -46,7 +48,7 @@ class MatchItemAdapter(
         if (type.equals("live",true)||type.equals("completed",true)){
             holder.binding.llMatchTime.visibility=View.GONE
             holder.binding.tvLive.visibility=View.VISIBLE
-            holder.binding.tvLive.text=type
+            holder.binding.tvLive.text=type.uppercase()
             if (type.equals("completed",true)){
                 holder.binding.tvLive.setBackgroundResource(R.drawable.button_bg_green)
             }else{
@@ -54,8 +56,8 @@ class MatchItemAdapter(
             }
         }else{
             holder.binding.llMatchTime.isVisible=true
-            holder.binding.tvDay.text= dateChangeInDMY(current.match_start_date)
-            holder.binding.tvTime.text=current.match_start_time
+            holder.binding.tvDay.text= getMatchDate("${current.match_start_date} ${ current.match_start_time }")
+            holder.binding.tvTime.text=getMatchTime("${current.match_start_date} ${ current.match_start_time }")
             holder.binding.tvLive.isVisible=false
         }
         holder.itemView.setOnClickListener(){

@@ -25,7 +25,7 @@ import com.fantasy.goliath.databinding.ListCommonItemBinding
 import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.UserDetails
 import com.fantasy.goliath.ui.activities.MainActivity
-import com.fantasy.goliath.ui.activities.StaticPagesActivity
+import com.fantasy.goliath.ui.fragments.StaticPagesFragment
 import com.fantasy.goliath.ui.adapter.ProfileAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.ui.fragments.*
@@ -161,11 +161,11 @@ class ProfileFragment : BaseFragment() {
                         }
 
                         else -> {
-                            StaticPagesActivity.newInstance(
-                                requireActivity(),
+                            addFragmentToBackStack( StaticPagesFragment.newInstance(
                                 data.title,
                                 data.type
-                            )
+                            ))
+
                         }
                     }
                 }

@@ -296,7 +296,28 @@ fun hasPermissions(context: Context?, vararg permissions: String?): Boolean {
     return true
 }
 
+fun getMatchTime(selectedDate: String): String {
+    return selectedDate.toDate().formatTo("HH:mm")
 
+}
+
+fun getMatchDate(selectedDate: String): String {
+    return selectedDate.toDate().formatTo("dd-MMM-yyyy")
+
+}
+
+fun Date.formatTo(dateFormat: String): String {
+    val timeZone: TimeZone = TimeZone.getDefault()
+    val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
+    formatter.timeZone = timeZone
+    return formatter.format(this)
+}
+
+fun String.toDate(): Date {
+    val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    parser.timeZone = TimeZone.getTimeZone("UTC")
+    return parser.parse(this)
+}
 fun changeLastChatDate(inputDate: String): String {
     val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
     val output = SimpleDateFormat("HH:mm a")
@@ -975,7 +996,7 @@ fun showOTPDialogBottom(
                 dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorWhite))
             }else{
                 dialogBinding.btnSubmit.isEnabled=false
-                dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.btn_selecter)
+                dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.button_background_disable)
                 dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorBtn))
 
 
@@ -1129,7 +1150,7 @@ fun showVerifyOTPEmailMobileBottom(
     dialogBinding.tvDontRecieve.isVisible=true
     dialogBinding.pinview.isVisible=true
     dialogBinding.btnSubmit.text=context.getString(R.string.verify)
-    dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.btn_selecter)
+    dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.button_background_disable)
     dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorBtn))
 
     dialogBinding.pinview.setPinViewEventListener(object : Pinview.PinViewEventListener {
@@ -1143,7 +1164,7 @@ fun showVerifyOTPEmailMobileBottom(
                 dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorWhite))
             }else{
                 dialogBinding.btnSubmit.isEnabled=false
-                dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.btn_selecter)
+                dialogBinding.btnSubmit.background=context.getDrawable(R.drawable.button_background_disable)
                 dialogBinding.btnSubmit.setTextColor(context.resources.getColor(R.color.colorBtn))
 
 

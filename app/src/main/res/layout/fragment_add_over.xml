@@ -29,7 +29,7 @@
     <include
         android:id="@+id/clv_match_card"
         android:layout_width="0dp"
-        android:layout_height="@dimen/dp_80"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_15"
 
         layout="@layout/layout_team_card"

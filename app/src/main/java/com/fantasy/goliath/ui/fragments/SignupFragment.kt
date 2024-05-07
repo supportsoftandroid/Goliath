@@ -193,7 +193,7 @@ class SignupFragment : BaseFragment() {
                     if (res.status) {
 
                         showOTPDialogBottom(
-                            mContext, false,emailMobile,
+                            mContext, false,country_code+" "+emailMobile,
                             { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
                     }
 
