@@ -201,10 +201,10 @@
             android:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:visibility="gone"
-            android:text=" ₹ 50601 will be transferred to
+            android:text=" ₹ 40601 will be transferred to
  your wallet."
             android:layout_marginTop="-20dp"
-            android:inputType="textMultiLine"
+
             android:textSize="@dimen/sp_15"
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
@@ -310,14 +310,14 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
                 android:nestedScrollingEnabled="false"
                 android:layout_marginHorizontal="@dimen/dp_5"
                  tools:listitem="@layout/list_question_answer_item"
 
                 />
-            <TextView
+             <TextView
                 android:id="@+id/tvMessage_loading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

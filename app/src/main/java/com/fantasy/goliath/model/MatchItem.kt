@@ -5,6 +5,8 @@ import java.io.Serializable
 
 data class MatchItem(
     val competiton_id: String,
+    val competiton_name: String,
+    var match_no: String="",
     val created_at: String,
     val datetime: String,
     val formate: String,

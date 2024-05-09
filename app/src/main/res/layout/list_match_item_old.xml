@@ -12,35 +12,57 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clv_card_main"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_120"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_1"
         android:background="@color/colorWhite">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_tournament_name"
+            android:text="@string/app_name"
+            android:layout_margin="@dimen/dp_1"
+            android:textColor="@color/colorText"
+            android:background="@color/colorTeamBg"
+            app:fontFamily="@font/visby_medium"
+            android:paddingHorizontal="@dimen/dp_10"
+            android:paddingVertical="@dimen/dp_7"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <LinearLayout
             android:id="@+id/clv_left"
-            android:layout_width="@dimen/dp_105"
-            android:layout_height="@dimen/dp_120"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="0dp"
+
+            android:background="@color/colorTeamBg"
+            android:paddingBottom="@dimen/dp_10"
+            android:orientation="vertical"
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <ImageView
+
+            app:layout_constraintTop_toBottomOf="@+id/tv_tournament_name">
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgLeftCircle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:alpha="0.15"
-
-                android:background="@drawable/half_circle_left"
+                android:layout_gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 
-            <View
+            <TextView
                 android:id="@+id/viewLeftBorder"
                 android:layout_width="3dp"
                 android:layout_height="match_parent"
                 android:background="@color/colorDarkGray"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,10 +70,11 @@
                 android:id="@+id/imgLeft"
                 android:layout_width="@dimen/dp_50"
                 android:layout_height="@dimen/dp_50"
-                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_10"
                 android:background="@drawable/circle_white"
                 android:contentDescription="@string/app_name"
                 android:padding="@dimen/dp_5"
+                android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_team_gujrat_titan"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -59,27 +82,48 @@
 
                 />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLeft"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp_20"
-                android:fontFamily="@font/visby_bold"
+                android:layout_gravity="center_horizontal"
+                app:fontFamily="@font/visby_bold"
                 android:padding="@dimen/dp_5"
-                android:src="@drawable/ic_team_gujrat_titan"
-                android:text="GT"
+                android:gravity="center"
+                android:maxLines="1"
+
+                android:text="@string/dummy_description"
                 android:textAllCaps="true"
                 android:textColor="@color/colorText"
                 android:textStyle="bold"
-
-
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgLeft"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 
                 />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvLeftScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:fontFamily="@font/visby_medium"
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:gravity="center"
+
+
+                android:text="120/5"
+                android:textAllCaps="true"
+                android:textColor="@color/app_color"
+                android:textSize="@dimen/sp_10"
+
+                app:layout_constraintTop_toBottomOf="@+id/tvLeft"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                />
+
+        </LinearLayout>
 
 
         <ImageView
@@ -102,6 +146,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="-15dp"
             android:contentDescription="@string/app_name"
+            android:visibility="gone"
             android:src="@drawable/ic_arrow_drop_up_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -114,11 +159,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
+            android:layout_marginTop="@dimen/dp_15"
             android:src="@drawable/ic_vs"
-            app:layout_constraintBottom_toBottomOf="parent"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvMatchType"
 
             />
 
@@ -135,15 +181,17 @@
             android:textSize="@dimen/sp_12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_tournament_name" />
         <LinearLayout
             android:id="@+id/llMatchTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_10"
+
+            android:layout_marginTop="@dimen/dp_15"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgVs"
 
             >
 
@@ -194,20 +242,25 @@
             />
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/clv_right"
             android:layout_width="@dimen/dp_105"
-            android:layout_height="@dimen/dp_120"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTeamBg"
+            android:paddingBottom="@dimen/dp_10"
+            android:orientation="vertical"
 
 
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+
+            app:layout_constraintTop_toBottomOf="@+id/tv_tournament_name">
             <ImageView
                 android:id="@+id/imgRightCircle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:alpha="0.15"
-                android:background="@drawable/half_circle_right"
+                android:layout_gravity="center_horizontal"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -218,6 +271,7 @@
                 android:layout_width="3dp"
                 android:layout_height="match_parent"
                 android:background="@color/colorYellow"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -225,10 +279,11 @@
                 android:id="@+id/imgRight"
                 android:layout_width="@dimen/dp_50"
                 android:layout_height="@dimen/dp_50"
-                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_10"
                 android:background="@drawable/circle_white"
                 android:contentDescription="@string/app_name"
                 android:padding="@dimen/dp_5"
+                android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_team_csk"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -236,27 +291,49 @@
 
                 />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvRight"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp_20"
-                android:fontFamily="@font/visby_bold"
+
+                app:fontFamily="@font/visby_bold"
                 android:padding="@dimen/dp_5"
+                android:maxLines="1"
                 android:src="@drawable/ic_team_gujrat_titan"
                 android:text="PBKS"
+                android:gravity="center"
                 android:textAllCaps="true"
                 android:textColor="@color/colorText"
                 android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/imgRight"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRightScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
 
+                app:fontFamily="@font/visby_medium"
+
+
+                android:src="@drawable/ic_team_gujrat_titan"
+                android:text="120/2"
+                android:gravity="center"
+                android:textSize="@dimen/sp_10"
+                android:textColor="@color/app_color"
+
+                app:layout_constraintTop_toBottomOf="@+id/tvRight"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 
                 />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -108,7 +108,10 @@ class AddQuestionsFragment : BaseFragment() {
                 }
             }
             if (isfill){
-               callSaveQuestionPredictionAPI(jsonArray)
+                matchItem.question = questionList
+                addFragmentToBackStack(
+                    QuestionsStatusFragment.newInstance("add",over_id,over_name,matchItem))
+             //  callSaveQuestionPredictionAPI(jsonArray)
 
             }
            /* showPredictErrorDialog(requireActivity(),

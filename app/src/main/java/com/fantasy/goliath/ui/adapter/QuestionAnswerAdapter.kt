@@ -41,7 +41,9 @@ class QuestionAnswerAdapter(
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
+        holder.setIsRecyclable(false)
         holder.bind(current)
+
         printLog("position",position.toString())
         val count=position+1
         holder.binding.tvQuestion.text =Html.fromHtml("${count}. ${ current.question}")
@@ -65,21 +67,30 @@ class QuestionAnswerAdapter(
             holder.binding.tvYes.visibility=View.GONE
         }
 
+        updateTextAnswertext(holder,current)
+        holder.binding.tvYes.setOnClickListener(){
+            current.your_answer="1"
+            dataList[position]=current
+            updateTextAnswertext(holder,current)
+            listenerClick(position, dataList[position].your_answer)
+           // notifyDataSetChanged()
+        }
+        holder.binding.tvNo.setOnClickListener(){
+            current.your_answer= "2"
+            dataList[position]=current
+            updateTextAnswertext(holder,current)
+            listenerClick(position, dataList[position].your_answer)
+
+        }
+    }
+
+    private fun updateTextAnswertext(holder: QuestionAnswerAdapter.MainViewHolder, current: QuestionAnsItem) {
         if (!TextUtils.isEmpty(current.your_answer)&&current.your_answer.equals("1")){
             changeTvColorAndBg(holder.binding.tvYes,holder.binding.tvNo)
         }else if (!TextUtils.isEmpty(current.your_answer)&&current.your_answer.equals("2")){
             changeTvColorAndBg(holder.binding.tvNo,holder.binding.tvYes)
         }
-        holder.binding.tvYes.setOnClickListener(){
-            dataList[position].your_answer="1"
-            listenerClick(position, dataList[position].your_answer)
-            notifyDataSetChanged()
-        }
-        holder.binding.tvNo.setOnClickListener(){
-            dataList[position].your_answer="2"
-            listenerClick(position, dataList[position].your_answer)
-            notifyDataSetChanged()
-        }
+
     }
 
     private fun changeTvColorAndBg(tv1: TextView, tv2: TextView) {

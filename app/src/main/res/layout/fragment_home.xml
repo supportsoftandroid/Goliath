@@ -34,24 +34,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewHeader">
-
         <RadioButton
-            android:id="@+id/rbUpcoming"
+            android:id="@+id/rbLive"
             android:layout_width="@dimen/dp_0"
             android:layout_height="@dimen/dp_45"
             android:layout_weight="0.5"
             android:background="@drawable/tab_selecter"
+
             android:button="@null"
-            android:checked="true"
             android:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:inputType="text"
             android:padding="@dimen/dp_5"
-            android:text="@string/upcoming"
+            android:text="@string/live"
+            android:checked="true"
             android:textAllCaps="true"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/app_color"
             android:textSize="@dimen/sp_16" />
-
         <View
             android:id="@+id/vieLine"
             android:layout_width="@dimen/dp_1"
@@ -70,21 +69,24 @@
             android:textColor="@color/textPlaceHolder"
             android:textSize="@dimen/sp_16" />
         <RadioButton
-            android:id="@+id/rbLive"
+            android:id="@+id/rbUpcoming"
             android:layout_width="@dimen/dp_0"
             android:layout_height="@dimen/dp_45"
             android:layout_weight="0.5"
             android:background="@drawable/tab_selecter"
-
             android:button="@null"
+
             android:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:inputType="text"
             android:padding="@dimen/dp_5"
-            android:text="@string/live"
+            android:text="@string/upcoming"
             android:textAllCaps="true"
             android:textColor="@color/textPlaceHolder"
             android:textSize="@dimen/sp_16" />
+
+
+
 
     </RadioGroup>
 

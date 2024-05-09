@@ -2,6 +2,7 @@ package com.fantasy.goliath.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import com.fantasy.goliath.ui.adapter.QuestionAnswerStatusAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.viewmodal.QuestionsViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 
 class QuestionsStatusFragment : BaseFragment() {
@@ -80,7 +82,7 @@ class QuestionsStatusFragment : BaseFragment() {
 
             initView()
             clickListener()
-            callQuestionAPI()
+           // callQuestionAPI()
         }
 
         return binding.root
@@ -90,8 +92,27 @@ class QuestionsStatusFragment : BaseFragment() {
 
         binding.viewHeader.setClickListener(this)
         binding.btnSubmit.setOnClickListener() {
-            startActivity(Intent(requireActivity(), MainActivity::class.java))
-            requireActivity().finishAffinity()
+
+            var isfill=true
+            val jsonArray=JsonArray()
+            for (item in questionList){
+                if (TextUtils.isEmpty(item.your_answer)){
+                    isfill=false
+                    showAlertMessageError("Please select answer of:- '${item.question}'")
+
+                    break
+                    return@setOnClickListener
+                }else{
+                    val json = JsonObject()
+                    json.addProperty("question_id", item.question_id)
+                    json.addProperty("answere", item.your_answer)
+                    jsonArray.add(json)
+                }
+            }
+            if (isfill){
+                callSaveQuestionPredictionAPI(jsonArray)
+
+            }
 
 
             /*showPredictErrorDialog(requireActivity(),
@@ -105,10 +126,7 @@ class QuestionsStatusFragment : BaseFragment() {
 
     private fun onPredictCheck(type: String, dialog: BottomSheetDialog) {
         dialog.dismiss()
-        addFragmentToBackStack(
 
-            QuestionsStatusFragment.newInstance("add", over_id, over_name, matchItem)
-        )
 
     }
 
@@ -129,22 +147,17 @@ class QuestionsStatusFragment : BaseFragment() {
         binding.btnSubmit.text= getString(R.string.confirm_pay)
 
 
-
+        questionList.addAll(matchItem.question)
         questionAdapter = QuestionAnswerStatusAdapter(
             requireActivity(),
             questionList,
-            { pos, type -> onQuestionAdapterClick(pos, type) })
+            { pos, type ->   })
         binding.rvList.layoutManager = LinearLayoutManager(requireActivity())
         binding.rvList.adapter = questionAdapter
 
-
+        setUIData("No questions available yet!")
     }
 
-
-    private fun onQuestionAdapterClick(pos: Int, type: String) {
-
-
-    }
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -168,10 +181,10 @@ class QuestionsStatusFragment : BaseFragment() {
             viewModal.getQuestions(
                 requireActivity(), preferenceManager.getAuthToken(), json
             ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
-                questionList.clear()
+
                 if (res.status) {
-                    matchItem = res.data.matchdetail
-                    questionList.addAll(matchItem.question)
+                   // matchItem = res.data.matchdetail
+
 
                 } else {
                     showErrorToast(res.message)
@@ -196,5 +209,36 @@ class QuestionsStatusFragment : BaseFragment() {
             binding.btnSubmit.isVisible = true
 
         }
+    }
+
+    private fun callSaveQuestionPredictionAPI(questionsArray: JsonArray) {
+
+        if (utilsManager.isNetworkConnected()) {
+            val json = JsonObject()
+            json.addProperty("match_id", matchItem.match_id)
+            json.addProperty("over_id", over_id)
+            json.add("questionans", questionsArray)
+            viewModal.saveQuestions(
+                requireActivity(), preferenceManager.getAuthToken(), json
+            ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
+                showErrorToast(res.message)
+
+                if (res.status) {
+                   movetToHome()
+
+                } else {
+                    showErrorToast(res.message)
+                }
+
+
+            })
+        }
+
+
+    }
+
+    private fun movetToHome() {
+          startActivity(Intent(requireActivity(), MainActivity::class.java).putExtra("from","prediction"))
+          requireActivity().finishAffinity()
     }
 }

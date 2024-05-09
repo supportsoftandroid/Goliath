@@ -16,6 +16,7 @@ import com.fantasy.goliath.databinding.ListOverItemBinding
 import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.InningItem
 import com.fantasy.goliath.model.OverItem
+import com.fantasy.goliath.utility.printLog
 
 
 class InningItemAdapter(
@@ -44,11 +45,12 @@ class InningItemAdapter(
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
+      //  holder.setIsRecyclable(false)
         holder.bind(current)
         holder.binding.tvTitle.text = current.inning_name
+        printLog("current.inning_name",current.inning_name)
 
-        val adapter =
-            SelectedOverAdapter(mContext, position, current.overs, { parentPos, pos, type ->
+        val adapter = SelectedOverAdapter(mContext, position, current.overs, { parentPos, pos, type ->
                 listenerClick(parentPos, pos, type)
 
             })

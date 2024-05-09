@@ -52,7 +52,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="@dimen/dp_5"
         app:layout_constraintStart_toStartOf="parent"
-        android:nestedScrollingEnabled="true"
+        android:orientation="vertical"
+        android:nestedScrollingEnabled="false"
         app:layout_constraintBottom_toTopOf="@+id/btnConform"
         app:layout_constraintTop_toBottomOf="@id/clv_match_card">
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,7 +61,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_30"
         android:paddingHorizontal="@dimen/dp_20"
-
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="@dimen/dp_150"
       >
@@ -69,22 +69,19 @@
           android:id="@+id/tv_results"
           android:layout_width="wrap_content"
           android:layout_height="@dimen/dp_25"
-
-
           android:text="@string/view_result"
           android:textColor="@color/app_color"
           android:textSize="@dimen/sp_14"
           android:src="@drawable/ic_notification"
-
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintTop_toTopOf="parent"
           />
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSelectOverLabel"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:textSize="@dimen/sp_16"
-            android:fontFamily="@font/visby_semi_bold"
+            app:fontFamily="@font/visby_semi_bold"
             android:text="@string/select_overs"
             android:textColor="@color/colorText"
             app:layout_constraintStart_toStartOf="parent"
@@ -103,9 +100,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_15"
             tools:listitem="@layout/list_over_item"
-            app:spanCount="6"
-            android:nestedScrollingEnabled="false"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSelectOverLabel"

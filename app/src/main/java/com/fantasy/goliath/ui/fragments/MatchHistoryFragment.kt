@@ -16,6 +16,7 @@ import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.ui.adapter.MatchItemAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.viewmodal.HomeViewModel
+import com.fantasy.goliath.viewmodal.MyPredictionViewModel
 import com.google.gson.JsonObject
 
 class MatchHistoryFragment : BaseFragment() {
@@ -29,7 +30,7 @@ class MatchHistoryFragment : BaseFragment() {
             return fragment
         }
     }
-    private val viewModal by lazy { ViewModelProvider(this)[HomeViewModel::class.java] }
+    private val viewModal by lazy { ViewModelProvider(this)[MyPredictionViewModel::class.java] }
 
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         FragmentMatchHistoryBinding.inflate(layoutInflater)
@@ -140,7 +141,7 @@ class MatchHistoryFragment : BaseFragment() {
                 json.addProperty("status", matchStatus)
 
 
-                viewModal.getMatchesList(
+                viewModal.getMyPredictionList(
                     requireActivity(), preferenceManager.getAuthToken(), currentPage, json).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
                     if (res.status) {
                         totalPage=res.data.matchlist.next_page_url

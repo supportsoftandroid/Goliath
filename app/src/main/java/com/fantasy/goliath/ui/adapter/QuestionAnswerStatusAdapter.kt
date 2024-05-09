@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.ListQuestionAnswerItemBinding
 import com.fantasy.goliath.model.QuestionAnsItem
+import com.fantasy.goliath.utility.getHTMLFormatText
 
 
 class QuestionAnswerStatusAdapter(
@@ -40,10 +41,11 @@ class QuestionAnswerStatusAdapter(
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
+        holder.setIsRecyclable(false)
         holder.bind(current)
-        holder.binding.tvQuestion.text =Html.fromHtml("${position+1}. ${ current.question}")
+        holder.binding.tvQuestion.text =getHTMLFormatText("${position+1}. ${ current.question}")
 
-        holder.binding.tvYourAnswer.text =Html.fromHtml( if (!TextUtils.isEmpty(current.your_answer)&&current.your_answer.equals("1")) mContext.getString(
+        holder.binding.tvYourAnswer.text = getHTMLFormatText(if (!TextUtils.isEmpty(current.your_answer)&&current.your_answer.equals("1")) mContext.getString(
             R.string.your_answer_yes) else  mContext.getString(
             R.string.your_answer_no))
         holder.binding.tvYourAnswer.visibility=View.VISIBLE

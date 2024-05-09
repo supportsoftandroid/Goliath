@@ -11,11 +11,13 @@
     <color name="colorCD3F8BCA">#CD3F8BCA</color>
     <color name="colorED183E5D">#0A265C</color>
     <color name="colorUpcoming">#EFBDDDF8</color>
+    <color name="colorTournament">#BCF3F9FF</color>
     <color name="colorRoyalGreen">#24B2B2</color>
     <color name="colorNavMenu">#8CB9DF</color>
     <color name="color0F9E95">#0F9E95</color>
     <color name="colorBlack">#FF000000</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorMatchCardBg">#FCFDFF</color>
     <color name="colorLightYellow">#FFF896</color>
     <color name="colorFFF5E6">#FFF5E6</color>
     <color name="colorYellow">#FF9910</color>

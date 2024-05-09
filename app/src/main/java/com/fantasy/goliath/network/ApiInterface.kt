@@ -82,6 +82,14 @@ public interface ApiInterface {
 
 
     @Headers(Constants.ACCEPT_JSON_HEADER)
+    @POST(Constants.API_MY_PREDICTIONS)
+    fun getMyPredictionList(
+        @Header("Authorization") authorization: String,
+        @Query("page") page: Int,
+        @Body body: JsonObject
+    ): Call<MatchesResponse>
+
+    @Headers(Constants.ACCEPT_JSON_HEADER)
     @GET(Constants.API_PROFILE_DETAILS)
     fun getProfile(
         @Header("Authorization") authorization: String?

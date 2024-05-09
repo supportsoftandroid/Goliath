@@ -6,6 +6,7 @@ import com.fantasy.goliath.R
 import com.fantasy.goliath.model.HowToPlayResponse
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.MatchDetailsData
+import com.fantasy.goliath.model.MatchList
 import com.fantasy.goliath.model.MatchesDetailsRes
 import com.fantasy.goliath.model.MatchesResponse
 import com.fantasy.goliath.model.QuestionListRes
@@ -95,7 +96,18 @@ class RemoteRepository(
         setProgressDialog()
         return callMatchDetailsAPIService(callApiService)
     }
+    fun getMyPredictionList(
+        userToken: String,
+        page: Int,
+        json: JsonObject,
+    ): MutableLiveData<MatchesResponse> {
+        val callApiService = RetrofitClient.apiInterface.getMyPredictionList(
+            userToken,page, json
 
+        )
+        setProgressDialog()
+        return callMatchAPIService(callApiService)
+    }
     fun callHowToPlayAPIService(call: Call<HowToPlayResponse>): MutableLiveData<HowToPlayResponse> {
         val modelRes = MutableLiveData<HowToPlayResponse>()
         makeApiCall(call, onSuccess = { data ->

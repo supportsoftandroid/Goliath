@@ -20,6 +20,7 @@ import com.fantasy.goliath.ui.fragments.NotificationsFragment
 import com.fantasy.goliath.ui.fragments.WalletDetailsFragment
 import com.fantasy.goliath.utility.Constants
 import com.fantasy.goliath.viewmodal.HomeViewModel
+import com.fantasy.goliath.viewmodal.MyPredictionViewModel
 import com.google.gson.JsonObject
 
 class MatchOngoingFragment : BaseFragment() {
@@ -33,7 +34,7 @@ class MatchOngoingFragment : BaseFragment() {
             return fragment
         }
     }
-    private val viewModal by lazy { ViewModelProvider(this)[HomeViewModel::class.java] }
+    private val viewModal by lazy { ViewModelProvider(this)[MyPredictionViewModel::class.java] }
 
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         FragmentMatchHistoryBinding.inflate(layoutInflater)
@@ -144,10 +145,10 @@ class MatchOngoingFragment : BaseFragment() {
         if (utilsManager.isNetworkConnected()) {
             isLoading=true
             val  json= JsonObject()
-            json.addProperty("status", matchStatus)
+           // json.addProperty("status", matchStatus)
 
 
-            viewModal.getMatchesList(
+            viewModal.getMyPredictionList(
                 requireActivity(), preferenceManager.getAuthToken(), currentPage, json).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
                 if (res.status) {
                     totalPage=res.data.matchlist.next_page_url

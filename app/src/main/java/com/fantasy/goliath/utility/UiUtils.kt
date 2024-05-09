@@ -65,6 +65,7 @@ import com.fantasy.goliath.databinding.DialogPredictErrorBinding
 import com.fantasy.goliath.databinding.DialogUpdateProfileBinding
 import com.fantasy.goliath.databinding.DialogVerifyOtpBinding
 import com.fantasy.goliath.databinding.DialogWalletBalanceErrorBinding
+import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.ui.activities.AuthActivity
 import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.utility.Constants.ERROR_ALERT
@@ -294,6 +295,26 @@ fun hasPermissions(context: Context?, vararg permissions: String?): Boolean {
         }
     }
     return true
+}
+fun getMatchStatus(item:MatchItem): String {
+    var matchDateAndStatus=""
+    if (item.status.equals("live",true)||item.status.equals("completed",true)){
+        if (!TextUtils.isEmpty(item.match_no)){
+            matchDateAndStatus="${item.match_no} | ${item.status.uppercase()}"
+        }else{
+            matchDateAndStatus="  ${item.status.uppercase()}  "
+        }
+
+    }else{
+        val date=getMatchDate("${item.match_start_date} ${ item.match_start_time }")
+        val matchTime=getMatchTime("${item.match_start_date} ${ item.match_start_time }")
+        if (!TextUtils.isEmpty(item.match_no)){
+            matchDateAndStatus="${item.match_no} | ${date} | ${matchTime}"
+        }else{
+            matchDateAndStatus="${date} | ${matchTime}"
+        }
+    }
+    return matchDateAndStatus;
 }
 
 fun getMatchTime(selectedDate: String): String {
@@ -607,13 +628,13 @@ fun dateChangeInDMY(inpDate: String?): String {
     return formatted
 
 }
-fun getHTMLFormatText(text: String?): Spanned {
+fun getHTMLFormatText(text: String?): String {
     val message = if (TextUtils.isEmpty(text)) "" else text
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        return Html.fromHtml(message, Html.FROM_HTML_OPTION_USE_CSS_COLORS)
+        return Html.fromHtml(message, Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString()
     } else {
-        return Html.fromHtml(message)
+        return Html.fromHtml(message).toString()
     }
 }
 

@@ -22,7 +22,7 @@ object Constants {
      )*/
 
 
-   // const val ACCEPT_JSON_HEADER = "Content-Type: application/json"
+    // const val ACCEPT_JSON_HEADER = "Content-Type: application/json"
     const val ACCEPT_JSON_HEADER = "Accept: application/json"
     const val PROFILE_EDIT_REQUEST_KEY = "profile_edit_"
 
@@ -41,7 +41,7 @@ object Constants {
     const val API_MATCH_DETAIL = "matches-detail"
     const val API_QUESTION_LIST_FOR_DETAIL = "question-list-for-over"
     const val API_SAVE_USER_PREDICTION = "save-user-prediction"
-
+    const val API_MY_PREDICTIONS = "mypredictions"
     const val API_CATEGORY_DETAILS = "category-detail"
     const val API_ITEM_DETAILS = "item-detail"
     const val API_PROFILE_DETAILS = "user"
@@ -80,6 +80,6 @@ object Constants {
     const val IN_APP_PERMISSION = "Need Permissions"
     const val PERMISSIONS_ACCESS_MESSAGE =
         "This app requires permissions to access your location and storage"
- const val EDIT_PROFILE_REQUEST_KEY = "edit_Profile"
- const val EDIT_PROFILE_OTHER_REQUEST_KEY = "edit_Profile_other"
+    const val EDIT_PROFILE_REQUEST_KEY = "edit_Profile"
+    const val EDIT_PROFILE_OTHER_REQUEST_KEY = "edit_Profile_other"
 }

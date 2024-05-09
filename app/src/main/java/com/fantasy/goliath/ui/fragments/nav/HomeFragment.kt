@@ -38,23 +38,18 @@ class HomeFragment : BaseFragment() {
 
     lateinit var adapter: MatchItemAdapter
     var dataList = mutableListOf<MatchItem>()
-    var matchStatus = "Scheduled"
+    var matchStatus = "Live"
     var isLoading=false
     var currentPage=1
     var selectedPos=-1
     var totalPage=""
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
-
         binding.let {
-
             initView()
             clickListener()
             callListAPI()
         }
-
 
         return binding.root
     }
@@ -65,13 +60,10 @@ class HomeFragment : BaseFragment() {
             MainActivity.navProfileTab()
         }
         binding.viewHeader.imgMenu2.setOnClickListener() {
-
             addFragmentToBackStack(NotificationsFragment())
 
         }
         binding.viewHeader.imgMenu1.setOnClickListener() {
-
-
             addFragmentToBackStack(WalletDetailsFragment())
 
         }
@@ -83,6 +75,10 @@ class HomeFragment : BaseFragment() {
         binding.viewBody.tvMessage.isVisible=true
         setUserUIData()
         binding.rgStatus.setOnCheckedChangeListener { group, checkedId ->
+            dataList.clear()
+            currentPage=1
+            binding.viewBody.rvList.getRecycledViewPool().clear()
+            adapter.notifyDataSetChanged()
             when (checkedId) {
                 R.id.rbUpcoming -> {
                     binding.rbUpcoming.setTextColor(
@@ -123,8 +119,7 @@ class HomeFragment : BaseFragment() {
             }
             binding.viewBody.tvMessage.isVisible=true
             binding.viewBody.tvMessage.text=requireActivity().getString(R.string.loading)
-            dataList.clear()
-            currentPage=1
+
             callListAPI()
         }
 
@@ -137,10 +132,7 @@ class HomeFragment : BaseFragment() {
         binding.viewBody.rvList.adapter = adapter
 
         binding.viewBody.rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(
-                recyclerView: RecyclerView,
-                dx: Int, dy: Int
-            ) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val visibleItemCount: Int = layoutManager.getChildCount()
                 val totalItemCount: Int = layoutManager.getItemCount()
