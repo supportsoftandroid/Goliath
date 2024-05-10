@@ -19,6 +19,7 @@ import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
 import com.fantasy.goliath.ui.adapter.QuestionAnswerStatusAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
+import com.fantasy.goliath.utility.getMatchStatus
 import com.fantasy.goliath.viewmodal.QuestionsViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.JsonArray
@@ -134,16 +135,12 @@ class QuestionsStatusFragment : BaseFragment() {
     private fun initView() {
 
         binding.clvQuestion.isVisible = false
+        binding.viewHeader.setTitle("${matchItem.short_title}  ")
         binding.tvOverName.text = "Over Number: ${over_name}"
         loadImage(matchItem.teama.logo_url, binding.viewHeader.getToolBarView().imgTeam1)
         loadImage(matchItem.teamb.logo_url, binding.viewHeader.getToolBarView().imgTeam2)
-        binding.viewHeader.setTitle("${matchItem.short_title}  ")
-        binding.clvMatchCard.tvLeft.text = "${matchItem.teama.short_name}"
-        binding.clvMatchCard.tvRight.text = "${matchItem.teamb.short_name}"
-        binding.clvMatchCard.tvLeftFullName.text = "${matchItem.teama.name}"
-        binding.clvMatchCard.tvRightFullName.text = "${matchItem.teamb.name}"
-        loadImage(matchItem.teama.logo_url, binding.clvMatchCard.imgLeft)
-        loadImage(matchItem.teamb.logo_url, binding.clvMatchCard.imgRight)
+
+        setMatchDataUI()
         binding.btnSubmit.text= getString(R.string.confirm_pay)
 
 
@@ -158,7 +155,38 @@ class QuestionsStatusFragment : BaseFragment() {
         setUIData("No questions available yet!")
     }
 
+    private fun setMatchDataUI() {
+        binding.clvMatchCard.tvTournamentName.text = "${matchItem.competiton_name}"
+        binding.clvMatchCard.tvMatchType.text = "${matchItem.formate}"
+        binding.clvMatchCard.tvLeft.text = "${matchItem.teama.short_name}"
+        binding.clvMatchCard.tvRight.text = "${matchItem.teamb.short_name}"
+        binding.clvMatchCard.tvLeftFullName.text = "${matchItem.teama.name}"
+        binding.clvMatchCard.tvRightFullName.text = "${matchItem.teamb.name}"
+        binding.clvMatchCard.tvNote.isVisible = !matchItem.note.isEmpty()
+        binding.clvMatchCard.tvNote.text = matchItem.note
+        binding.clvMatchCard.tvDayTimeStatus.text= getMatchStatus(matchItem)
 
+
+        if (matchItem.status.equals("live",true)||matchItem.status.equals("completed",true)){
+            binding.clvMatchCard.tvLeftScore.isVisible=true
+            binding.clvMatchCard.tvRightScore.isVisible=true
+
+            binding.clvMatchCard.tvLeftScore.text = "${matchItem.teama.scores_full}"
+            binding.clvMatchCard.tvRightScore.text = "${matchItem.teamb.scores_full}"
+            /*if (matchItem.status.equals("completed",true)){
+                binding.clvMatchCard.tvLive.setBackgroundResource(R.drawable.button_bg_green)
+            }else{
+                binding.clvMatchCard.tvLive.setBackgroundResource(R.drawable.button_bg_red_round)
+            }*/
+        }else{
+
+            binding.clvMatchCard.tvLeftScore.isVisible=false
+            binding.clvMatchCard.tvRightScore.isVisible=false
+
+        }
+        loadImage(matchItem.teama.logo_url, binding.clvMatchCard.imgLeft)
+        loadImage(matchItem.teamb.logo_url, binding.clvMatchCard.imgRight)
+    }
     override fun onBackPressed() {
         super.onBackPressed()
     }

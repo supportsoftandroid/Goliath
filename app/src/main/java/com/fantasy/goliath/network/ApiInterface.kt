@@ -90,6 +90,20 @@ public interface ApiInterface {
     ): Call<MatchesResponse>
 
     @Headers(Constants.ACCEPT_JSON_HEADER)
+    @POST(Constants.API_MATCH_PREDICTED_OVER_DETAIL)
+    fun getMatchPredictedOverDetails(
+        @Header("Authorization") authorization: String,
+        @Body body: JsonObject
+    ): Call<MatchesDetailsRes>
+
+    @Headers(Constants.ACCEPT_JSON_HEADER)
+    @POST(Constants.API_MATCH_PREDICTED_OVER_RESULT)
+    fun getMatchPredictedOverResult(
+        @Header("Authorization") authorization: String,
+        @Body body: JsonObject
+    ): Call<OverResultDetailsRes>
+
+    @Headers(Constants.ACCEPT_JSON_HEADER)
     @GET(Constants.API_PROFILE_DETAILS)
     fun getProfile(
         @Header("Authorization") authorization: String?

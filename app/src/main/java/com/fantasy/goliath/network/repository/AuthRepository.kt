@@ -1,6 +1,7 @@
 package com.fantasy.goliath.network.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.fantasy.goliath.R
 import com.fantasy.goliath.model.LoginResponse
@@ -53,9 +54,6 @@ class AuthRepository(
         setProgressDialog()
         return callAPIService(call);
     }
-
-
-
 
     fun getProfile(
         userToken: String,
@@ -132,6 +130,7 @@ class AuthRepository(
             override fun onFailure(call: Call<T>, t: Throwable) {
                 progressDialog.dismissDialog()
                 showToast(context, t.message.toString())
+                Log.e("error", t.message.toString())
 
             }
         })

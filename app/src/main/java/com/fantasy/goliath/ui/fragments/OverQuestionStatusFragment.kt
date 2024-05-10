@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fantasy.goliath.databinding.FragmentAddQuestionBinding
-import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.OverItem
 import com.fantasy.goliath.model.QuestionAnsItem
@@ -69,10 +67,10 @@ class OverQuestionStatusFragment : BaseFragment() {
 
         binding.btnSubmit.setOnClickListener() {
 
-           addFragmentToBackStack(
+           /*addFragmentToBackStack(
 
-                MatchOverStatusFragment.newInstance("add")
-            )
+              //  MatchOverResultStatusFragment.newInstance("add")
+            )*/
 
         }
 

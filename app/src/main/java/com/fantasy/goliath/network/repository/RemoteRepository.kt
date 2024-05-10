@@ -1,6 +1,7 @@
 package com.fantasy.goliath.network.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.fantasy.goliath.R
 import com.fantasy.goliath.model.HowToPlayResponse
@@ -9,6 +10,7 @@ import com.fantasy.goliath.model.MatchDetailsData
 import com.fantasy.goliath.model.MatchList
 import com.fantasy.goliath.model.MatchesDetailsRes
 import com.fantasy.goliath.model.MatchesResponse
+import com.fantasy.goliath.model.OverResultDetailsRes
 import com.fantasy.goliath.model.QuestionListRes
 import com.fantasy.goliath.network.RetrofitClient
 import com.fantasy.goliath.utility.Constants
@@ -108,6 +110,25 @@ class RemoteRepository(
         setProgressDialog()
         return callMatchAPIService(callApiService)
     }
+    fun getMatchOverPredictedDetails(
+        userToken: String,
+        json: JsonObject,
+    ): MutableLiveData<MatchesDetailsRes> {
+        val callApiService = RetrofitClient.apiInterface.getMatchPredictedOverDetails(userToken, json)
+        setProgressDialog()
+        return callMatchDetailsAPIService(callApiService)
+    }
+    fun getMatchOverPredictedResultDetails(
+        userToken: String,
+        json: JsonObject,
+    ): MutableLiveData<OverResultDetailsRes> {
+        val callApiService = RetrofitClient.apiInterface.getMatchPredictedOverResult(
+            userToken, json
+
+        )
+        setProgressDialog()
+        return callMatchOverResultsAPIService(callApiService)
+    }
     fun callHowToPlayAPIService(call: Call<HowToPlayResponse>): MutableLiveData<HowToPlayResponse> {
         val modelRes = MutableLiveData<HowToPlayResponse>()
         makeApiCall(call, onSuccess = { data ->
@@ -167,6 +188,25 @@ class RemoteRepository(
 
 
     }
+    fun callMatchOverResultsAPIService(call: Call<OverResultDetailsRes>): MutableLiveData<OverResultDetailsRes> {
+        val modelRes = MutableLiveData<OverResultDetailsRes>()
+        makeApiCall(call, onSuccess = { data ->
+            // Handle successful response
+            // data is of type MyData or null
+            val model: OverResultDetailsRes? = data
+            if (model != null) {
+                modelRes.value = model!!
+            }
+
+        },
+            onError = { error ->
+                // Handle error
+            })
+
+        return modelRes
+
+
+    }
     fun callQuestionListAPIService(call: Call<QuestionListRes>): MutableLiveData<QuestionListRes> {
         val modelRes = MutableLiveData<QuestionListRes>()
         makeApiCall(call, onSuccess = { data ->
@@ -206,6 +246,7 @@ class RemoteRepository(
             override fun onFailure(call: Call<T>, t: Throwable) {
                 progressDialog.dismissDialog()
                 showToast(context, t.message.toString())
+                Log.e("error", t.message.toString())
 
             }
         })

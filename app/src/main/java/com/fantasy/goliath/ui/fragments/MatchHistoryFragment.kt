@@ -109,11 +109,7 @@ class MatchHistoryFragment : BaseFragment() {
     }
 
     private fun onAdapterClick(pos: Int, type: String) {
-        //MainActivity.hideNavigationTab()
-       /* UiUtils.backStackAddFragment(
-            requireActivity(),
-            AddOverFragment.newInstance("add")
-        )*/
+        MatchOverResultStatusFragment.newInstance("ongoing",dataList[pos])
     }
 
     override fun onDestroyView() {

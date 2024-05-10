@@ -132,5 +132,7 @@
     <string name="update_phone_number">Update Phone Number </string>
     <string name="you_have_to_pay_400_from_your_wallet">You have to pay ₹400 from your wallet</string>
     <string name="confirm_pay"><![CDATA[Confirm & Pay]]></string>
+    <string name="sorry_you_lost_the">Sorry! You lost the over</string>
+    <string name="no_over_pridction_yet">No over prediction yet!</string>
 
 </resources>

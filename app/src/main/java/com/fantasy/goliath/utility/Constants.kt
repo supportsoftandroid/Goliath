@@ -42,6 +42,8 @@ object Constants {
     const val API_QUESTION_LIST_FOR_DETAIL = "question-list-for-over"
     const val API_SAVE_USER_PREDICTION = "save-user-prediction"
     const val API_MY_PREDICTIONS = "mypredictions"
+    const val API_MATCH_PREDICTED_OVER_DETAIL = "predicted-overs"
+    const val API_MATCH_PREDICTED_OVER_RESULT = "predicted-result"
     const val API_CATEGORY_DETAILS = "category-detail"
     const val API_ITEM_DETAILS = "item-detail"
     const val API_PROFILE_DETAILS = "user"
@@ -69,6 +71,8 @@ object Constants {
     const val ERROR_ALERT_INVALID_TOKEN = "Invalid Token"
     const val ERROR_MESSAGE_INVALID_TOKEN = "Please Login and Try Again"
     const val ERROR_INVALID_TOKEN = "Invalid Token"
+    const val RESULT_WIN = "W"
+    const val RESULT_LOSS = "L"
 
     /***** PERMISSION ACCESS CONSTANTS *****/
     /*  SHARED PREFERENCES CONSTANTS  */

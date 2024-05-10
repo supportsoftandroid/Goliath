@@ -107,38 +107,7 @@ class AddOverFragment : BaseFragment() {
 
     private fun initView() {
         dataList.clear()
-        loadImage(matchItem.teama.logo_url, binding.clvHeader.getToolBarView().imgTeam1)
-        loadImage(matchItem.teamb.logo_url, binding.clvHeader.getToolBarView().imgTeam2)
-        binding.clvHeader.setTitle("${matchItem.short_title}  ")
-        binding.clvMatchCard.tvMatchType.text = "${matchItem.formate}"
-        binding.clvMatchCard.tvLeft.text = "${matchItem.teama.short_name}"
-        binding.clvMatchCard.tvRight.text = "${matchItem.teamb.short_name}"
-        binding.clvMatchCard.tvLeftFullName.text = "${matchItem.teama.name}"
-        binding.clvMatchCard.tvRightFullName.text = "${matchItem.teamb.name}"
-        binding.clvMatchCard.tvNote.isVisible = !matchItem.note.isEmpty()
-        binding.clvMatchCard.tvNote.text = matchItem.note
-        binding.clvMatchCard.tvDayTimeStatus.text= getMatchStatus(matchItem)
-
-
-        if (matchItem.status.equals("live",true)||matchItem.status.equals("completed",true)){
-            binding.clvMatchCard.tvLeftScore.isVisible=true
-            binding.clvMatchCard.tvRightScore.isVisible=true
-
-            binding.clvMatchCard.tvLeftScore.text = "${matchItem.teama.scores_full}"
-            binding.clvMatchCard.tvRightScore.text = "${matchItem.teamb.scores_full}"
-            /*if (matchItem.status.equals("completed",true)){
-                binding.clvMatchCard.tvLive.setBackgroundResource(R.drawable.button_bg_green)
-            }else{
-                binding.clvMatchCard.tvLive.setBackgroundResource(R.drawable.button_bg_red_round)
-            }*/
-        }else{
-
-            binding.clvMatchCard.tvLeftScore.isVisible=false
-            binding.clvMatchCard.tvRightScore.isVisible=false
-
-        }
-        loadImage(matchItem.teama.logo_url, binding.clvMatchCard.imgLeft)
-        loadImage(matchItem.teamb.logo_url, binding.clvMatchCard.imgRight)
+       setMatchDataUI()
         adapter = InningItemAdapter(requireActivity(), dataList, { parentPosition, pos, type ->
             overItem = dataList[parentPosition].overs[pos]
             over_id = overItem.over_id
@@ -225,6 +194,42 @@ class AddOverFragment : BaseFragment() {
 
         binding.rvOverStatusList.layoutManager = GridLayoutManager(requireActivity(), 3)
         binding.rvOverStatusList.adapter = adapterStatus
+    }
+
+    private fun setMatchDataUI() {
+        loadImage(matchItem.teama.logo_url, binding.clvHeader.getToolBarView().imgTeam1)
+        loadImage(matchItem.teamb.logo_url, binding.clvHeader.getToolBarView().imgTeam2)
+        binding.clvHeader.setTitle("${matchItem.short_title}  ")
+        binding.clvMatchCard.tvTournamentName.text = "${matchItem.competiton_name}"
+        binding.clvMatchCard.tvMatchType.text = "${matchItem.formate}"
+        binding.clvMatchCard.tvLeft.text = "${matchItem.teama.short_name}"
+        binding.clvMatchCard.tvRight.text = "${matchItem.teamb.short_name}"
+        binding.clvMatchCard.tvLeftFullName.text = "${matchItem.teama.name}"
+        binding.clvMatchCard.tvRightFullName.text = "${matchItem.teamb.name}"
+        binding.clvMatchCard.tvNote.isVisible = !matchItem.note.isEmpty()
+        binding.clvMatchCard.tvNote.text = matchItem.note
+        binding.clvMatchCard.tvDayTimeStatus.text= getMatchStatus(matchItem)
+
+
+        if (matchItem.status.equals("live",true)||matchItem.status.equals("completed",true)){
+            binding.clvMatchCard.tvLeftScore.isVisible=true
+            binding.clvMatchCard.tvRightScore.isVisible=true
+
+            binding.clvMatchCard.tvLeftScore.text = "${matchItem.teama.scores_full}"
+            binding.clvMatchCard.tvRightScore.text = "${matchItem.teamb.scores_full}"
+            /*if (matchItem.status.equals("completed",true)){
+                binding.clvMatchCard.tvLive.setBackgroundResource(R.drawable.button_bg_green)
+            }else{
+                binding.clvMatchCard.tvLive.setBackgroundResource(R.drawable.button_bg_red_round)
+            }*/
+        }else{
+
+            binding.clvMatchCard.tvLeftScore.isVisible=false
+            binding.clvMatchCard.tvRightScore.isVisible=false
+
+        }
+        loadImage(matchItem.teama.logo_url, binding.clvMatchCard.imgLeft)
+        loadImage(matchItem.teamb.logo_url, binding.clvMatchCard.imgRight)
     }
 
     private fun callMatchDetailsAPI() {

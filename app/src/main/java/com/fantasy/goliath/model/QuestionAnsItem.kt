@@ -9,8 +9,8 @@ data class QuestionAnsItem(
     val overs: String,
     val question: String,
     var your_answer: String="",
-    val correct_answer: String="",
+    val your_result: String="",
 
 
 
-) : SuperCastClass() ,Serializable
+    ) : SuperCastClass() ,Serializable

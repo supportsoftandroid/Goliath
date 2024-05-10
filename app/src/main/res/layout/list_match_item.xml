@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/clv_match_card"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/app_color"
-     >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="modal"
+            type="com.fantasy.goliath.model.MatchItem" />
+    </data>
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clv_card_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_15"
 
 
+        android:background="@color/app_color">
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="0dp"
@@ -32,10 +40,10 @@
 
 
             android:textColor="@color/colorText"
-            android:paddingVertical="@dimen/dp_5"
             android:textStyle="bold"
             app:fontFamily="@font/visby_medium"
             android:paddingEnd="@dimen/dp_10"
+            android:paddingVertical="@dimen/dp_5"
 
             android:textSize="@dimen/sp_10"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,11 +60,11 @@
             android:gravity="center"
             android:text="T20"
             android:textColor="@color/app_color"
-            android:textSize="@dimen/sp_12"
+            android:textSize="@dimen/sp_13"
             app:layout_constraintEnd_toEndOf="parent"
 
-            app:layout_constraintTop_toTopOf="@id/tv_tournament_name"
-            app:layout_constraintBottom_toBottomOf="@id/tv_tournament_name"
+             app:layout_constraintTop_toTopOf="@id/tv_tournament_name"
+             app:layout_constraintBottom_toBottomOf="@id/tv_tournament_name"
             />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="@dimen/dp_0"
@@ -131,7 +139,7 @@
                 app:fontFamily="@font/visby_semi_bold"
 
                 android:gravity="start"
-
+                android:maxLines="1"
                 android:textSize="@dimen/sp_10"
                 android:text="Chennai Super Kings"
 
@@ -253,7 +261,7 @@
                 android:layout_gravity="center_horizontal"
                 app:fontFamily="@font/visby_semi_bold"
                 android:gravity="end"
-
+                android:maxLines="1"
                 android:textSize="@dimen/sp_10"
                 android:text="Chennai Super Kings"
                 android:textColor="@color/textPlaceHolder"
@@ -293,7 +301,7 @@
             android:gravity="start"
             android:paddingBottom="@dimen/dp_15"
             android:text="GT need 108 runs in 10 overs (DLS methods)"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorText"
             android:textSize="@dimen/sp_10"
             app:layout_constraintTop_toBottomOf="@+id/clv_left"
             app:layout_constraintStart_toStartOf="parent"
@@ -336,5 +344,6 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

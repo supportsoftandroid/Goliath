@@ -17,12 +17,12 @@
         android:background="@drawable/bg_question"
         android:padding="@dimen/dp_5">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvQuestion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/visby_semi_bold"
+            app:fontFamily="@font/visby_semi_bold"
             android:gravity="start"
             android:paddingVertical="@dimen/dp_5"
             android:text="1. End Over EVEN runs."
@@ -32,15 +32,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvYourAnswer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/visby_medium"
+            app:fontFamily="@font/visby_semi_bold"
             android:gravity="start"
             android:visibility="gone"
-
             android:paddingVertical="@dimen/dp_5"
             android:text="@string/your_answer_yes"
             android:textColor="@color/colorText"
@@ -73,13 +72,13 @@
 
             app:layout_constraintStart_toEndOf="@id/tvYourAnswer"
             app:layout_constraintTop_toBottomOf="@id/tvQuestion" />
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvYes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
             android:background="@drawable/button_border_blue_radius_20"
-            android:fontFamily="@font/visby_medium"
+            app:fontFamily="@font/visby_medium"
             android:gravity="center"
             android:paddingHorizontal="@dimen/dp_15"
             android:paddingVertical="@dimen/dp_5"
@@ -89,14 +88,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvYourAnswer" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_30"
             android:layout_marginTop="@dimen/dp_10"
             android:background="@drawable/button_border_blue_radius_20"
-            android:fontFamily="@font/visby_medium"
+            app:fontFamily="@font/visby_medium"
             android:gravity="center"
             android:paddingHorizontal="@dimen/dp_15"
             android:paddingVertical="@dimen/dp_5"

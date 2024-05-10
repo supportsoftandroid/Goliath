@@ -17,6 +17,7 @@ import com.fantasy.goliath.model.QuestionAnsItem
 import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
 import com.fantasy.goliath.ui.adapter.QuestionAnswerAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
+import com.fantasy.goliath.utility.getMatchStatus
 import com.fantasy.goliath.utility.printLog
 
 import com.fantasy.goliath.utility.showPredictErrorDialog
@@ -28,7 +29,12 @@ import com.google.gson.JsonObject
 class AddQuestionsFragment : BaseFragment() {
     companion object {
 
-        fun newInstance(from: String,over_id: String,over_name: String, matchItem: MatchItem): AddQuestionsFragment {
+        fun newInstance(
+            from: String,
+            over_id: String,
+            over_name: String,
+            matchItem: MatchItem
+        ): AddQuestionsFragment {
             val args = Bundle()
             args.putString("from", from)
             args.putString("over_id", over_id)
@@ -70,9 +76,9 @@ class AddQuestionsFragment : BaseFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding.let {
-            over_id=requireArguments().getString("over_id")!!
-            over_name=requireArguments().getString("over_name")!!
-            matchItem=arguments?.getSerializable("match_item") as MatchItem
+            over_id = requireArguments().getString("over_id")!!
+            over_name = requireArguments().getString("over_name")!!
+            matchItem = arguments?.getSerializable("match_item") as MatchItem
 
 
             initView()
@@ -91,31 +97,32 @@ class AddQuestionsFragment : BaseFragment() {
 
         }
         binding.btnSubmit.setOnClickListener() {
-            var isfill=true
-            val jsonArray=JsonArray()
-            for (item in questionList){
-                if (TextUtils.isEmpty(item.your_answer)){
-                    isfill=false
+            var isfill = true
+            val jsonArray = JsonArray()
+            for (item in questionList) {
+                if (TextUtils.isEmpty(item.your_answer)) {
+                    isfill = false
                     showAlertMessageError("Please select answer of:- '${item.question}'")
 
                     break
                     return@setOnClickListener
-                }else{
+                } else {
                     val json = JsonObject()
                     json.addProperty("question_id", item.question_id)
                     json.addProperty("answere", item.your_answer)
                     jsonArray.add(json)
                 }
             }
-            if (isfill){
+            if (isfill) {
                 matchItem.question = questionList
                 addFragmentToBackStack(
-                    QuestionsStatusFragment.newInstance("add",over_id,over_name,matchItem))
-             //  callSaveQuestionPredictionAPI(jsonArray)
+                    QuestionsStatusFragment.newInstance("add", over_id, over_name, matchItem)
+                )
+                //  callSaveQuestionPredictionAPI(jsonArray)
 
             }
-           /* showPredictErrorDialog(requireActivity(),
-                { type, dialog -> onPredictCheck(type, dialog) })*/
+            /* showPredictErrorDialog(requireActivity(),
+                 { type, dialog -> onPredictCheck(type, dialog) })*/
 
 
         }
@@ -127,22 +134,19 @@ class AddQuestionsFragment : BaseFragment() {
         dialog.dismiss()
         addFragmentToBackStack(
 
-            QuestionsStatusFragment.newInstance("add",over_id,over_name,matchItem))
+            QuestionsStatusFragment.newInstance("add", over_id, over_name, matchItem)
+        )
     }
 
 
     private fun initView() {
-
-       binding.tvOverName.text="Over Number: ${over_name}"
-           loadImage(matchItem.teama.logo_url, binding.viewHeader.getToolBarView().imgTeam1)
-        loadImage(matchItem.teamb.logo_url, binding.viewHeader.getToolBarView().imgTeam2)
         binding.viewHeader.setTitle("${matchItem.short_title}  ")
-        binding.clvMatchCard.tvLeft.text = "${matchItem.teama.short_name}"
-        binding.clvMatchCard.tvRight.text = "${matchItem.teamb.short_name}"
-        binding.clvMatchCard.tvLeftFullName.text = "${matchItem.teama.name}"
-        binding.clvMatchCard.tvRightFullName.text = "${matchItem.teamb.name}"
-        loadImage(matchItem.teama.logo_url, binding.clvMatchCard.imgLeft)
-        loadImage(matchItem.teamb.logo_url, binding.clvMatchCard.imgRight)
+        binding.tvOverName.text = "Over Number: ${over_name}"
+        loadImage(matchItem.teama.logo_url, binding.viewHeader.getToolBarView().imgTeam1)
+        loadImage(matchItem.teamb.logo_url, binding.viewHeader.getToolBarView().imgTeam2)
+
+
+        setMatchDataUI()
 
 
 
@@ -156,10 +160,41 @@ class AddQuestionsFragment : BaseFragment() {
 
     }
 
+    private fun setMatchDataUI() {
+        binding.clvMatchCard.tvTournamentName.text = "${matchItem.competiton_name}"
+        binding.clvMatchCard.tvMatchType.text = "${matchItem.formate}"
+        binding.clvMatchCard.tvLeft.text = "${matchItem.teama.short_name}"
+        binding.clvMatchCard.tvRight.text = "${matchItem.teamb.short_name}"
+        binding.clvMatchCard.tvLeftFullName.text = "${matchItem.teama.name}"
+        binding.clvMatchCard.tvRightFullName.text = "${matchItem.teamb.name}"
+        binding.clvMatchCard.tvNote.isVisible = !matchItem.note.isEmpty()
+        binding.clvMatchCard.tvNote.text = matchItem.note
+        binding.clvMatchCard.tvDayTimeStatus.text = getMatchStatus(matchItem)
 
+
+        if (matchItem.status.equals("live", true) || matchItem.status.equals("completed", true)) {
+            binding.clvMatchCard.tvLeftScore.isVisible = true
+            binding.clvMatchCard.tvRightScore.isVisible = true
+
+            binding.clvMatchCard.tvLeftScore.text = "${matchItem.teama.scores_full}"
+            binding.clvMatchCard.tvRightScore.text = "${matchItem.teamb.scores_full}"
+            /*if (matchItem.status.equals("completed",true)){
+                binding.clvMatchCard.tvLive.setBackgroundResource(R.drawable.button_bg_green)
+            }else{
+                binding.clvMatchCard.tvLive.setBackgroundResource(R.drawable.button_bg_red_round)
+            }*/
+        } else {
+
+            binding.clvMatchCard.tvLeftScore.isVisible = false
+            binding.clvMatchCard.tvRightScore.isVisible = false
+
+        }
+        loadImage(matchItem.teama.logo_url, binding.clvMatchCard.imgLeft)
+        loadImage(matchItem.teamb.logo_url, binding.clvMatchCard.imgRight)
+    }
 
     private fun onQuestionAdapterClick(pos: Int, type: String) {
-        questionList[pos].your_answer=type
+        questionList[pos].your_answer = type
 
 
     }
@@ -177,9 +212,9 @@ class AddQuestionsFragment : BaseFragment() {
     }
 
     private fun callQuestionAPI() {
-        binding.tvMessageLoading.isVisible=true
-        binding.btnSubmit.isVisible=false
-        binding.tvPriceGuide.text=""
+        binding.tvMessageLoading.isVisible = true
+        binding.btnSubmit.isVisible = false
+        binding.tvPriceGuide.text = ""
         if (utilsManager.isNetworkConnected()) {
 
             val json = JsonObject()
@@ -192,8 +227,8 @@ class AddQuestionsFragment : BaseFragment() {
                 if (res.status) {
                     matchItem = res.data.matchdetail
                     questionList.addAll(res.data.matchdetail.question)
-                    binding.btnSubmit.isVisible=true
-                    binding.tvPriceGuide.text=""
+                    binding.btnSubmit.isVisible = true
+                    binding.tvPriceGuide.text = ""
                 } else {
                     showErrorToast(res.message)
                 }
@@ -204,6 +239,7 @@ class AddQuestionsFragment : BaseFragment() {
 
 
     }
+
     private fun callSaveQuestionPredictionAPI(questionsArray: JsonArray) {
 
         if (utilsManager.isNetworkConnected()) {
@@ -218,7 +254,8 @@ class AddQuestionsFragment : BaseFragment() {
                 if (res.status) {
                     matchItem.question = questionList
                     addFragmentToBackStack(
-                        QuestionsStatusFragment.newInstance("add",over_id,over_name,matchItem))
+                        QuestionsStatusFragment.newInstance("add", over_id, over_name, matchItem)
+                    )
 
                 } else {
                     showErrorToast(res.message)
@@ -234,14 +271,14 @@ class AddQuestionsFragment : BaseFragment() {
     private fun setUIData(message: String) {
 
         questionAdapter.notifyDataSetChanged()
-        printLog("questionList",questionList.size.toString())
+        printLog("questionList", questionList.size.toString())
 
         if (questionList.isEmpty()) {
             binding.tvMessageLoading.isVisible = true
             binding.tvMessageLoading.text = message
         } else {
             binding.tvMessageLoading.isVisible = false
-            binding.btnSubmit.isVisible=true
+            binding.btnSubmit.isVisible = true
 
         }
     }

@@ -26,14 +26,17 @@ class MatchOverTabAdapter(
     init {
         this.dataList = dataItem
         this.mContext = mContext
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val binding =
             ListTabOverItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MainViewHolder(binding)
+    }
+    fun update(dataItem: ArrayList<OverItem>){
+        this.dataList = dataItem
+        selectedPos=0
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {

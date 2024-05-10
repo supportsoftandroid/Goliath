@@ -16,6 +16,7 @@ import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.adapter.MatchItemAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
+import com.fantasy.goliath.ui.fragments.MatchOverResultStatusFragment
 import com.fantasy.goliath.ui.fragments.NotificationsFragment
 import com.fantasy.goliath.ui.fragments.WalletDetailsFragment
 import com.fantasy.goliath.utility.Constants
@@ -133,11 +134,11 @@ class MatchOngoingFragment : BaseFragment() {
         loadProfileImage(userDetails?.avatar_full_path.toString(), binding.viewMainHeader.imgProfile)
     }
     private fun onAdapterClick(pos: Int, type: String) {
-        //MainActivity.hideNavigationTab()
-       /* UiUtils.backStackAddFragment(
-            requireActivity(),
-            AddOverFragment.newInstance("add")
-        )*/
+
+        addFragmentToBackStack(
+
+            MatchOverResultStatusFragment.newInstance("ongoing",dataList[pos])
+        )
     }
 
     private fun callListAPI( ) {
