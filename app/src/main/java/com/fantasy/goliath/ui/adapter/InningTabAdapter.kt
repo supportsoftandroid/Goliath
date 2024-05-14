@@ -47,11 +47,11 @@ class InningTabAdapter(
         holder.bind(current)
         holder.binding.tvTitle.text =current.inning_name
         if (position != selectedPos) {
-            holder.binding.clvCardMain.setBackgroundResource(R.drawable.border_layout_blue_radius_10)
-            holder.binding.tvTitle.setTextColor(mContext.resources.getColor(R.color.app_color))
+            holder.binding.tvTitle.setBackgroundResource(R.drawable.tab_unselected)
+            holder.binding.tvTitle.setTextColor(mContext.resources.getColor(R.color.colorText))
         } else {
-            holder.binding.tvTitle.setTextColor(mContext.resources.getColor(R.color.colorWhite))
-            holder.binding.clvCardMain.setBackgroundResource(R.drawable.bg_layout_blue_radius_10)
+            holder.binding.tvTitle.setTextColor(mContext.resources.getColor(R.color.app_color))
+            holder.binding.tvTitle.setBackgroundResource(R.drawable.tab_selected_with_arrow)
         }
         holder.itemView.setOnClickListener {
             selectedPos=position

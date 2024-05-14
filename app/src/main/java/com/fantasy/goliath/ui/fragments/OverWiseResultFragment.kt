@@ -4,28 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 
 
 import com.fantasy.goliath.databinding.FragmentMatchOverWiseResultBinding
 
-import com.fantasy.goliath.model.CommonDataItem
-import com.fantasy.goliath.model.LoginResponse
+
+import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.model.OverItem
 import com.fantasy.goliath.model.QuestionAnsItem
 import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
-import com.fantasy.goliath.ui.adapter.QuestionAnswerAdapter
+
+import com.fantasy.goliath.ui.adapter.QuestionAnswerStatusAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
-import com.fantasy.goliath.utility.PreferenceManager
-import com.fantasy.goliath.utility.UtilsManager
 import com.fantasy.goliath.viewmodal.AddOverViewModel
 
 class OverWiseResultFragment : BaseFragment() {
     companion object {
 
-        fun newInstance(from: String): OverWiseResultFragment {
+        fun newInstance(from: String, matchItem: MatchItem): OverWiseResultFragment {
             val args = Bundle()
             args.putString("from", from)
             val fragment = OverWiseResultFragment()
@@ -42,10 +40,10 @@ class OverWiseResultFragment : BaseFragment() {
             layoutInflater
         )
     }
-    lateinit var loginResponse: LoginResponse
+
 
     lateinit var adapter: MatchOverTabAdapter
-    lateinit var questionAdapter: QuestionAnswerAdapter
+    lateinit var questionAdapter: QuestionAnswerStatusAdapter
     var dataList = arrayListOf<OverItem>()
     var questionList = arrayListOf<QuestionAnsItem>()
 
@@ -105,7 +103,7 @@ class OverWiseResultFragment : BaseFragment() {
         questionList.add(QuestionAnsItem("","","6. Dot Balls LESS than 2", "Yes","Yes"))
         questionList.add(QuestionAnsItem("","","7. Maiden Over ( 0runs )", "Yes","No"))
         questionList.add(QuestionAnsItem("","","8. Out For a Duck", "No","Yes"))
-        questionAdapter = QuestionAnswerAdapter(
+        questionAdapter = QuestionAnswerStatusAdapter(
             requireActivity(),
             questionList,
             { pos, type -> onQuestionAdapterClick(pos, type) })

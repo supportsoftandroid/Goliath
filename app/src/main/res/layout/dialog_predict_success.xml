@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="@dimen/dp_5"
+    android:layout_gravity="bottom"
+    android:padding="@dimen/dp_15"
+    android:background="@drawable/background_white_top_radius"
+     >
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgBanner"
+        android:layout_width="@dimen/dp_90"
+        android:layout_height="@dimen/dp_90"
+        android:layout_marginTop="@dimen/dp_20"
+        android:src="@drawable/ic_success"
+        android:layout_gravity="center" />
+
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_55"
+        app:fontFamily="@font/visby_medium"
+        android:text="@string/you_haven_t_made_your_predictions"
+        android:textColor="@color/colorText"
+        android:layout_marginHorizontal="@dimen/dp_10"
+        android:textSize="@dimen/sp_20"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgClose"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNewPrediction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/AppButtonStyle"
+        android:padding="@dimen/dp_5"
+        android:layout_marginHorizontal="@dimen/dp_40"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_70"
+        android:fontFamily="@font/visby_semi_bold"
+
+        android:text="@string/predict_new_over"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/sp_20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMessage"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnMyPrediction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/AppButtonStyle"
+        android:padding="@dimen/dp_5"
+        android:layout_marginHorizontal="@dimen/dp_40"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_25"
+        android:fontFamily="@font/visby_semi_bold"
+
+        android:text="@string/my_predictions"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/sp_20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/dp_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMessage"/>
+
+</LinearLayout>

@@ -1,6 +1,7 @@
 package com.fantasy.goliath.ui.fragments
 
 import android.content.Intent
+import android.icu.lang.UCharacter.VerticalOrientation
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.FragmentAddQuestionBinding
 import com.fantasy.goliath.model.LoginResponse
@@ -19,7 +21,11 @@ import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
 import com.fantasy.goliath.ui.adapter.QuestionAnswerStatusAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
+import com.fantasy.goliath.utility.Constants
 import com.fantasy.goliath.utility.getMatchStatus
+import com.fantasy.goliath.utility.isNetworkConnected
+import com.fantasy.goliath.utility.showPredictErrorDialog
+import com.fantasy.goliath.utility.showPredictSuccessDialog
 import com.fantasy.goliath.viewmodal.QuestionsViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.JsonArray
@@ -134,9 +140,9 @@ class QuestionsStatusFragment : BaseFragment() {
 
     private fun initView() {
 
-        binding.clvQuestion.isVisible = false
         binding.viewHeader.setTitle("${matchItem.short_title}  ")
         binding.tvOverName.text = "Over Number: ${over_name}"
+        binding.tvPriceGuide.text = "You have to pay ₹${matchItem.pridiction_amount} from your wallet"
         loadImage(matchItem.teama.logo_url, binding.viewHeader.getToolBarView().imgTeam1)
         loadImage(matchItem.teamb.logo_url, binding.viewHeader.getToolBarView().imgTeam2)
 
@@ -149,7 +155,7 @@ class QuestionsStatusFragment : BaseFragment() {
             requireActivity(),
             questionList,
             { pos, type ->   })
-        binding.rvList.layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvList.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL,false)
         binding.rvList.adapter = questionAdapter
 
         setUIData("No questions available yet!")
@@ -252,7 +258,30 @@ class QuestionsStatusFragment : BaseFragment() {
                 showErrorToast(res.message)
 
                 if (res.status) {
-                   movetToHome()
+                     showPredictSuccessDialog(requireActivity(),res.message,{ type, dialog ->
+                         if (isNetworkConnected(requireActivity())) {
+                             if (type.equals("new", true)) {
+                                 val bundle=Bundle()
+                                 bundle.putString("from", "new_prediction")
+                                 bundle.putSerializable("match_item", matchItem)
+                                 parentFragmentManager.setFragmentResult(
+                                     Constants.ADD_OVER_REQUEST_KEY,
+                                     bundle
+                                 )
+                                 dialog.dismiss()
+                                 onBackPressed()
+                                 onBackPressed()
+
+                             } else {
+                                 dialog.dismiss()
+                                 movetToHome()
+
+
+                             }
+                         }
+
+                     })
+
 
                 } else {
                     showErrorToast(res.message)
@@ -266,7 +295,7 @@ class QuestionsStatusFragment : BaseFragment() {
     }
 
     private fun movetToHome() {
-          startActivity(Intent(requireActivity(), MainActivity::class.java).putExtra("from","prediction"))
+          startActivity(Intent(requireActivity(), MainActivity::class.java).putExtra("from","my_prediction"))
           requireActivity().finishAffinity()
     }
 }

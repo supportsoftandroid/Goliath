@@ -10,23 +10,22 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clv_card_main"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_45"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="-1dp"
         android:background="@drawable/border_blue_center_tab"
         >
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Over 1"
-
             android:textColor="@color/app_color"
-            android:paddingVertical="@dimen/dp_5"
+            android:paddingVertical="@dimen/dp_10"
             android:paddingHorizontal="@dimen/dp_20"
 
-            android:fontFamily="@font/visby_medium"
-            android:textSize="@dimen/sp_12"
+            app:fontFamily="@font/visby_medium"
+            android:textSize="@dimen/sp_9"
 
             android:gravity="center"
             android:layout_centerHorizontal="true"
@@ -38,7 +37,7 @@
 
 
 
-        <View
+        <TextView
             android:id="@+id/view_border"
             android:layout_width="@dimen/dp_1"
             android:layout_height="match_parent"

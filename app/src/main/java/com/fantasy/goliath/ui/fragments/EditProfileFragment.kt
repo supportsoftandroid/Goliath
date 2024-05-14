@@ -97,6 +97,8 @@ class EditProfileFragment : BaseFragment() {
 
         binding.ediPhone.setOnClickListener() {
             updateType = "phone"
+
+
             showUpdateEmailMobileBottom(
                 requireActivity(),
                 false,
@@ -113,7 +115,7 @@ class EditProfileFragment : BaseFragment() {
     }
 
     fun initView() {
-
+        binding.countryPickerView.setCcpClickable(false)
         binding.viewHeader.setTitle(requireActivity().getString(R.string.edit_profile))
         setupUIData()
     }

@@ -8,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.ListQuestionAnswerItemBinding
 import com.fantasy.goliath.model.QuestionAnsItem
+import com.fantasy.goliath.utility.Constants
 import com.fantasy.goliath.utility.getHTMLFormatText
 
 
@@ -44,23 +46,32 @@ class QuestionAnswerStatusAdapter(
         holder.setIsRecyclable(false)
         holder.bind(current)
         holder.binding.tvQuestion.text =getHTMLFormatText("${position+1}. ${ current.question}")
+        holder.binding.tvAnswer.text = getHTMLFormatText(if (!TextUtils.isEmpty(current.your_answer)&&current.your_answer.equals("1")) mContext.getString(
+            R.string.yes) else  mContext.getString(
+            R.string.no))
+        holder.binding.llYourAnswer.isVisible=true
+        holder.binding.tvNo.isVisible = false
+        holder.binding.tvYes.isVisible = false
+        holder.binding.imgYes.isVisible = false
+        holder.binding.imgNo.isVisible = false
+         if (!TextUtils.isEmpty(current.your_result)&&current.your_result.equals("nd",true)) {
+            holder.binding.imgNo.isVisible = false
+            holder.binding.imgNo.isVisible = false
 
-        holder.binding.tvYourAnswer.text = getHTMLFormatText(if (!TextUtils.isEmpty(current.your_answer)&&current.your_answer.equals("1")) mContext.getString(
-            R.string.your_answer_yes) else  mContext.getString(
-            R.string.your_answer_no))
-        holder.binding.tvYourAnswer.visibility=View.VISIBLE
-        if (!TextUtils.isEmpty(current.your_answer)){
-            holder.binding.imgNo.visibility=View.GONE
-            holder.binding.imgNo.visibility=View.GONE
-            holder.binding.tvNo.visibility=View.GONE
-            holder.binding.tvYes.visibility=View.GONE
-        }else{
-            holder.binding.imgNo.visibility=View.GONE
-            holder.binding.imgNo.visibility=View.GONE
-            holder.binding.tvNo.visibility=View.GONE
-            holder.binding.tvYes.visibility=View.GONE
+        } else {
+            holder.binding.llYourAnswer.isVisible = true
+            holder.binding.imgYes.isVisible = false
+            holder.binding.imgNo.isVisible = false
+            if (!TextUtils.isEmpty(current.your_result)&&!current.your_result.equals("nd",true)) {
+                if (current.your_result.equals(Constants.RESULT_WIN, true)) {
+                    holder.binding.imgYes.isVisible = true
+                } else {
+                    holder.binding.imgNo.isVisible = true
+                }
+            }
+            holder.binding.tvNo.isVisible = false
+            holder.binding.tvYes.isVisible = false
         }
-
     }
 
     private fun changeTvColorAndBg(tv1: TextView, tv2: TextView) {

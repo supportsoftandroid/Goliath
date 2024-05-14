@@ -8,12 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.ListQuestionAnswerItemBinding
 import com.fantasy.goliath.model.QuestionAnsItem
 import com.fantasy.goliath.utility.Constants.RESULT_WIN
-
+import com.fantasy.goliath.utility.getHTMLFormatText
 
 
 class QuestionAnswerAdapter(
@@ -44,31 +45,43 @@ class QuestionAnswerAdapter(
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
-        holder.setIsRecyclable(false)
+       //  holder.setIsRecyclable(true)
         holder.bind(current)
         val count = position + 1
-        holder.binding.tvQuestion.text = Html.fromHtml("${count}. ${current.question}")
-        holder.binding.tvYourAnswer.text =
-            if (!TextUtils.isEmpty(current.your_answer) && current.your_answer.equals("1")) mContext.getString(
-                R.string.your_answer_yes
-            ) else mContext.getString(
-                R.string.your_answer_no
-            )
-        if (TextUtils.isEmpty(current.your_result)) {
-            holder.binding.tvYourAnswer.visibility = View.GONE
-            holder.binding.imgNo.visibility = View.GONE
-            holder.binding.imgNo.visibility = View.GONE
-            holder.binding.tvNo.visibility = View.VISIBLE
-            holder.binding.tvYes.visibility = View.VISIBLE
+        holder.binding.tvQuestion.text = getHTMLFormatText("${count}. ${current.question}")
+        val answer =  if (!TextUtils.isEmpty(current.your_answer)
+            && current.your_answer.equals("1")) mContext.getString(
+            R.string.yes
+        ) else mContext.getString(
+            R.string.no
+        )
+        holder.binding.tvAnswer.text = getHTMLFormatText(answer)
+
+        if (TextUtils.isEmpty(current.your_answer) ) {
+            holder.binding.llYourAnswer.isVisible = false
+            holder.binding.imgNo.isVisible = false
+            holder.binding.imgNo.isVisible = false
+            holder.binding.tvNo.isVisible = true
+            holder.binding.tvYes.isVisible = true
+        }else  if (!TextUtils.isEmpty(current.your_result)||current.your_result.equals("nd",true)) {
+            holder.binding.llYourAnswer.isVisible = true
+            holder.binding.imgNo.isVisible = false
+            holder.binding.imgNo.isVisible = false
+            holder.binding.tvNo.isVisible = false
+            holder.binding.tvYes.isVisible = false
         } else {
-            holder.binding.tvYourAnswer.visibility = View.VISIBLE
-            if (current.your_result.equals(RESULT_WIN, true)) {
-                holder.binding.imgYes.visibility = View.VISIBLE
-            } else {
-                holder.binding.imgNo.visibility = View.VISIBLE
+            holder.binding.llYourAnswer.isVisible = true
+            holder.binding.imgYes.isVisible = false
+            holder.binding.imgNo.isVisible = false
+            if (!TextUtils.isEmpty(current.your_result)&&!current.your_result.equals("nd",true)) {
+                if (current.your_result.equals(RESULT_WIN, true)) {
+                    holder.binding.imgYes.isVisible = true
+                } else {
+                    holder.binding.imgNo.isVisible = true
+                }
             }
-            holder.binding.tvNo.visibility = View.GONE
-            holder.binding.tvYes.visibility = View.GONE
+            holder.binding.tvNo.isVisible = false
+            holder.binding.tvYes.isVisible = false
         }
 
         updateTextAnswertext(holder, current)

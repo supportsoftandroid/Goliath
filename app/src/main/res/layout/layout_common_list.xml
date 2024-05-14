@@ -16,12 +16,12 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/list_match_item_old" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvMessage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
-        android:fontFamily="@font/visby_regular"
+        app:fontFamily="@font/visby_regular"
         android:gravity="center"
         android:text="@string/loading"
 

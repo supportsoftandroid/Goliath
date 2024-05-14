@@ -201,7 +201,8 @@ class LoginFragment : BaseFragment() {
     private fun moveNextScreen() {
 
         preferenceManager.saveBoolean(Constants.KEY_CHECK_LOGIN, true)
-        addFragmentToBackStack(RewardGuideFragment())
+        gotoMainActivity()
+    //    addFragmentToBackStack(RewardGuideFragment())
 
     }
 

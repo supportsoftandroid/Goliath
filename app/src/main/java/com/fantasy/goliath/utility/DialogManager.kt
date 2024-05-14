@@ -5,11 +5,13 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
+import com.bumptech.glide.Glide
+import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.PopUpCustomProgressBinding
 
 
 /**
- * Created by Choudhary 9166900279 on 19/04/2023.
+ * Created by Choudhary 9166900279 on 19/08/2023.
  */
 class DialogManager(private val context: Context) {
     private var aDProgress: AlertDialog? = null
@@ -23,6 +25,7 @@ class DialogManager(private val context: Context) {
         /*  val view = LayoutInflater.from(context).inflate(R.layout.pop_up_custom_progress, null)*/
         builder.setCancelable(false)
         builder.setView(customProgressBinding.root)
+        Glide.with(context).asGif().load(R.drawable.ic_app_loader) .into(customProgressBinding.imgLaoder)
         // builder.setView(view)
 
         // customProgressBinding.tvProgress.text = progress

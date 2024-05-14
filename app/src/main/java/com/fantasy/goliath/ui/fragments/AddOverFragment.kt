@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,7 @@ import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.model.OverItem
 import com.fantasy.goliath.ui.adapter.InningItemAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
+import com.fantasy.goliath.utility.Constants
 import com.fantasy.goliath.utility.getMatchDate
 import com.fantasy.goliath.utility.getMatchStatus
 import com.fantasy.goliath.utility.getMatchTime
@@ -52,7 +54,7 @@ class AddOverFragment : BaseFragment() {
     }
     lateinit var loginResponse: LoginResponse
     lateinit var adapter: InningItemAdapter
-    var dataList = arrayListOf<InningItem>()
+    var inningsList = arrayListOf<InningItem>()
     var overStatusList = arrayListOf<CommonDataItem>()
     lateinit var matchItem: MatchItem
     lateinit var overItem: OverItem
@@ -88,12 +90,19 @@ class AddOverFragment : BaseFragment() {
         binding.btnConform.setOnClickListener() {
             if (!over_id.isEmpty()){
                 matchItem.match_id=match_id
+
+
                 addFragmentToBackStack(
                     AddQuestionsFragment.newInstance("add",over_id,over_name,matchItem)
                 )
             }
            /* showWalletErrorDialog(requireActivity(),
                 { type, dialog -> onWalletCheck(type, dialog) })*/
+
+        }
+        binding.tvResults.setOnClickListener() {
+            addFragmentToBackStack( MatchOverResultStatusFragment.newInstance("over",matchItem))
+
 
         }
 
@@ -106,18 +115,19 @@ class AddOverFragment : BaseFragment() {
 
 
     private fun initView() {
-        dataList.clear()
+        inningsList.clear()
        setMatchDataUI()
-        adapter = InningItemAdapter(requireActivity(), dataList, { parentPosition, pos, type ->
-            overItem = dataList[parentPosition].overs[pos]
+        adapter = InningItemAdapter(requireActivity(), inningsList, { parentPosition, pos, type ->
+            overItem = inningsList[parentPosition].overs[pos]
             over_id = overItem.over_id
             over_name = overItem.over_number
             binding.btnConform.isVisible = true
 
         })
 
-        binding.rvList.layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvList.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL,false)
         binding.rvList.adapter = adapter
+        binding.rvList.setNestedScrollingEnabled(false)
         overStatusList.clear()
 
         overStatusList.add(CommonDataItem("Overs Completed", "completed", false))
@@ -194,6 +204,20 @@ class AddOverFragment : BaseFragment() {
 
         binding.rvOverStatusList.layoutManager = GridLayoutManager(requireActivity(), 3)
         binding.rvOverStatusList.adapter = adapterStatus
+        binding.rvOverStatusList.suppressLayout(false)
+        setFragmentResultListener(Constants.ADD_OVER_REQUEST_KEY) { key, bundle ->
+            // Any type can be passed via to the bundle
+            val from = bundle.getString("from").toString()
+            if (from.equals("new_prediction")) {
+                over_id=""
+                binding.btnConform.isVisible=false
+                val item=bundle.getSerializable("match_item") as MatchItem
+                matchItem.match_id=item.match_id
+
+                callMatchDetailsAPI()
+            }
+            // Do something with the result...
+        }
     }
 
     private fun setMatchDataUI() {
@@ -241,15 +265,16 @@ class AddOverFragment : BaseFragment() {
             viewModal.getMatchesDetails(
                 requireActivity(), preferenceManager.getAuthToken(), json
             ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
-                dataList.clear()
+                inningsList.clear()
                 if (res.status) {
                     matchItem = res.data.matchdetail
-                    dataList.addAll(res.data.matchdetail.innings)
+                    inningsList.addAll(res.data.matchdetail.innings)
+                    setMatchDataUI()
 
                 } else {
                     showErrorToast(res.message)
                 }
-                printLog("dataList",dataList.size.toString())
+                printLog("inningsList",inningsList.size.toString())
                 setUIData(res.message)
 
             })
@@ -261,7 +286,7 @@ class AddOverFragment : BaseFragment() {
     private fun setUIData(message: String) {
         adapter.notifyDataSetChanged()
 
-        if (dataList.isEmpty()) {
+        if (inningsList.isEmpty()) {
             binding.tvMessage.isVisible = true
             binding.rvOverStatusList.isVisible = false
             binding.tvMessage.text = message

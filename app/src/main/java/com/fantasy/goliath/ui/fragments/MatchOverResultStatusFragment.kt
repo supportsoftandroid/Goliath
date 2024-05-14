@@ -1,6 +1,5 @@
 package com.fantasy.goliath.ui.fragments
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fantasy.goliath.R
 
 import com.fantasy.goliath.databinding.FragmentMatchPredictionStatusBinding
-import com.fantasy.goliath.databinding.ListInningTabRowItemBinding
-import com.fantasy.goliath.databinding.ListOverStatusItemBinding
 import com.fantasy.goliath.model.InningItem
 
 import com.fantasy.goliath.model.LoginResponse
@@ -20,17 +17,15 @@ import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.model.OverItem
 import com.fantasy.goliath.model.OverResultData
 import com.fantasy.goliath.model.QuestionAnsItem
-import com.fantasy.goliath.ui.adapter.InningItemAdapter
 import com.fantasy.goliath.ui.adapter.InningTabAdapter
 import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
-import com.fantasy.goliath.ui.adapter.QuestionAnswerAdapter
+import com.fantasy.goliath.ui.adapter.QuestionAnswerStatusAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.utility.getMatchStatus
 import com.fantasy.goliath.utility.printLog
 
 import com.fantasy.goliath.viewmodal.MatchOverResultViewModel
 import com.google.gson.JsonObject
-import com.health.kharma.ui.adapters.MyAdapter
 
 class MatchOverResultStatusFragment : BaseFragment() {
     companion object {
@@ -56,7 +51,7 @@ class MatchOverResultStatusFragment : BaseFragment() {
 
     lateinit var inningsAdapter: InningTabAdapter
     lateinit var overAdapter: MatchOverTabAdapter
-    lateinit var questionAdapter: QuestionAnswerAdapter
+    lateinit var questionAdapter: QuestionAnswerStatusAdapter
     var inningsList = arrayListOf<InningItem>()
     var overList = arrayListOf<OverItem>()
     var questionList = arrayListOf<QuestionAnsItem>()
@@ -90,7 +85,7 @@ class MatchOverResultStatusFragment : BaseFragment() {
         binding.btnSubmit.setOnClickListener() {
 
             addFragmentToBackStack(
-                OverWiseResultFragment.newInstance("add")
+                OverWiseResultFragment.newInstance("add",matchItem)
             )
 
         }
@@ -113,15 +108,18 @@ class MatchOverResultStatusFragment : BaseFragment() {
             inningsAdapter.notifyDataSetChanged()
             overList.clear()
             questionList.clear()
+            questionAdapter.notifyDataSetChanged()
             binding.clvResultBox.isVisible = false
+            binding.clvYourPrediction.isVisible = false
             binding.tvMessage.isVisible = true
             binding.tvMessage.text = requireActivity().getString(R.string.loading)
-            questionAdapter.notifyDataSetChanged()
+
             if (inningsList[pos].overs.size > 0) {
                 overList.addAll(inningsList[pos].overs)
                 overItem = overList[0]
                 over_id = overItem.over_id
-                updateQuestionResultUI()
+                overAdapter.notifyDataSetChanged()
+               // updateQuestionResultUI()
                 callOverResultAPI()
             } else {
 
@@ -146,7 +144,7 @@ class MatchOverResultStatusFragment : BaseFragment() {
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvOverList.adapter = overAdapter
         questionList.clear()
-        questionAdapter = QuestionAnswerAdapter(
+        questionAdapter = QuestionAnswerStatusAdapter(
             requireActivity(),
             questionList,
             { pos, type ->
@@ -195,6 +193,8 @@ class MatchOverResultStatusFragment : BaseFragment() {
 
     private fun onOverAdapterClick(pos: Int, type: String) {
         overItem = overList[pos]
+        over_id = overItem.over_id
+
         callOverResultAPI()
 
     }
@@ -208,12 +208,23 @@ class MatchOverResultStatusFragment : BaseFragment() {
             viewModal.getMatchesDetails(
                 requireActivity(), preferenceManager.getAuthToken(), json
             ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
-
-
                 if (res.status) {
+                    matchItem=res.data.matchdetail
+                    setMatchDataUI()
+                    overList.clear()
+                    questionList.clear()
+                    inningsList.clear()
                     matchItem = res.data.matchdetail
-                    inningsList.addAll(res.data.matchdetail.innings)
-                    overList.addAll(inningsList[0].overs)
+                    for (i in res.data.matchdetail.innings){
+                        if (i.overs.size>0){
+                            inningsList.add(i)
+                        }
+                    }
+                  // inningsList.addAll(res.data.matchdetail.innings)
+                    if (inningsList.size>0){
+                        overList.addAll(inningsList[0].overs)
+                    }
+
                     if (overList.size > 0) {
                         overItem = overList[0]
                         over_id = overItem.over_id
@@ -239,11 +250,14 @@ class MatchOverResultStatusFragment : BaseFragment() {
     }
 
     private fun updateQuestionResultUI() {
+
+
+        binding.tvMessage.isVisible=overList.isEmpty()
+        printLog("tvMessage.isVisible",binding.tvMessage.isVisible.toString())
+        printLog("overList",overList.size.toString())
+        binding.tvMessage.text = requireActivity().getString(R.string.no_over_pridction_yet)
         questionAdapter.notifyDataSetChanged()
         overAdapter.update(overList)
-        binding.tvMessage.isVisible=overList.isEmpty()
-        binding.tvMessage.text = requireActivity().getString(R.string.no_over_pridction_yet)
-
 
     }
 
@@ -251,6 +265,7 @@ class MatchOverResultStatusFragment : BaseFragment() {
 
         if (utilsManager.isNetworkConnected()) {
             binding.tvMessage.text = requireActivity().getString(R.string.loading)
+            binding.tvMessage.isVisible = true
             val json = JsonObject()
             json.addProperty("match_id", match_id)
             json.addProperty("over_id", over_id)
@@ -261,30 +276,33 @@ class MatchOverResultStatusFragment : BaseFragment() {
                 if (res.status) {
                     overResultData = res.data
                     questionList.addAll(res.data.user_prediction)
-
+                    setOverResultDataUI(res.message)
                 } else {
                     showErrorToast(res.message)
+                    binding.tvMessage.text = res.message
+                    binding.tvMessage.isVisible = questionList.isEmpty()
                 }
 
-                setOverResultDataUI(res.message)
+
 
             })
+        }else{
+            binding.tvMessage.text = requireActivity().getString(R.string.no_internet_connection_please_try_again)
+            binding.tvMessage.isVisible = true
         }
 
 
     }
 
     private fun setOverResultDataUI(message: String) {
-        binding.tvMessage.text = message
-        binding.tvMessage.isVisible = questionList.isEmpty()
         questionAdapter.notifyDataSetChanged()
-        if (!questionList.isEmpty()) {
+        binding.tvMessage.isVisible = questionList.isEmpty()
+        binding.tvMessage.text = message
             binding.clvResultBox.isVisible = overResultData.is_result
+            binding.clvYourPrediction.isVisible = !overResultData.is_result
             if (overResultData.is_result) {
-                binding.imgGoliathBanner.isVisible =
-                    overResultData.correct_counts == questionList.size
-                binding.tvResultValue.text =
-                    "${questionList.size} / ${overResultData.correct_counts} "
+                binding.imgGoliathBanner.isVisible = overResultData.correct_counts == questionList.size
+                binding.tvResultValue.text = "${questionList.size} / ${overResultData.correct_counts} "
                 binding.tvResultMessage.text = overResultData.message
                 if (overResultData.correct_counts < 5) {
                     binding.tvTotalAmount.isVisible = false
@@ -295,8 +313,12 @@ class MatchOverResultStatusFragment : BaseFragment() {
                     binding.tvTotalAmount.setText("₹ ${overResultData.winning_amount} will be transferred to your wallet.")
                 }
 
+            }else{
+                binding.clvYourPrediction.isVisible = true
+
+
             }
-        }
+
 
 
     }

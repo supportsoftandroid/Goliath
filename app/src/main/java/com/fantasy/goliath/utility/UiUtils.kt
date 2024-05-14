@@ -24,7 +24,6 @@ import android.os.Build.VERSION.SDK_INT
 import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Html
-import android.text.Spanned
 import android.text.TextUtils
 import android.text.method.PasswordTransformationMethod
 import android.util.DisplayMetrics
@@ -34,6 +33,9 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -62,6 +64,7 @@ import com.fantasy.goliath.databinding.DialogBottomAddAmountBinding
 import com.fantasy.goliath.databinding.DialogBottomAddCardBinding
 import com.fantasy.goliath.databinding.DialogImageUploadBinding
 import com.fantasy.goliath.databinding.DialogPredictErrorBinding
+import com.fantasy.goliath.databinding.DialogPredictSuccessBinding
 import com.fantasy.goliath.databinding.DialogUpdateProfileBinding
 import com.fantasy.goliath.databinding.DialogVerifyOtpBinding
 import com.fantasy.goliath.databinding.DialogWalletBalanceErrorBinding
@@ -743,7 +746,10 @@ fun showToast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 
-
+fun  hideKeyboard(mContext: Context) {
+    val inputMethodManager = mContext.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow( (mContext as Activity).currentFocus?.windowToken, 0)
+}
 fun Activity.hideKeyboard() {
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
@@ -1070,6 +1076,9 @@ fun showUpdateEmailMobileBottom(
     // Set the bottom sheet to be fullscreen
     dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
     dialog.behavior.isDraggable = false*/
+    dialogBinding.ediEmail.clearFocus()
+    dialogBinding.ediPhone.clearFocus()
+    hideKeyboard(context )
     dialogBinding.imgClose.visibility=View.VISIBLE
     if (type.equals("email")){
         dialogBinding.tvTitle.text= context.getString(R.string.update_email)
@@ -1152,7 +1161,7 @@ fun showVerifyOTPEmailMobileBottom(
     dialog.behavior.isDraggable = false*/
     dialogBinding.imgClose.visibility=View.VISIBLE
 
-
+    hideKeyboard(context )
 
     dialogBinding.imgClose.setOnClickListener {
         dialog.dismiss()
@@ -1267,6 +1276,38 @@ fun showDialogAddCard(
 
 }
 
+fun showPredictSuccessDialog(
+    context: Context,msg:String,
+    onItemClick: (type: String,  dlg: BottomSheetDialog) -> Unit
+) {
+    val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
+    val dialogBinding =
+        DialogPredictSuccessBinding.inflate(LayoutInflater.from(context), null, false)
+    val sheetView = dialogBinding.root
+    dialog.setContentView(sheetView)
+    dialog.setCancelable(false)
+    dialogBinding.tvMessage.text=msg
+
+    val animation: Animation =
+        AlphaAnimation(1f, 0f) //to change visibility from visible to invisible
+    animation.duration = 1000 //1 second duration for each animation cycle
+    animation.interpolator = LinearInterpolator()
+    animation.repeatCount = Animation.INFINITE //repeating indefinitely
+    animation.repeatMode = Animation.REVERSE //animation will start from end point once ended.
+    dialogBinding.imgBanner.startAnimation(animation) //to start animation
+    dialogBinding.btnNewPrediction.setOnClickListener {
+        onItemClick("new",dialog)
+
+    }
+    dialogBinding.btnMyPrediction.setOnClickListener {
+        onItemClick("my",dialog)
+
+    }
+
+
+    dialog.show()
+
+}
 fun showPredictErrorDialog(
     context: Context,
     onItemClick: (name: String,  dlg: BottomSheetDialog) -> Unit

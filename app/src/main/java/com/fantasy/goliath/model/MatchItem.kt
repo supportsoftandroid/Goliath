@@ -17,6 +17,7 @@ data class MatchItem(
     val match_start_date: String,
     val match_start_time: String,
     var note: String,
+    var pridiction_amount: String="",
     var status: String,
 
     var teama: TeamItem,

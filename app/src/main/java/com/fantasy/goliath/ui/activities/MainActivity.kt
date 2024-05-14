@@ -34,6 +34,9 @@ class MainActivity : BaseActivity() {
         fun navProfileTab() {
             navView.selectedItemId = R.id.nav_profile
         }
+        fun navMyPredictionTab() {
+            navView.selectedItemId = R.id.nav_profile
+        }
     }
     private lateinit var binding: ActivityMainBinding
     var doubleBackToExitPressedOnce: Boolean = false
@@ -51,6 +54,11 @@ class MainActivity : BaseActivity() {
         initView()
         clickListener()
         navView.selectedItemId = R.id.nav_home
+        if (intent.getStringExtra("from") != null)  {
+            if (intent.getStringExtra("from").equals("my_prediction",true)) {
+                navView.selectedItemId = R.id.nav_result
+            }
+        }
     }
 
     private fun initView() {

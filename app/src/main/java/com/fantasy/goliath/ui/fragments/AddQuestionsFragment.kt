@@ -9,7 +9,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fantasy.goliath.databinding.FragmentAddQuestionBinding
-import com.fantasy.goliath.databinding.FragmentAddQuestionNewBinding
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.model.OverItem
@@ -50,7 +49,7 @@ class AddQuestionsFragment : BaseFragment() {
 
     private val viewModal by lazy { ViewModelProvider(this)[QuestionsViewModel::class.java] }
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
-        FragmentAddQuestionNewBinding.inflate(
+        FragmentAddQuestionBinding.inflate(
             layoutInflater
         )
     }
@@ -225,7 +224,10 @@ class AddQuestionsFragment : BaseFragment() {
             ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
                 questionList.clear()
                 if (res.status) {
+                    val pridiction_amount=matchItem.pridiction_amount
                     matchItem = res.data.matchdetail
+                    matchItem.pridiction_amount = pridiction_amount
+                    setMatchDataUI()
                     questionList.addAll(res.data.matchdetail.question)
                     binding.btnSubmit.isVisible = true
                     binding.tvPriceGuide.text = ""

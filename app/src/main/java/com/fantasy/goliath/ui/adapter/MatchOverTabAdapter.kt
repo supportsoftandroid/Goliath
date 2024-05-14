@@ -49,7 +49,9 @@ class MatchOverTabAdapter(
             notifyDataSetChanged()
         }
         if (position==selectedPos){
-            if (position==0){
+            if (position==0&&dataList.size==1){
+                holder.binding.clvCardMain.setBackgroundResource(R.drawable.bg_layout_blue_radius_10)
+            }else if (position==0){
                 holder.binding.clvCardMain.setBackgroundResource(R.drawable.bg_blue_start_tab_radius_10)
             }else if (position==dataList.size-1){
                 holder.binding.clvCardMain.setBackgroundResource(R.drawable.bg_blue_end_tab_radius_10)
@@ -60,7 +62,9 @@ class MatchOverTabAdapter(
             holder.binding.tvTitle.setTextColor(mContext.resources.getColor(R.color.colorWhite))
 
         }else{
-            if (position==0){
+            if (position==0&&dataList.size==1){
+                holder.binding.clvCardMain.setBackgroundResource(R.drawable.border_layout_blue_radius_10)
+            }else if (position==0){
                 holder.binding.clvCardMain.setBackgroundResource(R.drawable.bg_white_start_tab_radius_10)
             }else if (position==dataList.size-1){
                 holder.binding.clvCardMain.setBackgroundResource(R.drawable.bg_white_end_tab_radius_10)

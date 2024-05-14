@@ -11,25 +11,20 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/clv_card_main"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_50"
-        android:minWidth="@dimen/dp_100"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dp_10"
-        android:padding="@dimen/dp_2"
-        android:background="@drawable/border_layout_blue_radius_5"
-        >
+        android:background="@color/colorWhite">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dp_40"
             android:text="Inning 1"
-
             android:textColor="@color/app_color"
-            android:paddingVertical="@dimen/dp_5"
+            android:maxLines="1"
             android:paddingHorizontal="@dimen/dp_20"
-
-            app:fontFamily="@font/visby_semi_bold"
-            android:textSize="@dimen/sp_18"
+            app:fontFamily="@font/visby_medium"
+            android:textSize="@dimen/sp_16"
 
             android:gravity="center"
             android:layout_centerHorizontal="true"
@@ -37,7 +32,8 @@
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-             app:layout_constraintStart_toStartOf="parent"/>
+             app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/tab_selected_with_arrow"/>
 
 
 

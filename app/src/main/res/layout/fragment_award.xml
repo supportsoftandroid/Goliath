@@ -39,7 +39,6 @@
             android:id="@+id/rg_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             android:orientation="horizontal"
             android:weightSum="2"
             android:backgroundTint="@color/colorWhite"
@@ -48,7 +47,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbWinning"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_45"
@@ -56,7 +55,7 @@
                 android:background="@drawable/tab_selecter"
                 android:button="@null"
                 android:checked="true"
-                android:fontFamily="@font/visby_medium"
+                app:fontFamily="@font/visby_medium"
                 android:gravity="center"
                 android:inputType="text"
                 android:padding="@dimen/dp_5"
@@ -66,7 +65,7 @@
                 android:textSize="@dimen/sp_16" />
 
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbMostPlayed"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_45"
@@ -74,7 +73,7 @@
                 android:background="@drawable/tab_selecter"
 
                 android:button="@null"
-                android:fontFamily="@font/visby_medium"
+                app:fontFamily="@font/visby_medium"
                 android:gravity="center"
                 android:inputType="text"
                 android:padding="@dimen/dp_5"
@@ -95,7 +94,7 @@
             app:layout_constraintStart_toStartOf="parent"
              app:layout_constraintTop_toBottomOf="@+id/rg_type">
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbDaily"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_45"
@@ -112,7 +111,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/sp_14" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbWeekly"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_45"
@@ -120,7 +119,7 @@
                 android:background="@drawable/tab_selecter_border"
 
                 android:button="@null"
-                android:fontFamily="@font/visby_medium"
+                app:fontFamily="@font/visby_medium"
                 android:gravity="center"
                 android:inputType="text"
                 android:padding="@dimen/dp_5"
@@ -128,7 +127,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/app_color"
                 android:textSize="@dimen/sp_14" />
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbMonthly"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_45"
@@ -136,7 +135,7 @@
                 android:background="@drawable/tab_selecter_border"
 
                 android:button="@null"
-                android:fontFamily="@font/visby_medium"
+                app:fontFamily="@font/visby_medium"
                 android:gravity="center"
                 android:inputType="text"
                 android:padding="@dimen/dp_5"
@@ -169,7 +168,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -194,7 +193,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tvNo"/>
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -202,7 +201,7 @@
 
                 android:layout_marginStart="@dimen/dp_25"
                 android:textColor="@color/colorText"
-                android:fontFamily="@font/visby_medium"
+                app:fontFamily="@font/visby_medium"
                 android:textSize="@dimen/sp_12"
                 android:gravity="start"
 
@@ -210,14 +209,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvFee"
                 app:layout_constraintStart_toEndOf="@id/imgProfile"/>
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvFee"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Playing Fees"
                 android:layout_marginEnd="@dimen/dp_15"
                 android:textColor="@color/colorText"
-                android:fontFamily="@font/visby_medium"
+                app:fontFamily="@font/visby_medium"
                 android:textSize="@dimen/sp_12"
                 android:gravity="center"
                 app:layout_constraintWidth_percent="0.25"
@@ -225,14 +224,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvWinning"
                 />
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvWinning"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Winnings"
                 android:layout_marginStart="@dimen/dp_15"
                 android:textColor="@color/colorText"
-                android:fontFamily="@font/visby_medium"
+                app:fontFamily="@font/visby_medium"
                 android:textSize="@dimen/sp_12"
                 android:gravity="center"
                 app:layout_constraintWidth_percent="0.2"

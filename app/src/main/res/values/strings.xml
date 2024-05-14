@@ -49,6 +49,7 @@
     <string name="confirm">Confirm</string>
     <string name="back">Back</string>
     <string name="add_cash">Add Cash</string>
+    <string name="your_answer">Your Answer : </string>
     <string name="your_answer_yes">Your Answer : <font color="#438DCA">Yes</font></string>
     <string name="your_answer_no">Your Answer : <font color="#438DCA">No</font></string>
     <string name="yes">Yes</string>
@@ -105,6 +106,7 @@
     <string name="matches_history">Matches History</string>
     <string name="my_predictions">My Predictions</string>
     <string name="deposit">Deposit</string>
+    <string name="predict_new_over">Predict New Over</string>
     <string name="predicts_now">Predicts now</string>
     <string name="total_winnings">Total Winnings</string>
     <string name="correctly_predict_8_actions_in_one_over_of_n_cricket_and_win_big_npay_outs_from_5_of_8_correct_predictions">Correctly Predict 8 actions in one over of\n cricket and win BIG\npay outs from 5 of 8 correct predictions</string>

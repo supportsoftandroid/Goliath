@@ -10,12 +10,11 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.fantasy.goliath.R
+
 import com.fantasy.goliath.databinding.ListInningsRowItemBinding
-import com.fantasy.goliath.databinding.ListOverItemBinding
-import com.fantasy.goliath.model.CommonDataItem
+
 import com.fantasy.goliath.model.InningItem
-import com.fantasy.goliath.model.OverItem
+
 import com.fantasy.goliath.utility.printLog
 
 
@@ -29,6 +28,7 @@ class InningItemAdapter(
 
 
     var mContext: Context
+      var childPos=-1
 
     init {
         this.dataList = dataItem
@@ -50,12 +50,18 @@ class InningItemAdapter(
         holder.binding.tvTitle.text = current.inning_name
         printLog("current.inning_name",current.inning_name)
 
-        val adapter = SelectedOverAdapter(mContext, position, current.overs, { parentPos, pos, type ->
-                listenerClick(parentPos, pos, type)
+        val adapter = SelectedOverAdapter(mContext, position, current.overs, { parentPos, childPos, type ->
+            this.childPos=childPos
+                listenerClick(parentPos, childPos, type)
+
 
             })
         holder.binding.rvList.layoutManager = GridLayoutManager(mContext, 6)
         holder.binding.rvList.adapter = adapter
+        holder.binding.rvList.setNestedScrollingEnabled(false)
+        if (childPos!=-1){
+            holder.binding.rvList.layoutManager?.scrollToPosition(childPos)
+        }
 
     }
 
