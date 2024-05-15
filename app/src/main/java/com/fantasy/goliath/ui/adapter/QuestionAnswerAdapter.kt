@@ -45,7 +45,7 @@ class QuestionAnswerAdapter(
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
-       //  holder.setIsRecyclable(true)
+          holder.setIsRecyclable(true)
         holder.bind(current)
         val count = position + 1
         holder.binding.tvQuestion.text = getHTMLFormatText("${count}. ${current.question}")
@@ -83,7 +83,7 @@ class QuestionAnswerAdapter(
             holder.binding.tvNo.isVisible = false
             holder.binding.tvYes.isVisible = false
         }
-
+        updateTextAnswertext(holder, current)
         updateTextAnswertext(holder, current)
         holder.binding.tvYes.setOnClickListener() {
             current.your_answer = "1"
@@ -105,9 +105,14 @@ class QuestionAnswerAdapter(
         holder: QuestionAnswerAdapter.MainViewHolder,
         current: QuestionAnsItem
     ) {
-        if (!TextUtils.isEmpty(current.your_answer) && current.your_answer.equals("1")) {
+        if (TextUtils.isEmpty(current.your_answer)) {
+            holder.binding.tvYes.setTextColor(mContext.resources.getColor(R.color.app_color))
+            holder.binding.tvYes.setBackgroundResource(R.drawable.button_border_blue_radius_20)
+            holder.binding.tvNo.setTextColor(mContext.resources.getColor(R.color.app_color))
+            holder.binding.tvNo.setBackgroundResource(R.drawable.button_border_blue_radius_20)
+        }else if (  current.your_answer.equals("1")) {
             changeTvColorAndBg(holder.binding.tvYes, holder.binding.tvNo)
-        } else if (!TextUtils.isEmpty(current.your_answer) && current.your_answer.equals("2")) {
+        } else if ( current.your_answer.equals("2")) {
             changeTvColorAndBg(holder.binding.tvNo, holder.binding.tvYes)
         }
 

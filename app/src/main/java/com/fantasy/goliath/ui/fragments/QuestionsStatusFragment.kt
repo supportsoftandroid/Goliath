@@ -24,6 +24,7 @@ import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.utility.Constants
 import com.fantasy.goliath.utility.getMatchStatus
 import com.fantasy.goliath.utility.isNetworkConnected
+import com.fantasy.goliath.utility.setMatchCardUIData
 import com.fantasy.goliath.utility.showPredictErrorDialog
 import com.fantasy.goliath.utility.showPredictSuccessDialog
 import com.fantasy.goliath.viewmodal.QuestionsViewModel
@@ -162,36 +163,10 @@ class QuestionsStatusFragment : BaseFragment() {
     }
 
     private fun setMatchDataUI() {
-        binding.clvMatchCard.tvTournamentName.text = "${matchItem.competiton_name}"
-        binding.clvMatchCard.tvMatchType.text = "${matchItem.formate}"
-        binding.clvMatchCard.tvLeft.text = "${matchItem.teama.short_name}"
-        binding.clvMatchCard.tvRight.text = "${matchItem.teamb.short_name}"
-        binding.clvMatchCard.tvLeftFullName.text = "${matchItem.teama.name}"
-        binding.clvMatchCard.tvRightFullName.text = "${matchItem.teamb.name}"
-        binding.clvMatchCard.tvNote.isVisible = !matchItem.note.isEmpty()
-        binding.clvMatchCard.tvNote.text = matchItem.note
-        binding.clvMatchCard.tvDayTimeStatus.text= getMatchStatus(matchItem)
+        setMatchCardUIData(binding.clvMatchCard,matchItem)
 
 
-        if (matchItem.status.equals("live",true)||matchItem.status.equals("completed",true)){
-            binding.clvMatchCard.tvLeftScore.isVisible=true
-            binding.clvMatchCard.tvRightScore.isVisible=true
 
-            binding.clvMatchCard.tvLeftScore.text = "${matchItem.teama.scores_full}"
-            binding.clvMatchCard.tvRightScore.text = "${matchItem.teamb.scores_full}"
-            /*if (matchItem.status.equals("completed",true)){
-                binding.clvMatchCard.tvLive.setBackgroundResource(R.drawable.button_bg_green)
-            }else{
-                binding.clvMatchCard.tvLive.setBackgroundResource(R.drawable.button_bg_red_round)
-            }*/
-        }else{
-
-            binding.clvMatchCard.tvLeftScore.isVisible=false
-            binding.clvMatchCard.tvRightScore.isVisible=false
-
-        }
-        loadImage(matchItem.teama.logo_url, binding.clvMatchCard.imgLeft)
-        loadImage(matchItem.teamb.logo_url, binding.clvMatchCard.imgRight)
     }
     override fun onBackPressed() {
         super.onBackPressed()

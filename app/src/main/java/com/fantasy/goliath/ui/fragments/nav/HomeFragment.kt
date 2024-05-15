@@ -46,6 +46,9 @@ class HomeFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         binding.let {
+            dataList.clear()
+              currentPage=1
+              selectedPos=-1
             initView()
             clickListener()
             callListAPI()
@@ -165,7 +168,7 @@ class HomeFragment : BaseFragment() {
 
     private fun onAdapterClick(pos: Int, type: String) {
         MainActivity.hideNavigationTab()
-        addFragmentToBackStack(
+        replaceFragmentAddBackStack(
 
             AddOverFragment.newInstance("add",dataList[pos])
         )

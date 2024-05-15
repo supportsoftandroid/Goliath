@@ -54,7 +54,9 @@ class MatchHistoryFragment : BaseFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding.let {
-
+            dataList.clear()
+            currentPage=1
+            selectedPos=-1
             initView()
             clickListener()
             callListAPI()
@@ -109,7 +111,7 @@ class MatchHistoryFragment : BaseFragment() {
     }
 
     private fun onAdapterClick(pos: Int, type: String) {
-        MatchOverResultStatusFragment.newInstance("ongoing",dataList[pos])
+        addFragmentToBackStack ( MatchOverResultStatusFragment.newInstance("history",dataList[pos]))
     }
 
     override fun onDestroyView() {

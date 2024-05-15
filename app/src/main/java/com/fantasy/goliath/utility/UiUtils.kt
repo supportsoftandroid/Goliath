@@ -68,6 +68,7 @@ import com.fantasy.goliath.databinding.DialogPredictSuccessBinding
 import com.fantasy.goliath.databinding.DialogUpdateProfileBinding
 import com.fantasy.goliath.databinding.DialogVerifyOtpBinding
 import com.fantasy.goliath.databinding.DialogWalletBalanceErrorBinding
+import com.fantasy.goliath.databinding.LayoutTeamCardBinding
 import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.ui.activities.AuthActivity
 import com.fantasy.goliath.ui.activities.MainActivity
@@ -509,6 +510,32 @@ fun setMatchTeamViewColor(
     // imgTeam.setColorFilter(ContextCompat.getColor(context, teamColor), PorterDuff.Mode.SRC_IN)
     imgTeam.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, teamColor))
 
+}
+fun setMatchCardUIData(clvMatchCard: LayoutTeamCardBinding, matchItem: MatchItem) {
+
+
+    clvMatchCard.tvTournamentName.text = "${matchItem.competiton_name}"
+    clvMatchCard.tvMatchType.text = "${matchItem.formate}"
+    clvMatchCard.tvLeft.text = "${matchItem.teama.short_name}"
+    clvMatchCard.tvRight.text = "${matchItem.teamb.short_name}"
+    clvMatchCard.tvLeftFullName.text = "${matchItem.teama.name}"
+    clvMatchCard.tvRightFullName.text = "${matchItem.teamb.name}"
+    clvMatchCard.tvNote.isVisible = !matchItem.note.isEmpty()
+    clvMatchCard.tvNote.text = matchItem.note
+    clvMatchCard.tvDayTimeStatus.text= getMatchStatus(matchItem)
+    if (matchItem.status.equals("completed",true)){
+        clvMatchCard.tvLeftScore.isVisible=true
+        clvMatchCard.tvRightScore.isVisible=true
+        clvMatchCard.tvLeftScore.text = "${matchItem.teama.scores_full}"
+        clvMatchCard.tvRightScore.text = "${matchItem.teamb.scores_full}"
+    }else{
+
+        clvMatchCard.tvLeftScore.isVisible=false
+        clvMatchCard.tvRightScore.isVisible=false
+
+    }
+    loadImage(matchItem.teama.logo_url, clvMatchCard.imgLeft)
+    loadImage(matchItem.teamb.logo_url, clvMatchCard.imgRight)
 }
 fun hideShowPassword(passField: EditText, eyeIcon: ImageView) {
     /*eyeIcon.setOnClickListener {
@@ -982,7 +1009,10 @@ fun showOTPDialogBottom(
     val sheetView = dialogBinding.root
     dialog.setContentView(sheetView)
     dialog.setCancelable(isCancelable)
+    hideKeyboard(context )
 
+    dialogBinding.pinview.requestFocus(0)
+    dialog.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     val screenHeight = context.resources.displayMetrics.heightPixels
     val layoutParams = sheetView.layoutParams
     layoutParams.height = screenHeight
@@ -1076,9 +1106,13 @@ fun showUpdateEmailMobileBottom(
     // Set the bottom sheet to be fullscreen
     dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
     dialog.behavior.isDraggable = false*/
-    dialogBinding.ediEmail.clearFocus()
-    dialogBinding.ediPhone.clearFocus()
+
+    dialogBinding.ediEmail.requestFocus(0)
+    dialogBinding.ediPhone.requestFocus(0)
     hideKeyboard(context )
+    dialog.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+
+
     dialogBinding.imgClose.visibility=View.VISIBLE
     if (type.equals("email")){
         dialogBinding.tvTitle.text= context.getString(R.string.update_email)
@@ -1109,7 +1143,7 @@ fun showUpdateEmailMobileBottom(
         }else if (type.equals("phone")&&dialogBinding.ediPhone.text.toString().trim().isEmpty()){
             showToast(context,context.getString(R.string.enter_mobile_number))
             dialogBinding.ediPhone.requestFocus()
-        }else if (type.equals("email")&& dialogBinding.ediPhone.text!!.length < 4){
+        }else if (type.equals("phone")&& dialogBinding.ediPhone.text!!.length < 4){
             showToast(context,context.getString(R.string.enter_valid_phone_number))
             dialogBinding.ediPhone.requestFocus()
         }else{
@@ -1131,9 +1165,6 @@ fun showUpdateEmailMobileBottom(
         }
 
 
-
-
-
     }
 
     dialog.show()
@@ -1150,6 +1181,11 @@ fun showVerifyOTPEmailMobileBottom(
     val sheetView = dialogBinding.root
     dialog.setContentView(sheetView)
     dialog.setCancelable(isCancelable)
+    hideKeyboard(context )
+    dialogBinding.ediEmail.requestFocus(0)
+    dialogBinding.ediPhone.requestFocus(0)
+    dialogBinding.pinview.requestFocus(0)
+    dialog.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
     /*val screenHeight = context.resources.displayMetrics.heightPixels
     val layoutParams = sheetView.layoutParams
@@ -1161,7 +1197,7 @@ fun showVerifyOTPEmailMobileBottom(
     dialog.behavior.isDraggable = false*/
     dialogBinding.imgClose.visibility=View.VISIBLE
 
-    hideKeyboard(context )
+
 
     dialogBinding.imgClose.setOnClickListener {
         dialog.dismiss()

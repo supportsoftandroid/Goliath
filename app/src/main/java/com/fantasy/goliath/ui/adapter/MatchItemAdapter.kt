@@ -54,19 +54,14 @@ class MatchItemAdapter(
         holder.binding.tvNote.text = current.note
         holder.binding.tvDayTimeStatus.text= getMatchStatus(current)
 
-        if (type.equals("live",true)||type.equals("completed",true)){
+        //if (type.equals("live",true)||type.equals("completed",true)){
+        if ( type.equals("completed",true)){
             holder.binding.llMatchTime.isVisible=true
             holder.binding.tvLeftScore.isVisible=true
             holder.binding.tvRightScore.isVisible=true
-
             holder.binding.tvLeftScore.text=current.teama.scores_full
             holder.binding.tvRightScore.text=current.teamb.scores_full
 
-            /*if (type.equals("completed",true)){
-                holder.binding.tvLive.setBackgroundResource(R.drawable.button_bg_green)
-            }else{
-                holder.binding.tvLive.setBackgroundResource(R.drawable.button_bg_red_round)
-            }*/
         }else{
             holder.binding.tvLeftScore.isVisible=false
             holder.binding.tvRightScore.isVisible=false

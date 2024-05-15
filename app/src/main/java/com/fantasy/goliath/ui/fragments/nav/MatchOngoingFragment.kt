@@ -59,7 +59,9 @@ class MatchOngoingFragment : BaseFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding.let {
-
+            dataList.clear()
+            currentPage=1
+            selectedPos=-1
             initView()
             clickListener()
             callListAPI()
@@ -89,7 +91,7 @@ class MatchOngoingFragment : BaseFragment() {
         binding.viewBody.tvMessage.isVisible=true
         setUserUIData()
         //binding.viewHeader.setTitle( requireActivity().getString(R.string.matches_history))
-        dataList.clear()
+
 
 
         adapter = MatchItemAdapter(requireActivity(), dataList, { pos, type -> onAdapterClick(pos, type) })
@@ -135,7 +137,7 @@ class MatchOngoingFragment : BaseFragment() {
     }
     private fun onAdapterClick(pos: Int, type: String) {
 
-        addFragmentToBackStack(
+        replaceFragmentAddBackStack(
 
             MatchOverResultStatusFragment.newInstance("ongoing",dataList[pos])
         )

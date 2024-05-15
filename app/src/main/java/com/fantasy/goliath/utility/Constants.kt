@@ -27,7 +27,8 @@ object Constants {
     const val PROFILE_EDIT_REQUEST_KEY = "profile_edit_"
 
     /*  APP URLs    */
-    const val LIVE_URL = "https://projects.commnext.com.au/goliath/public/api/"
+
+    const val LIVE_URL = "http://65.1.188.220/goliath/public/api/"
     const val API_WELCOME_SCREEN = "on-boarding"
 
     const val API_SEND_OTP = "auth/send-otp"

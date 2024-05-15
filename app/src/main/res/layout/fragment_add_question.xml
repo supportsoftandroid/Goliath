@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                layout="@layout/list_match_item"
+                layout="@layout/layout_team_card"
                 android:background="@color/colorVeryLightGray"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

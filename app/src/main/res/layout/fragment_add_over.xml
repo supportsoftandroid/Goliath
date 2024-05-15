@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@id/clvHeader">
   <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
 
         android:paddingHorizontal="@dimen/dp_20"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,11 +54,7 @@
           android:id="@+id/clv_match_card"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
-
-
           layout="@layout/layout_team_card"
-
-
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintTop_toTopOf="parent"
@@ -165,9 +161,9 @@
           android:id="@+id/tvMessage"
 
           android:layout_width="0dp"
-          android:layout_height="0dp"
+          android:layout_height="wrap_content"
           android:layout_marginTop="@dimen/dp_15"
-          android:minHeight="@dimen/dp_400"
+          android:minHeight="@dimen/dp_500"
 
 
           android:background="@color/colorWhite"
