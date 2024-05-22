@@ -136,5 +136,8 @@
     <string name="confirm_pay"><![CDATA[Confirm & Pay]]></string>
     <string name="sorry_you_lost_the">Sorry! You lost the over</string>
     <string name="no_over_pridction_yet">No over prediction yet!</string>
+    <string name="match_ended_full_amount_will_be_created_to_your_wallet">Match ended. Full amount will be created to your wallet</string>
+    <string name="prediction_cancelled">Prediction Cancelled</string>
+    <string name="over_number_12">Over Number: 12</string>
 
 </resources>

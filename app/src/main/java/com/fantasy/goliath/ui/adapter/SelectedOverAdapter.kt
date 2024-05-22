@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.ListOverItemBinding
-import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.OverItem
 
 
@@ -19,14 +18,14 @@ class SelectedOverAdapter(
     mContext: Context,
     parentPosition: Int,
     dataItem: ArrayList<OverItem>,
-    val listenerClick: (Int,Int, String) -> Unit
+    val listenerClick: (Int, Int, String) -> Unit
 ) :
     RecyclerView.Adapter<SelectedOverAdapter.MainViewHolder>() {
     var dataList = arrayListOf<OverItem>()
 
 
     var mContext: Context
-      var parentPos:Int=-1
+    var parentPos: Int = -1
     var selectedPos = -1
 
     init {
@@ -53,7 +52,7 @@ class SelectedOverAdapter(
             holder.itemView.setOnClickListener {
                 selectedPos = position
                 dataList[position].is_selected = !current.is_selected
-                listenerClick(parentPos,position, current.over_status)
+                listenerClick(parentPos, position, current.over_status)
                 notifyDataSetChanged()
             }
         }
@@ -91,6 +90,17 @@ class SelectedOverAdapter(
             }
 
             "upcoming", "not available" -> {
+                tvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.colorUpcoming))
+                tvTitle.setBackgroundResource(R.drawable.border_layout_blue_light_radius_5)
+            }
+
+            "unavailable" -> {
+
+                tvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.colorWhite))
+                tvTitle.setBackgroundResource(R.drawable.border_layout_unavailable_radius_5)
+            }
+
+            else -> {
                 tvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.colorUpcoming))
                 tvTitle.setBackgroundResource(R.drawable.border_layout_blue_light_radius_5)
             }

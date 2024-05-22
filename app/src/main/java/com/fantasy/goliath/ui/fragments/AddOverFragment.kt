@@ -2,6 +2,7 @@ package com.fantasy.goliath.ui.fragments
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.FragmentAddOverBinding
 import com.fantasy.goliath.databinding.ListOverStatusItemBinding
@@ -58,7 +60,7 @@ class AddOverFragment : BaseFragment() {
     lateinit var overItem: OverItem
     lateinit var match_id: String
     var over_id = ""
-    var over_name= ""
+    var over_name = ""
 
 
     override fun onCreateView(
@@ -88,20 +90,25 @@ class AddOverFragment : BaseFragment() {
 
         binding.clvHeader.setClickListener(this)
         binding.btnConform.setOnClickListener() {
-            if (!over_id.isEmpty()){
-                matchItem.match_id=match_id
+            if (!over_id.isEmpty()) {
+                matchItem.match_id = match_id
 
 
                 replaceFragmentAddBackStack(
-                    AddQuestionsFragment.newInstance("add",over_id,over_name,matchItem)
+                    AddQuestionsFragment.newInstance("add", over_id, over_name, matchItem)
                 )
             }
-           /* showWalletErrorDialog(requireActivity(),
-                { type, dialog -> onWalletCheck(type, dialog) })*/
+            /* showWalletErrorDialog(requireActivity(),
+                 { type, dialog -> onWalletCheck(type, dialog) })*/
 
         }
         binding.tvResults.setOnClickListener() {
-            replaceFragmentAddBackStack( MatchOverResultStatusFragment.newInstance("over",matchItem))
+            replaceFragmentAddBackStack(
+                MatchOverResultStatusFragment.newInstance(
+                    "over",
+                    matchItem
+                )
+            )
 
 
         }
@@ -116,7 +123,7 @@ class AddOverFragment : BaseFragment() {
 
     private fun initView() {
         inningsList.clear()
-       setMatchDataUI()
+        setMatchDataUI()
         adapter = InningItemAdapter(requireActivity(), inningsList, { parentPosition, pos, type ->
             overItem = inningsList[parentPosition].overs[pos]
             over_id = overItem.over_id
@@ -124,10 +131,26 @@ class AddOverFragment : BaseFragment() {
             binding.btnConform.isVisible = true
 
         })
+    val layoutManager=LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+        binding.rvList.layoutManager =layoutManager
 
-        binding.rvList.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL,false)
         binding.rvList.adapter = adapter
         binding.rvList.setNestedScrollingEnabled(false)
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = true
+            callMatchDetailsAPI()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+        binding.rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val firstVisibleItemPosition: Int = layoutManager.findFirstVisibleItemPosition()
+                binding.swipeRefreshLayout.isEnabled = firstVisibleItemPosition == 0
+
+
+            }
+        })
+
         overStatusList.clear()
 
         overStatusList.add(CommonDataItem("Overs Completed", "completed", false))
@@ -136,6 +159,7 @@ class AddOverFragment : BaseFragment() {
         overStatusList.add(CommonDataItem("Available Overs", "available", false))
         overStatusList.add(CommonDataItem("Selected Over", "selected", false))
         overStatusList.add(CommonDataItem("Upcoming Overs", "upcoming", false))
+        overStatusList.add(CommonDataItem("Deducted Overs", "unavailable", false))
 
         val adapterStatus = MyAdapter(
             R.layout.list_over_status_item,
@@ -195,6 +219,16 @@ class AddOverFragment : BaseFragment() {
                         imgProduct.setBackgroundResource(R.drawable.border_layout_blue_light_radius_5)
                     }
 
+                    "unavailable" -> {
+                        imgProduct.backgroundTintList = ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.colorUnAvailable
+                            )
+                        )
+
+                    }
+
 
                 }
 
@@ -209,10 +243,10 @@ class AddOverFragment : BaseFragment() {
             // Any type can be passed via to the bundle
             val from = bundle.getString("from").toString()
             if (from.equals("new_prediction")) {
-                over_id=""
-                binding.btnConform.isVisible=false
-                val item=bundle.getSerializable("match_item") as MatchItem
-                matchItem.match_id=item.match_id
+                over_id = ""
+                binding.btnConform.isVisible = false
+                val item = bundle.getSerializable("match_item") as MatchItem
+                matchItem.match_id = item.match_id
 
                 callMatchDetailsAPI()
             }
@@ -224,7 +258,7 @@ class AddOverFragment : BaseFragment() {
         loadImage(matchItem.teama.logo_url, binding.clvHeader.getToolBarView().imgTeam1)
         loadImage(matchItem.teamb.logo_url, binding.clvHeader.getToolBarView().imgTeam2)
         binding.clvHeader.setTitle("${matchItem.short_title}  ")
-        setMatchCardUIData(binding.clvMatchCard,matchItem)
+        setMatchCardUIData(binding.clvMatchCard, matchItem)
 
     }
 
@@ -246,7 +280,7 @@ class AddOverFragment : BaseFragment() {
                 } else {
                     showErrorToast(res.message)
                 }
-                printLog("inningsList",inningsList.size.toString())
+                printLog("inningsList", inningsList.size.toString())
                 setUIData(res.message)
 
             })

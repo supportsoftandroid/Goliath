@@ -125,7 +125,13 @@ class HomeFragment : BaseFragment() {
 
             callListAPI()
         }
-
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = true
+            currentPage = 1
+            dataList.clear()
+            callListAPI()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
         adapter = MatchItemAdapter(
             requireActivity(),
             dataList,
@@ -140,6 +146,7 @@ class HomeFragment : BaseFragment() {
                 val visibleItemCount: Int = layoutManager.getChildCount()
                 val totalItemCount: Int = layoutManager.getItemCount()
                 val firstVisibleItemPosition: Int = layoutManager.findFirstVisibleItemPosition()
+                binding.swipeRefreshLayout.isEnabled = firstVisibleItemPosition == 0
                 if (visibleItemCount + firstVisibleItemPosition >= totalItemCount
                     && firstVisibleItemPosition >= 0
                 ) {
@@ -201,7 +208,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun updateUI(message:String) {
-        adapter.updateMatchType(matchStatus)
+        adapter.updateMatchType( )
         if (dataList.isEmpty()){
             binding.viewBody.tvMessage.isVisible=true
             binding.viewBody.tvMessage.text=message

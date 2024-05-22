@@ -92,15 +92,21 @@
 
     </RadioGroup>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:id="@+id/swipeRefreshLayout"
         android:layout_marginTop="@dimen/dp_20"
         android:paddingHorizontal="@dimen/dp_20"
-
+        android:layout_marginBottom="@dimen/dp_2"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/dp_5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgStatus">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rgStatus">
@@ -122,4 +128,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

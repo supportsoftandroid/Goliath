@@ -16,6 +16,7 @@ import com.fantasy.goliath.utility.getMatchDate
 import com.fantasy.goliath.utility.getMatchStatus
 import com.fantasy.goliath.utility.getMatchTime
 import com.fantasy.goliath.utility.loadImage
+import com.fantasy.goliath.utility.printLog
 
 
 class MatchItemAdapter(
@@ -55,8 +56,7 @@ class MatchItemAdapter(
         holder.binding.tvDayTimeStatus.text= getMatchStatus(current)
 
         //if (type.equals("live",true)||type.equals("completed",true)){
-        if ( type.equals("completed",true)){
-            holder.binding.llMatchTime.isVisible=true
+        if ( current.status.equals("completed",true)||current.status.equals("cancelled",true)){
             holder.binding.tvLeftScore.isVisible=true
             holder.binding.tvRightScore.isVisible=true
             holder.binding.tvLeftScore.text=current.teama.scores_full
@@ -65,7 +65,7 @@ class MatchItemAdapter(
         }else{
             holder.binding.tvLeftScore.isVisible=false
             holder.binding.tvRightScore.isVisible=false
-            holder.binding.llMatchTime.isVisible=true
+
 
           /*  holder.binding.tvDay.text= getMatchDate("${current.match_start_date} ${ current.match_start_time }")
             holder.binding.tvTime.text=getMatchTime("${current.match_start_date} ${ current.match_start_time }")
@@ -74,8 +74,7 @@ class MatchItemAdapter(
         holder.itemView.setOnClickListener(){
             listenerClick(position,"")
         }
-       // setMatchTeamViewColor(mContext,current.teama_name,holder.binding.imgLeftCircle,holder.binding.viewLeftBorder,)
-       // setMatchTeamViewColor(mContext,current.teamb_name,holder.binding.imgRightCircle,holder.binding.viewrightBorder,)
+
     }
 
     override fun getItemCount(): Int {
@@ -83,8 +82,8 @@ class MatchItemAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateMatchType(type: String) {
-        this.type=type
+    fun updateMatchType( ) {
+
         notifyDataSetChanged()
 
     }

@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
 
 import com.fantasy.goliath.databinding.FragmentMatchPredictionStatusBinding
@@ -21,7 +23,6 @@ import com.fantasy.goliath.ui.adapter.InningTabAdapter
 import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
 import com.fantasy.goliath.ui.adapter.QuestionAnswerStatusAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
-import com.fantasy.goliath.utility.getMatchStatus
 import com.fantasy.goliath.utility.printLog
 import com.fantasy.goliath.utility.setMatchCardUIData
 
@@ -131,12 +132,23 @@ class MatchOverResultStatusFragment : BaseFragment() {
         })
 
 
-
-        binding.rvInningsList.layoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+       val layoutManager= LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvInningsList.layoutManager = layoutManager
         binding.rvInningsList.adapter = inningsAdapter
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = true
+            callMatchDetailsAPI()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+        binding.rvInningsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val firstVisibleItemPosition: Int = layoutManager.findFirstVisibleItemPosition()
+                binding.swipeRefreshLayout.isEnabled = firstVisibleItemPosition == 0
 
 
+            }
+        })
         overAdapter = MatchOverTabAdapter(
             requireActivity(),
             overList,
@@ -153,7 +165,7 @@ class MatchOverResultStatusFragment : BaseFragment() {
             })
         binding.rvQuestionList.layoutManager = LinearLayoutManager(requireActivity())
         binding.rvQuestionList.adapter = questionAdapter
-
+        binding.rvQuestionList.isNestedScrollingEnabled = false
 
     }
 
@@ -222,11 +234,7 @@ class MatchOverResultStatusFragment : BaseFragment() {
     }
 
     private fun updateQuestionResultUI() {
-
-
         binding.tvMessage.isVisible=overList.isEmpty()
-        printLog("tvMessage.isVisible",binding.tvMessage.isVisible.toString())
-        printLog("overList",overList.size.toString())
         binding.tvMessage.text = requireActivity().getString(R.string.no_over_pridction_yet)
         questionAdapter.notifyDataSetChanged()
         overAdapter.update(overList)
@@ -273,21 +281,39 @@ class MatchOverResultStatusFragment : BaseFragment() {
             binding.clvResultBox.isVisible = overResultData.is_result
             binding.clvYourPrediction.isVisible = !overResultData.is_result
             if (overResultData.is_result) {
+                binding.tvResultValue. isVisible =overResultData.is_result
                 binding.imgGoliathBanner.isVisible = overResultData.correct_counts == questionList.size
-                binding.tvResultValue.text = "${questionList.size} / ${overResultData.correct_counts} "
+                binding.tvResultValue.text = "${overResultData.correct_counts} / ${questionList.size} "
                 binding.tvResultMessage.text = overResultData.message
                 if (overResultData.correct_counts < 5) {
                     binding.tvTotalAmount.isVisible = false
+                    binding.tvWon.isVisible = true
                     binding.tvWon.text = requireActivity().getString(R.string.sorry_you_lost_the)
+
+                }else if (overResultData.correct_counts ==questionList.size) {
+                    binding.tvResultMessage.setTextColor(ContextCompat.getColor(requireActivity(), R.color.colorText))
+                    binding.tvTotalAmount.isVisible = true
+                    binding.tvWon.isVisible = true
+                    binding.tvWon.text = requireActivity().getString(R.string.you_won_the)
+                    binding.tvTotalAmount.setText("${overResultData.winning_message}")
                 } else {
                     binding.tvTotalAmount.isVisible = true
-                    binding.tvWon.text = requireActivity().getString(R.string.you_won_the)
-                    binding.tvTotalAmount.setText("₹ ${overResultData.winning_amount} will be transferred to your wallet.")
+                    binding.tvWon.isVisible = false
+                    binding.tvTotalAmount.setText("${overResultData.winning_message}")
                 }
+
+            }else if (overResultData.is_cancel) {
+                binding.clvResultBox.isVisible = overResultData.is_cancel
+                binding.imgGoliathBanner.isVisible = overResultData.is_result
+                binding.tvResultValue.text = getString(R.string.prediction_cancelled)
+                binding.tvWon.text =""
+                binding.tvResultMessage.text = overResultData.message
+                    binding.tvTotalAmount.isVisible = true
+                    binding.tvTotalAmount.setText(overResultData.cancel_message)
+
 
             }else{
                 binding.clvYourPrediction.isVisible = true
-
 
             }
 

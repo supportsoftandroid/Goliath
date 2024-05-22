@@ -24,7 +24,6 @@ import com.fantasy.goliath.databinding.FragmentProfileBinding
 import com.fantasy.goliath.databinding.ListCommonItemBinding
 import com.fantasy.goliath.model.CommonDataItem
 import com.fantasy.goliath.model.UserDetails
-import com.fantasy.goliath.ui.activities.MainActivity
 import com.fantasy.goliath.ui.fragments.StaticPagesFragment
 import com.fantasy.goliath.ui.adapter.ProfileAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
@@ -124,7 +123,7 @@ class ProfileFragment : BaseFragment() {
 
         setProfileUIData()
         dataList.clear()
-        dataList.add(CommonDataItem("History", "View for matches", false))
+        dataList.add(CommonDataItem("My Predictions", "View for matches", false))
         dataList.add(
             CommonDataItem(
                 "My info & Settings",
@@ -200,19 +199,19 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun onAdapterClick(pos: Int, type: String) {
-        if (type.equals("History", true)) {
-            MainActivity.hideNavigationTab()
+        if (type.equals("My Predictions", true)) {
+
             addFragmentToBackStack(
-                MatchHistoryFragment.newInstance("add")
+                MatchOngoingFragment.newInstance("profile")
             )
 
         } else if (type.equals("My info & Settings")) {
-            MainActivity.hideNavigationTab()
+
             addFragmentToBackStack(
                 EditProfileFragment.newInstance("add")
             )
         } else if (type.equals("Transaction History")) {
-            MainActivity.hideNavigationTab()
+
             addFragmentToBackStack(
                 TransactionHistoryFragment.newInstance("add")
             )

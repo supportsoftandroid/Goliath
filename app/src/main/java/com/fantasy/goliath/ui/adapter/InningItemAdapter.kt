@@ -52,7 +52,7 @@ class InningItemAdapter(
 
         val adapter = SelectedOverAdapter(mContext, position, current.overs, { parentPos, childPos, type ->
             this.childPos=childPos
-                listenerClick(parentPos, childPos, type)
+            listenerClick(parentPos, childPos, type)
 
 
             })

@@ -302,7 +302,7 @@ fun hasPermissions(context: Context?, vararg permissions: String?): Boolean {
 }
 fun getMatchStatus(item:MatchItem): String {
     var matchDateAndStatus=""
-    if (item.status.equals("live",true)||item.status.equals("completed",true)){
+    if (item.status.equals("live",true)||item.status.equals("cancelled",true)||item.status.equals("completed",true)){
         if (!TextUtils.isEmpty(item.match_no)){
             matchDateAndStatus="${item.match_no} | ${item.status.uppercase()}"
         }else{
@@ -322,7 +322,7 @@ fun getMatchStatus(item:MatchItem): String {
 }
 
 fun getMatchTime(selectedDate: String): String {
-    return selectedDate.toDate().formatTo("HH:mm")
+    return selectedDate.toDate().formatTo("HH:mm aa")
 
 }
 

@@ -11,16 +11,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
-import com.fantasy.goliath.databinding.FragmentMatchHistoryBinding
+
+import com.fantasy.goliath.databinding.FragmentMyPredictionBinding
 import com.fantasy.goliath.model.MatchItem
-import com.fantasy.goliath.ui.activities.MainActivity
+
 import com.fantasy.goliath.ui.adapter.MatchItemAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.ui.fragments.MatchOverResultStatusFragment
-import com.fantasy.goliath.ui.fragments.NotificationsFragment
-import com.fantasy.goliath.ui.fragments.WalletDetailsFragment
+
 import com.fantasy.goliath.utility.Constants
-import com.fantasy.goliath.viewmodal.HomeViewModel
+
 import com.fantasy.goliath.viewmodal.MyPredictionViewModel
 import com.google.gson.JsonObject
 
@@ -38,7 +38,7 @@ class MatchOngoingFragment : BaseFragment() {
     private val viewModal by lazy { ViewModelProvider(this)[MyPredictionViewModel::class.java] }
 
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
-        FragmentMatchHistoryBinding.inflate(layoutInflater)
+        FragmentMyPredictionBinding.inflate(layoutInflater)
     }
 
 
@@ -48,7 +48,7 @@ class MatchOngoingFragment : BaseFragment() {
     var currentPage=1
     var selectedPos=-1
     var totalPage=""
-    var  matchStatus = "Live"
+
 
 
     override fun onCreateView(
@@ -74,24 +74,40 @@ class MatchOngoingFragment : BaseFragment() {
     private fun clickListener() {
 
         binding.viewHeader.setClickListener(this)
-        binding.viewHeader.getToolBarView().imgMenu2.setOnClickListener() {
+        binding.viewMainHeader.imgMenu2.setOnClickListener() {
             onNotificationsIconClick()
         }
-        binding.viewHeader.getToolBarView().imgMenu1.setOnClickListener() {
+        binding.viewMainHeader.imgMenu1.setOnClickListener() {
             onWalletIconClick()
 
         }
     }
 
     private fun initView() {
-        binding.viewMainHeader.toolbarTab.isVisible=true
-        binding.viewMainHeader.imgProfile.isVisible=false
-        binding.viewHeader.isVisible=false
+
+
+        if (arguments!=null){
+            binding.viewMainHeader.toolbarTab.isVisible=false
+            binding.viewHeader.isVisible=true
+            binding.viewHeader.setTitle( requireActivity().getString(R.string.my_predictions))
+        }else{
+            binding.viewMainHeader.toolbarTab.isVisible=true
+            binding.viewMainHeader.imgProfile.isVisible=false
+            binding.viewHeader.isVisible=false
+            binding.viewMainHeader.txtTitle.text =requireActivity().getString(R.string.my_predictions)
+
+        }
+
 
         binding.viewBody.tvMessage.isVisible=true
         setUserUIData()
-        //binding.viewHeader.setTitle( requireActivity().getString(R.string.matches_history))
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            currentPage = 1
+            dataList.clear()
+            callListAPI()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
 
 
         adapter = MatchItemAdapter(requireActivity(), dataList, { pos, type -> onAdapterClick(pos, type) })
@@ -108,9 +124,9 @@ class MatchOngoingFragment : BaseFragment() {
                 val visibleItemCount: Int = layoutManager.getChildCount()
                 val totalItemCount: Int = layoutManager.getItemCount()
                 val firstVisibleItemPosition: Int = layoutManager.findFirstVisibleItemPosition()
+                binding.swipeRefreshLayout.isEnabled = firstVisibleItemPosition == 0
                 if (visibleItemCount + firstVisibleItemPosition >= totalItemCount
-                    && firstVisibleItemPosition >= 0
-                ) {
+                    && firstVisibleItemPosition >= 0) {
                     if (!isLoading &&!TextUtils.isEmpty(totalPage)) {
                         callListAPI()
                     }
@@ -132,7 +148,7 @@ class MatchOngoingFragment : BaseFragment() {
     }
     private fun setUserUIData() {
         val userDetails = preferenceManager.getLoginData()!!
-        binding.viewMainHeader.txtTitle.text =requireActivity().getString(R.string.my_predictions)
+
         loadProfileImage(userDetails?.avatar_full_path.toString(), binding.viewMainHeader.imgProfile)
     }
     private fun onAdapterClick(pos: Int, type: String) {
@@ -174,7 +190,7 @@ class MatchOngoingFragment : BaseFragment() {
     }
 
     private fun updateUI(message: String) {
-        adapter.updateMatchType(matchStatus)
+        adapter.updateMatchType( )
         if (dataList.isEmpty()){
             binding.viewBody.tvMessage.isVisible=true
             binding.viewBody.tvMessage.text=message

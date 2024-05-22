@@ -45,7 +45,7 @@ class QuestionAnswerAdapter(
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
-          holder.setIsRecyclable(true)
+         // holder.setIsRecyclable(true)
         holder.bind(current)
         val count = position + 1
         holder.binding.tvQuestion.text = getHTMLFormatText("${count}. ${current.question}")

@@ -10,21 +10,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
-import com.fantasy.goliath.databinding.FragmentMatchHistoryBinding
-import com.fantasy.goliath.model.LoginResponse
+
+import com.fantasy.goliath.databinding.FragmentMyPredictionBinding
+
 import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.ui.adapter.MatchItemAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
-import com.fantasy.goliath.viewmodal.HomeViewModel
 import com.fantasy.goliath.viewmodal.MyPredictionViewModel
 import com.google.gson.JsonObject
 
 class MatchHistoryFragment : BaseFragment() {
 
     companion object {
-        fun newInstance(from: String ): MatchHistoryFragment {
+        fun newInstance(from: String, title: String): MatchHistoryFragment {
             val args = Bundle()
             args.putString("from", from)
+            args.putString("title", title)
             val fragment = MatchHistoryFragment()
             fragment.arguments = args
             return fragment
@@ -33,14 +34,13 @@ class MatchHistoryFragment : BaseFragment() {
     private val viewModal by lazy { ViewModelProvider(this)[MyPredictionViewModel::class.java] }
 
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
-        FragmentMatchHistoryBinding.inflate(layoutInflater)
+        FragmentMyPredictionBinding.inflate(layoutInflater)
     }
-    lateinit var loginResponse: LoginResponse
+
 
     lateinit var adapter: MatchItemAdapter
     var dataList = arrayListOf<MatchItem>()
 
-    var matchStatus = "Completed"
     var isLoading=false
     var currentPage=1
     var selectedPos=-1
@@ -73,10 +73,10 @@ class MatchHistoryFragment : BaseFragment() {
     private fun initView() {
         binding.viewMainHeader.toolbarTab.isVisible=false
         binding.viewHeader.isVisible=true
-        binding.viewHeader.setTitle( requireActivity().getString(R.string.matches_history))
+        binding.viewHeader.setTitle( requireActivity().getString(R.string.my_predictions))
         dataList.clear()
 
-        matchStatus = "Completed"
+
         adapter = MatchItemAdapter(
             requireActivity(),
             dataList,
@@ -136,7 +136,7 @@ class MatchHistoryFragment : BaseFragment() {
             if (utilsManager.isNetworkConnected()) {
                 isLoading=true
                 val  json= JsonObject()
-                json.addProperty("status", matchStatus)
+               // json.addProperty("status", matchStatus)
 
 
                 viewModal.getMyPredictionList(
@@ -159,7 +159,7 @@ class MatchHistoryFragment : BaseFragment() {
     }
 
     private fun updateUI(message:String) {
-        adapter.updateMatchType(matchStatus)
+        adapter.updateMatchType()
         if (dataList.isEmpty()){
             binding.viewBody.tvMessage.isVisible=true
             binding.viewBody.tvMessage.text=message

@@ -157,6 +157,7 @@ class AddQuestionsFragment : BaseFragment() {
             { pos, type -> onQuestionAdapterClick(pos, type) })
         binding.rvList.layoutManager = LinearLayoutManager(requireActivity())
         binding.rvList.adapter = questionAdapter
+        binding.rvList.isNestedScrollingEnabled = false
 
 
     }
