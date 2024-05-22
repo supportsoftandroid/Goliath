@@ -523,7 +523,7 @@ fun setMatchCardUIData(clvMatchCard: LayoutTeamCardBinding, matchItem: MatchItem
     clvMatchCard.tvNote.isVisible = !matchItem.note.isEmpty()
     clvMatchCard.tvNote.text = matchItem.note
     clvMatchCard.tvDayTimeStatus.text= getMatchStatus(matchItem)
-    if (matchItem.status.equals("completed",true)){
+    if (matchItem.status.equals("completed",true)||matchItem.status.equals("cancelled",true)){
         clvMatchCard.tvLeftScore.isVisible=true
         clvMatchCard.tvRightScore.isVisible=true
         clvMatchCard.tvLeftScore.text = "${matchItem.teama.scores_full}"
@@ -784,7 +784,8 @@ fun Activity.hideKeyboard() {
 fun isNetworkConnected(activity: Activity): Boolean {
     val isConnected: Boolean
     val connectivityManager = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val network = connectivityManager.activeNetwork
+    val network = connectivityManager.activeNetwork as Network?
+
     val networkCapabilities = connectivityManager.getNetworkCapabilities(network as Network?)
     isConnected =
         networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
