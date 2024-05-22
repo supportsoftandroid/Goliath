@@ -26,7 +26,6 @@ deploymentTargetDropDown.xml
 render.experimental.xml
 
  
- 
 
 # Android Profiling
 *.hprof

@@ -793,8 +793,11 @@ fun isNetworkConnected(activity: Activity): Boolean {
     if (!isConnected) {
         showSnackBar(activity, ERROR_NO_INTERNET_ALERT)
     }
+    
     return isConnected
 }
+
+
 
 fun replaceFragment(context: Context, newFragment: Fragment?) {
     val fragmentManager = (context as AppCompatActivity).supportFragmentManager
