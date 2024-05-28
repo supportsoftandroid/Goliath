@@ -12,6 +12,7 @@ import com.fantasy.goliath.model.MatchesDetailsRes
 import com.fantasy.goliath.model.MatchesResponse
 import com.fantasy.goliath.model.OverResultDetailsRes
 import com.fantasy.goliath.model.QuestionListRes
+import com.fantasy.goliath.model.QuestionSaveRes
 import com.fantasy.goliath.network.RetrofitClient
 import com.fantasy.goliath.utility.Constants
 import com.fantasy.goliath.utility.Constants.SOMETHING_WENT_WRONG_ERROR
@@ -90,13 +91,24 @@ class RemoteRepository(
     fun saveQuestionsList(
         userToken: String,
         json: JsonObject,
-    ): MutableLiveData<MatchesDetailsRes> {
+    ): MutableLiveData<QuestionSaveRes> {
         val callApiService = RetrofitClient.apiInterface.saveUserPrediction(
             userToken, json
 
         )
         setProgressDialog()
-        return callMatchDetailsAPIService(callApiService)
+        return callQuestionsSaveAPIService(callApiService)
+    }
+    fun addWalletAmountList(
+        userToken: String,
+        json: JsonObject,
+    ): MutableLiveData<QuestionSaveRes> {
+        val callApiService = RetrofitClient.apiInterface.addWalletAmount(
+            userToken, json
+
+        )
+        setProgressDialog()
+        return callQuestionsSaveAPIService(callApiService)
     }
     fun getMyPredictionList(
         userToken: String,
@@ -175,6 +187,25 @@ class RemoteRepository(
             // Handle successful response
             // data is of type MyData or null
             val model: MatchesDetailsRes? = data
+            if (model != null) {
+                modelRes.value = model!!
+            }
+
+        },
+            onError = { error ->
+                // Handle error
+            })
+
+        return modelRes
+
+
+    }
+    fun callQuestionsSaveAPIService(call: Call<QuestionSaveRes>): MutableLiveData<QuestionSaveRes> {
+        val modelRes = MutableLiveData<QuestionSaveRes>()
+        makeApiCall(call, onSuccess = { data ->
+            // Handle successful response
+            // data is of type MyData or null
+            val model: QuestionSaveRes? = data
             if (model != null) {
                 modelRes.value = model!!
             }

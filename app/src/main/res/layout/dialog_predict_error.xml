@@ -37,7 +37,7 @@
 
         tools:ignore="ContentDescription" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:gravity="center"
         android:lineSpacingExtra="@dimen/dp_5"
         android:layout_marginTop="@dimen/dp_30"
-        android:fontFamily="@font/visby_bold"
+        app:fontFamily="@font/visby_bold"
         android:text="@string/you_haven_t_made_your_predictions"
         android:textColor="@color/colorText"
         android:layout_marginHorizontal="@dimen/dp_40"

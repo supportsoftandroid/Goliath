@@ -5,6 +5,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
+import android.app.Dialog
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -13,6 +14,7 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.database.Cursor
 import android.graphics.*
+import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.media.ExifInterface
 import android.net.ConnectivityManager
@@ -32,6 +34,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -330,7 +333,11 @@ fun getMatchDate(selectedDate: String): String {
     return selectedDate.toDate().formatTo("dd-MMM-yyyy")
 
 }
-
+fun String.toDate(): Date {
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    sdf.timeZone = TimeZone.getTimeZone("UTC")
+    return sdf.parse(this)
+}
 fun Date.formatTo(dateFormat: String): String {
     val timeZone: TimeZone = TimeZone.getDefault()
     val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
@@ -338,15 +345,11 @@ fun Date.formatTo(dateFormat: String): String {
     return formatter.format(this)
 }
 
-fun String.toDate(): Date {
-    val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-    parser.timeZone = TimeZone.getTimeZone("UTC")
-    return parser.parse(this)
-}
+
 fun changeLastChatDate(inputDate: String): String {
     val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
     val output = SimpleDateFormat("HH:mm a")
-    var d: Date? = inputFormat.parse(inputDate)
+    val d: Date? = inputFormat.parse(inputDate)
     val formatted: String = output.format(d)
     /*  Log.i("DATE", "" + formatted)*/
     return formatted
@@ -793,7 +796,7 @@ fun isNetworkConnected(activity: Activity): Boolean {
     if (!isConnected) {
         showSnackBar(activity, ERROR_NO_INTERNET_ALERT)
     }
-    
+
     return isConnected
 }
 
@@ -972,36 +975,7 @@ fun showGallaryBottomModelSheet(context: Context, progressDialog: DialogManager)
     }
     dialogImageUpload.show()
 }
-fun showWalletError(context: Context,
-                    onItemClick: (type: String,  dlg: BottomSheetDialog) -> Unit) {
-    val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
-    val dialogBinding =
-        DialogWalletBalanceErrorBinding.inflate(LayoutInflater.from(context), null, false)
-    val sheetView = dialogBinding.root
-    dialog.setContentView(sheetView)
-    dialog.setCancelable(false)
 
-    /*  val screenHeight = context.resources.displayMetrics.heightPixels
-      val layoutParams = sheetView.layoutParams
-      layoutParams.height = screenHeight
-      sheetView.layoutParams = layoutParams
-
-      // Set the bottom sheet to be fullscreen
-      dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED*/
-
-
-
-
-
-    dialogBinding.btnAdd.setOnClickListener {
-
-        onItemClick("submit",  dialog)
-
-    }
-
-    dialog.show()
-
-}
 
 fun showOTPDialogBottom(
     context: Context, isCancelable: Boolean,emailMobile: String,
@@ -1315,7 +1289,32 @@ fun showDialogAddCard(
     dialog.show()
 
 }
+fun showWalletError(context: Context,msg: String,
+                    onItemClick: (type: String,  dlg: Dialog) -> Unit) {
+    val dialog = Dialog(context, R.style.DialogCustom)
+    val dialogBinding = DialogWalletBalanceErrorBinding.inflate(LayoutInflater.from(context), null, false)
 
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+    dialog.setContentView(dialogBinding.root)
+    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog.setCancelable(false)
+    val lp = WindowManager.LayoutParams()
+    lp.copyFrom(dialog.window!!.attributes)
+    lp.width = WindowManager.LayoutParams.MATCH_PARENT
+    lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+    lp.gravity = Gravity.CENTER
+    dialog.window!!.attributes = lp
+    dialogBinding.tvMessage.text=msg
+    dialogBinding.btnAdd.setOnClickListener {
+
+        onItemClick("submit",  dialog)
+
+    }
+
+    dialog.show()
+
+}
 fun showPredictSuccessDialog(
     context: Context,msg:String,
     onItemClick: (type: String,  dlg: BottomSheetDialog) -> Unit
@@ -1350,15 +1349,19 @@ fun showPredictSuccessDialog(
 }
 fun showPredictErrorDialog(
     context: Context,
-    onItemClick: (name: String,  dlg: BottomSheetDialog) -> Unit
+    onItemClick: (name: String,  dlg: Dialog) -> Unit
 ) {
-    val dialog = BottomSheetDialog(context, R.style.GalleryDialog)
+    val dialog = BottomSheetDialog(context, R.style.DialogCustom)
     val dialogBinding =
         DialogPredictErrorBinding.inflate(LayoutInflater.from(context), null, false)
-    val sheetView = dialogBinding.root
-    dialog.setContentView(sheetView)
+    dialog.setContentView(dialogBinding.root)
     dialog.setCancelable(false)
-
+    val lp = WindowManager.LayoutParams()
+    lp.copyFrom(dialog.window!!.attributes)
+    lp.width = WindowManager.LayoutParams.MATCH_PARENT
+    lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+    lp.gravity = Gravity.CENTER
+    dialog.window!!.attributes = lp
 
     dialogBinding.btnSubmit.setOnClickListener {
         onItemClick("add",dialog)
@@ -1425,7 +1428,17 @@ fun showAddAmountDialog(
 
     }
     dialogBinding.btnAdd.setOnClickListener {
-        onItemClick("add",dialog)
+        if (TextUtils.isEmpty(dialogBinding.ediAmount.text.toString().trim())){
+            showToast(context,context.getString(R.string.enter_amount))
+
+        }else if (dialogBinding.ediAmount.text.toString().toDouble()<1){
+            showToast(context,context.getString(R.string.amount_must_be_greater_than_zero))
+
+        }else{
+            dialogBinding.ediAmount.clearFocus()
+            onItemClick(dialogBinding.ediAmount.text.toString(),dialog)
+        }
+
 
     }
 

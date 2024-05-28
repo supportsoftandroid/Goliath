@@ -29,6 +29,7 @@ import com.fantasy.goliath.utility.Constants
 import com.fantasy.goliath.utility.getMatchStatus
 import com.fantasy.goliath.utility.printLog
 import com.fantasy.goliath.utility.setMatchCardUIData
+import com.fantasy.goliath.utility.showWalletError
 
 
 import com.fantasy.goliath.viewmodal.AddOverViewModel
@@ -265,7 +266,6 @@ class AddOverFragment : BaseFragment() {
     private fun callMatchDetailsAPI() {
 
         if (utilsManager.isNetworkConnected()) {
-
             val json = JsonObject()
             json.addProperty("match_id", match_id)
             viewModal.getMatchesDetails(

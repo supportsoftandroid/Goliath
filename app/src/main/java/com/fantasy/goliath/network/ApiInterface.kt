@@ -78,7 +78,13 @@ public interface ApiInterface {
     fun saveUserPrediction(
         @Header("Authorization") authorization: String,
         @Body body: JsonObject
-    ): Call<MatchesDetailsRes>
+    ): Call<QuestionSaveRes>
+    @Headers(Constants.ACCEPT_JSON_HEADER)
+    @POST(Constants.API_ADD_WALLET)
+    fun addWalletAmount(
+        @Header("Authorization") authorization: String,
+        @Body body: JsonObject
+    ): Call<QuestionSaveRes>
 
 
     @Headers(Constants.ACCEPT_JSON_HEADER)

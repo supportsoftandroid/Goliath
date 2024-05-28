@@ -1,7 +1,6 @@
 package com.fantasy.goliath.ui.fragments
 
 import android.content.Intent
-import android.icu.lang.UCharacter.VerticalOrientation
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.FragmentAddQuestionBinding
 import com.fantasy.goliath.model.LoginResponse
@@ -22,13 +20,15 @@ import com.fantasy.goliath.ui.adapter.MatchOverTabAdapter
 import com.fantasy.goliath.ui.adapter.QuestionAnswerStatusAdapter
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.utility.Constants
-import com.fantasy.goliath.utility.getMatchStatus
 import com.fantasy.goliath.utility.isNetworkConnected
 import com.fantasy.goliath.utility.setMatchCardUIData
+import com.fantasy.goliath.utility.showAddAmountDialog
 import com.fantasy.goliath.utility.showPredictErrorDialog
 import com.fantasy.goliath.utility.showPredictSuccessDialog
+import com.fantasy.goliath.utility.showWalletError
 import com.fantasy.goliath.viewmodal.QuestionsViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 
@@ -68,12 +68,14 @@ class QuestionsStatusFragment : BaseFragment() {
 
     var questionList = arrayListOf<QuestionAnsItem>()
     var selectedOverPos = 0
+    lateinit var questionsArray: JsonArray
 
     lateinit var matchItem: MatchItem
     lateinit var overItem: OverItem
     lateinit var match_id: String
     var over_name = ""
     var over_id = ""
+    lateinit var dialogWallet: BottomSheetDialog
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -101,8 +103,8 @@ class QuestionsStatusFragment : BaseFragment() {
         binding.viewHeader.setClickListener(this)
         binding.btnSubmit.setOnClickListener() {
 
-            var isfill=true
-            val jsonArray=JsonArray()
+             var isfill=true
+            questionsArray=JsonArray()
             for (item in questionList){
                 if (TextUtils.isEmpty(item.your_answer)){
                     isfill=false
@@ -114,11 +116,11 @@ class QuestionsStatusFragment : BaseFragment() {
                     val json = JsonObject()
                     json.addProperty("question_id", item.question_id)
                     json.addProperty("answere", item.your_answer)
-                    jsonArray.add(json)
+                    questionsArray.add(json)
                 }
             }
             if (isfill){
-                callSaveQuestionPredictionAPI(jsonArray)
+                callSaveQuestionPredictionAPI()
 
             }
 
@@ -220,7 +222,7 @@ class QuestionsStatusFragment : BaseFragment() {
         }
     }
 
-    private fun callSaveQuestionPredictionAPI(questionsArray: JsonArray) {
+     private fun callSaveQuestionPredictionAPI() {
 
         if (utilsManager.isNetworkConnected()) {
             val json = JsonObject()
@@ -233,6 +235,7 @@ class QuestionsStatusFragment : BaseFragment() {
                 showErrorToast(res.message)
 
                 if (res.status) {
+
                      showPredictSuccessDialog(requireActivity(),res.message,{ type, dialog ->
                          if (isNetworkConnected(requireActivity())) {
                              if (type.equals("new", true)) {
@@ -259,7 +262,42 @@ class QuestionsStatusFragment : BaseFragment() {
 
 
                 } else {
-                    showErrorToast(res.message)
+                   if (res.data!=null&&res.data.is_wallet_recharge){
+                       showWalletError(requireActivity(),res.message,
+                           { type, dialog ->
+                               dialog.dismiss()
+                               showAddAmountDialog(requireActivity(),{amount,dialog->
+                                   dialogWallet=dialog
+                                   callAddBalanceInWalletAPI(amount)
+
+                               })
+                           })
+
+
+                   }
+                }
+
+
+            })
+        }
+
+
+    }
+     private fun callAddBalanceInWalletAPI(amount: String) {
+
+        if (utilsManager.isNetworkConnected()) {
+            val json = JsonObject()
+            json.addProperty("amount", amount)
+
+            viewModal.addWalletAmountList(
+                requireActivity(), preferenceManager.getAuthToken(), json
+            ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
+                showErrorToast(res.message)
+
+                if (res.status) {
+                    dialogWallet.dismiss()
+                    callSaveQuestionPredictionAPI()
+
                 }
 
 

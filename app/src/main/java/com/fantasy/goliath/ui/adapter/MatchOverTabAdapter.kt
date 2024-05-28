@@ -33,9 +33,9 @@ class MatchOverTabAdapter(
             ListTabOverItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MainViewHolder(binding)
     }
-    fun update(dataItem: ArrayList<OverItem>){
+    fun update(dataItem: ArrayList<OverItem>,position: Int){
         this.dataList = dataItem
-        selectedPos=0
+        selectedPos=position
         notifyDataSetChanged()
     }
 

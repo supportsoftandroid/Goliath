@@ -9,5 +9,6 @@ data class UserDetails(
     var avatar_full_path: String,
     val status: String,
     val device_token: String,
+    val wallet: String,
 
 )

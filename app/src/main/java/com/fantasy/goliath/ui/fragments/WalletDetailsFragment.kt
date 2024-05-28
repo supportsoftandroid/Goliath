@@ -1,6 +1,7 @@
 package com.fantasy.goliath.ui.fragments
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.FragmentWalletDetailsBinding
 import com.fantasy.goliath.model.LoginResponse
+import com.fantasy.goliath.model.UserDetails
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.utility.showAddAmountDialog
 
 import com.fantasy.goliath.viewmodal.ProfileViewModel
+import com.fantasy.goliath.viewmodal.WalletViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.JsonObject
 
 class WalletDetailsFragment : BaseFragment() {
     companion object {
@@ -27,13 +31,13 @@ class WalletDetailsFragment : BaseFragment() {
         }
     }
 
-    private val viewModal by lazy { ViewModelProvider(this)[ProfileViewModel::class.java] }
+    private val viewModal by lazy { ViewModelProvider(this)[WalletViewModel::class.java] }
 
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         FragmentWalletDetailsBinding.inflate(layoutInflater)
     }
-
-    private lateinit var loginResponse: LoginResponse
+    lateinit var dialogWallet: BottomSheetDialog
+    private lateinit var userDetails: UserDetails
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,6 +46,7 @@ class WalletDetailsFragment : BaseFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding.let {
+            userDetails=  preferenceManager.getLoginData()!!
             initView()
             clickListener()
         }
@@ -78,8 +83,9 @@ class WalletDetailsFragment : BaseFragment() {
     }
 
     private fun onAmountAdd(amount: String, dialog: BottomSheetDialog) {
+        dialogWallet=dialog
 
-        dialog.dismiss()
+        callAddBalanceInWalletAPI(amount)
     }
     override fun onDestroyView() {
         super.onDestroyView()
@@ -92,6 +98,29 @@ class WalletDetailsFragment : BaseFragment() {
     override fun onNotificationsIconClick() {
         super.onNotificationsIconClick()
     }
+    private fun callAddBalanceInWalletAPI(amount: String) {
 
+        if (utilsManager.isNetworkConnected()) {
+            val json = JsonObject()
+            json.addProperty("amount", amount)
+
+            viewModal.addWalletAmountList(
+                requireActivity(), preferenceManager.getAuthToken(), json
+            ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
+                showErrorToast(res.message)
+
+                if (res.status) {
+                    dialogWallet.dismiss()
+                    binding.tvAvailableAmount.text=Html.fromHtml(res.data.wallet_balance)
+
+
+                }
+
+
+            })
+        }
+
+
+    }
 
 }

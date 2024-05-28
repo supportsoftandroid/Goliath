@@ -49,7 +49,7 @@ class MatchOverResultStatusFragment : BaseFragment() {
             layoutInflater
         )
     }
-    lateinit var loginResponse: LoginResponse
+
 
     lateinit var inningsAdapter: InningTabAdapter
     lateinit var overAdapter: MatchOverTabAdapter
@@ -63,6 +63,8 @@ class MatchOverResultStatusFragment : BaseFragment() {
     lateinit var overItem: OverItem
     lateinit var match_id: String
     var over_id = ""
+    var selectedInningPos=-1
+    var selectedOverPos=0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -107,6 +109,7 @@ class MatchOverResultStatusFragment : BaseFragment() {
         setMatchDataUI()
 
         inningsAdapter = InningTabAdapter(requireActivity(), inningsList, { pos, type ->
+            selectedInningPos=pos
             inningsAdapter.notifyDataSetChanged()
             overList.clear()
             questionList.clear()
@@ -176,9 +179,9 @@ class MatchOverResultStatusFragment : BaseFragment() {
 
 
     private fun onOverAdapterClick(pos: Int, type: String) {
-        overItem = overList[pos]
+        selectedOverPos=pos
+        overItem = overList[selectedOverPos]
         over_id = overItem.over_id
-
         callOverResultAPI()
 
     }
@@ -206,11 +209,17 @@ class MatchOverResultStatusFragment : BaseFragment() {
                     }
                   // inningsList.addAll(res.data.matchdetail.innings)
                     if (inningsList.size>0){
-                        overList.addAll(inningsList[0].overs)
+                        if (selectedInningPos!=-1){
+                            overList.addAll(inningsList[selectedInningPos].overs)
+                        }else{
+                            selectedInningPos=0
+                            overList.addAll(inningsList[0].overs)
+                        }
+
                     }
 
                     if (overList.size > 0) {
-                        overItem = overList[0]
+                        overItem = overList[selectedOverPos]
                         over_id = overItem.over_id
                         updateQuestionResultUI()
                         callOverResultAPI()
@@ -237,7 +246,7 @@ class MatchOverResultStatusFragment : BaseFragment() {
         binding.tvMessage.isVisible=overList.isEmpty()
         binding.tvMessage.text = requireActivity().getString(R.string.no_over_pridction_yet)
         questionAdapter.notifyDataSetChanged()
-        overAdapter.update(overList)
+        overAdapter.update(overList,selectedOverPos)
 
     }
 
@@ -302,8 +311,10 @@ class MatchOverResultStatusFragment : BaseFragment() {
                     binding.tvTotalAmount.setText("${overResultData.winning_message}")
                 }
 
-            }else if (overResultData.is_cancel) {
+            }
+            else if (overResultData.is_cancel) {
                 binding.clvResultBox.isVisible = overResultData.is_cancel
+                binding.clvYourPrediction.isVisible = !overResultData.is_cancel
                 binding.imgGoliathBanner.isVisible = overResultData.is_result
                 binding.tvResultValue.text = getString(R.string.prediction_cancelled)
                 binding.tvWon.text =""

@@ -139,5 +139,7 @@
     <string name="match_ended_full_amount_will_be_created_to_your_wallet">Match ended. Full amount will be created to your wallet</string>
     <string name="prediction_cancelled">Prediction Cancelled</string>
     <string name="over_number_12">Over Number: 12</string>
+    <string name="amount_must_be_greater_than_zero">The amount must be greater than 0</string>
+    <string name="sorry_you_don_t_have_sufficient_balance_to_play">Sorry, You don’t have sufficient balance to play</string>
 
 </resources>
