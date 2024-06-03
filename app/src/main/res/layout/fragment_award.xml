@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:background="@color/colorAppBg"
-    tools:context=".ui.fragments.nav.AwardFragment">
+    tools:context=".ui.fragments.nav.LeaderBoardFragment">
     <ImageView
         android:id="@+id/imgGradient"
         android:layout_width="match_parent"
@@ -84,7 +84,7 @@
 
         </RadioGroup>
         <RadioGroup
-            android:id="@+id/rgStatus"
+            android:id="@+id/rgTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
@@ -110,23 +110,6 @@
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/sp_14" />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/rbWeekly"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="@dimen/dp_45"
-                android:layout_weight="1"
-                android:background="@drawable/tab_selecter_border"
-
-                android:button="@null"
-                app:fontFamily="@font/visby_medium"
-                android:gravity="center"
-                android:inputType="text"
-                android:padding="@dimen/dp_5"
-                android:text="@string/weekly"
-                android:textAllCaps="true"
-                android:textColor="@color/app_color"
-                android:textSize="@dimen/sp_14" />
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbMonthly"
                 android:layout_width="@dimen/dp_0"
@@ -144,6 +127,24 @@
                 android:textColor="@color/textPlaceHolder"
                 android:textSize="@dimen/sp_14" />
 
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/rb_year"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_45"
+                android:layout_weight="1"
+                android:background="@drawable/tab_selecter_border"
+
+                android:button="@null"
+                android:checked="false"
+                app:fontFamily="@font/visby_medium"
+                android:gravity="center"
+                android:inputType="text"
+                android:padding="@dimen/dp_5"
+                android:text="@string/yearly"
+                android:textAllCaps="true"
+                android:textColor="@color/textPlaceHolder"
+                android:textSize="@dimen/sp_14" />
+
         </RadioGroup>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clv_card_main"
@@ -154,7 +155,7 @@
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rgStatus"
+            app:layout_constraintTop_toBottomOf="@id/rgTime"
             >
 
             <ImageView
@@ -219,6 +220,7 @@
                 app:fontFamily="@font/visby_medium"
                 android:textSize="@dimen/sp_12"
                 android:gravity="center"
+                android:visibility="gone"
                 app:layout_constraintWidth_percent="0.25"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -228,7 +230,7 @@
                 android:id="@+id/tvWinning"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Winnings"
+                android:text="@string/winnings"
                 android:layout_marginStart="@dimen/dp_15"
                 android:textColor="@color/colorText"
                 app:fontFamily="@font/visby_medium"

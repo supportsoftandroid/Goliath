@@ -3,6 +3,7 @@ package com.fantasy.goliath.ui.fragments.nav
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Html
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -41,6 +42,7 @@ import com.fantasy.goliath.utility.showToast
 
 import com.fantasy.goliath.viewmodal.ProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.JsonObject
 import com.health.kharma.ui.adapters.MyAdapter
 
 class ProfileFragment : BaseFragment() {
@@ -57,7 +59,7 @@ class ProfileFragment : BaseFragment() {
     private lateinit var userDetails: UserDetails
     lateinit var myAdapter: MyAdapter<CommonDataItem>
     lateinit var dialogManager: DialogManager
-
+    lateinit var dialogWallet: BottomSheetDialog
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -67,7 +69,7 @@ class ProfileFragment : BaseFragment() {
             dialogManager = DialogManager(requireActivity())
             initView()
             clickListener()
-            callgetProfileInfoAPI()
+            callProfileInfoAPI()
         }
         return binding.root
     }
@@ -90,16 +92,16 @@ class ProfileFragment : BaseFragment() {
 
         }
         binding.tvWalletLabel.setOnClickListener() {
-            onWalletIconClick()
+         //   onWalletIconClick()
         }
         binding.llTotalDeposited.setOnClickListener() {
-            onWalletIconClick()
+          //  onWalletIconClick()
         }
         binding.llTotalWinning.setOnClickListener() {
-            onWalletIconClick()
+           // onWalletIconClick()
         }
         binding.llTotalFreePaid.setOnClickListener() {
-            onWalletIconClick()
+           // onWalletIconClick()
         }
 
         binding.llTotalWithdraw.setOnClickListener() {
@@ -112,7 +114,8 @@ class ProfileFragment : BaseFragment() {
 
     private fun onAmountAdd(amount: String, dialog: BottomSheetDialog) {
 
-        dialog.dismiss()
+        dialogWallet=dialog
+        callAddBalanceInWalletAPI(amount)
     }
 
     fun initView() {
@@ -193,9 +196,16 @@ class ProfileFragment : BaseFragment() {
         if (!TextUtils.isEmpty(userDetails.email)) binding.tvEmail.setText(userDetails.email) else binding.tvEmail.setText(
             userDetails.country_code + " " + userDetails.phone
         )
-        printLog("avatar_full_path", userDetails.avatar_full_path)
 
+        binding.tvTotalBalance.text=getString(R.string.currency_symbol)+" "+userDetails.wallet
         loadImage(userDetails.avatar_full_path)
+        if (userDetails.wallet_detail!=null){
+
+            binding.tvTotalDepositAmount.text=getString(R.string.currency_symbol)+" "+userDetails.wallet_detail.total_diposite
+            binding.tvTotalWinningAmount.text=getString(R.string.currency_symbol)+" "+userDetails.wallet_detail.total_winning
+            binding.tvFeePaid.text=getString(R.string.currency_symbol)+" "+userDetails.wallet_detail.total_fee_paid
+            binding.tvWithdraw.text=getString(R.string.currency_symbol)+" "+userDetails.wallet_detail.total_withdrawal
+        }
     }
 
     private fun onAdapterClick(pos: Int, type: String) {
@@ -260,7 +270,7 @@ class ProfileFragment : BaseFragment() {
         }
     }
 
-    fun callgetProfileInfoAPI() {
+    fun callProfileInfoAPI() {
         if (utilsManager.isNetworkConnected()) {
             viewModal.getUserInfo(
                 requireActivity(), preferenceManager.getAuthToken(), "GET", ""
@@ -268,6 +278,7 @@ class ProfileFragment : BaseFragment() {
 
                 if (res.status) {
                     userDetails = res.data.user
+                    userDetails.wallet_detail = res.data.wallet_detail
                     preferenceManager.setLoginData(userDetails)
                     setProfileUIData()
                 }
@@ -276,7 +287,29 @@ class ProfileFragment : BaseFragment() {
             })
         }
     }
+    private fun callAddBalanceInWalletAPI(amount: String) {
 
+        if (utilsManager.isNetworkConnected()) {
+            val json = JsonObject()
+            json.addProperty("amount", amount)
+
+            viewModal.addWalletAmountList(
+                requireActivity(), preferenceManager.getAuthToken(), json
+            ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
+                showErrorToast(res.message)
+
+                if (res.status) {
+                    dialogWallet.dismiss()
+                    binding.tvTotalBalance.text= Html.fromHtml(res.data.wallet_balance_show)
+                    callProfileInfoAPI()
+                }
+
+
+            })
+        }
+
+
+    }
 
     fun loadImage(pathUrl: String) {
         printLog("pathUrl", pathUrl)

@@ -110,6 +110,22 @@ public interface ApiInterface {
     ): Call<OverResultDetailsRes>
 
     @Headers(Constants.ACCEPT_JSON_HEADER)
+    @POST(Constants.API_LEADERBOARD)
+    fun getLeaderboard(
+        @Header("Authorization") authorization: String?,
+        @Body body: JsonObject
+    ): Call<LeaderBoardListRes>
+
+    @Headers(Constants.ACCEPT_JSON_HEADER)
+    @POST(Constants.API_TRANSACTION_HISTORY)
+    fun getTransactionHistory(
+        @Header("Authorization") authorization: String?,
+        @Query("page") page: Int,
+        @Body body: JsonObject
+    ): Call<TransactionListRes>
+
+
+    @Headers(Constants.ACCEPT_JSON_HEADER)
     @GET(Constants.API_PROFILE_DETAILS)
     fun getProfile(
         @Header("Authorization") authorization: String?
@@ -136,6 +152,7 @@ public interface ApiInterface {
         @Header("Authorization") authorization: String?,
         @Body body: JsonObject
     ): Call<CardResponse>
+
 
     @Headers(Constants.ACCEPT_JSON_HEADER)
     @POST(Constants.API_DELETE_CARD)

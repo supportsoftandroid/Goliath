@@ -14,7 +14,6 @@ import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.FragmentMatchPredictionStatusBinding
 import com.fantasy.goliath.model.InningItem
 
-import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.model.OverItem
 import com.fantasy.goliath.model.OverResultData
@@ -289,7 +288,18 @@ class MatchOverResultStatusFragment : BaseFragment() {
         binding.tvMessage.text = message
             binding.clvResultBox.isVisible = overResultData.is_result
             binding.clvYourPrediction.isVisible = !overResultData.is_result
-            if (overResultData.is_result) {
+          if (overResultData.is_cancelled!=null&&overResultData.is_cancelled) {
+            binding.clvResultBox.isVisible = overResultData.is_cancelled
+            binding.clvYourPrediction.isVisible = !overResultData.is_cancelled
+            binding.imgGoliathBanner.isVisible = false
+            binding.tvResultValue.text = ""//getString(R.string.prediction_cancelled)
+            binding.tvWon.isVisible =false
+            binding.tvResultMessage.text = overResultData.result_message
+            binding.tvTotalAmount.isVisible = true
+            binding.tvTotalAmount.setText(overResultData.cancel_message)
+
+
+        }  else if (overResultData.is_result) {
                 binding.tvResultValue. isVisible =overResultData.is_result
                 binding.imgGoliathBanner.isVisible = overResultData.correct_counts == questionList.size
                 binding.tvResultValue.text = "${overResultData.correct_counts} / ${questionList.size} "
@@ -312,18 +322,7 @@ class MatchOverResultStatusFragment : BaseFragment() {
                 }
 
             }
-            else if (overResultData.is_cancel) {
-                binding.clvResultBox.isVisible = overResultData.is_cancel
-                binding.clvYourPrediction.isVisible = !overResultData.is_cancel
-                binding.imgGoliathBanner.isVisible = overResultData.is_result
-                binding.tvResultValue.text = getString(R.string.prediction_cancelled)
-                binding.tvWon.text =""
-                binding.tvResultMessage.text = overResultData.message
-                    binding.tvTotalAmount.isVisible = true
-                    binding.tvTotalAmount.setText(overResultData.cancel_message)
-
-
-            }else{
+            else{
                 binding.clvYourPrediction.isVisible = true
 
             }

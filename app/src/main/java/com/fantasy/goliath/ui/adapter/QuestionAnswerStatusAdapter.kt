@@ -54,7 +54,7 @@ class QuestionAnswerStatusAdapter(
         holder.binding.tvYes.isVisible = false
         holder.binding.imgYes.isVisible = false
         holder.binding.imgNo.isVisible = false
-         if (!TextUtils.isEmpty(current.your_result)&&current.your_result.equals("nd",true)) {
+         if (!TextUtils.isEmpty(current.your_result)&&current.your_result.equals("nd",true)||current.your_result.equals("NR",true)) {
             holder.binding.imgNo.isVisible = false
             holder.binding.imgNo.isVisible = false
 

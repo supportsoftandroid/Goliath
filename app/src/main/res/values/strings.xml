@@ -91,6 +91,7 @@
     <string name="daily">Daily</string>
     <string name="weekly">Weekly</string>
     <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
     <string name="save">Save</string>
     <string name="bank_name">Bank Name</string>
     <string name="enter_account_number">Enter Account Number</string>
@@ -141,5 +142,7 @@
     <string name="over_number_12">Over Number: 12</string>
     <string name="amount_must_be_greater_than_zero">The amount must be greater than 0</string>
     <string name="sorry_you_don_t_have_sufficient_balance_to_play">Sorry, You don’t have sufficient balance to play</string>
+    <string name="currency_symbol">₹</string>
+    <string name="overs_played">Overs Played</string>
 
 </resources>

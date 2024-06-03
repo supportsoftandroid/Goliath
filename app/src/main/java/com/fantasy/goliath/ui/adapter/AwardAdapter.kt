@@ -2,6 +2,7 @@ package com.fantasy.goliath.ui.adapter
 
 
 import android.content.Context
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,16 +12,17 @@ import com.fantasy.goliath.R
 
 import com.fantasy.goliath.databinding.ListAwardItemBinding
 
-import com.fantasy.goliath.model.CommonDataItem
+import com.fantasy.goliath.model.LeaderBoardItem
+
 
 
 class AwardAdapter(
     mContext: Context,
-    dataItem: MutableList<CommonDataItem>,
+    dataItem: ArrayList<LeaderBoardItem>,
     val listenerClick: (Int, String) -> Unit
 ) :
     RecyclerView.Adapter<AwardAdapter.MainViewHolder>() {
-    var dataList = mutableListOf<CommonDataItem>()
+    var dataList = mutableListOf<LeaderBoardItem>()
 
 
     var mContext: Context
@@ -41,7 +43,8 @@ class AwardAdapter(
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
         holder.bind(current)
-        holder.binding.tvName.text = current.title
+        holder.binding.tvName.text = current.user.full_name.capitalize()
+        holder.binding.tvWinning.text =if (TextUtils.isEmpty(current.TotalGamesPlayed)) "${current.TotalGamesWinning}" else "${current.TotalGamesPlayed}"
         val srNo=position+1
         holder.binding.tvNo.text = srNo.toString()+"."
         if (position<3){
@@ -49,7 +52,7 @@ class AwardAdapter(
                 holder.binding.imgProduct.setImageResource(R.drawable.ic_price_gold)
             }else if (position==1){
                 holder.binding.imgProduct.setImageResource(R.drawable.ic_price_sliver)
-            }else if (position==2){
+            }else  {
                 holder.binding.imgProduct.setImageResource(R.drawable.ic_price_bronz)
             }
             holder.binding.imgProduct.visibility=View.VISIBLE
@@ -61,7 +64,7 @@ class AwardAdapter(
         }
 
         holder.itemView.setOnClickListener() {
-            listenerClick(position, dataList[position].type)
+            listenerClick(position, dataList[position].TotalGamesWinning)
         }
 
 
@@ -77,7 +80,7 @@ class AwardAdapter(
 
     class MainViewHolder(val binding: ListAwardItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(modal: CommonDataItem) {
+        fun bind(modal: LeaderBoardItem) {
             binding.modal = modal
         }
     }

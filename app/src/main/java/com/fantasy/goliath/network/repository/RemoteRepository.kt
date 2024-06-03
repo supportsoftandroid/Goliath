@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.fantasy.goliath.R
 import com.fantasy.goliath.model.HowToPlayResponse
+import com.fantasy.goliath.model.LeaderBoardListRes
 import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.model.MatchDetailsData
 import com.fantasy.goliath.model.MatchList
@@ -13,6 +14,7 @@ import com.fantasy.goliath.model.MatchesResponse
 import com.fantasy.goliath.model.OverResultDetailsRes
 import com.fantasy.goliath.model.QuestionListRes
 import com.fantasy.goliath.model.QuestionSaveRes
+import com.fantasy.goliath.model.TransactionListRes
 import com.fantasy.goliath.network.RetrofitClient
 import com.fantasy.goliath.utility.Constants
 import com.fantasy.goliath.utility.Constants.SOMETHING_WENT_WRONG_ERROR
@@ -141,6 +143,29 @@ class RemoteRepository(
         setProgressDialog()
         return callMatchOverResultsAPIService(callApiService)
     }
+
+    fun getLeaderboardList(
+        userToken: String,
+        json: JsonObject,
+    ): MutableLiveData<LeaderBoardListRes> {
+        val callApiService = RetrofitClient.apiInterface.getLeaderboard(
+            userToken, json
+
+        )
+        setProgressDialog()
+        return callLeaderBoardAPIService(callApiService)
+    }
+    fun getTransactionsList(
+        userToken: String,
+        page: Int,
+        json: JsonObject,
+    ): MutableLiveData<TransactionListRes> {
+        val callApiService = RetrofitClient.apiInterface.getTransactionHistory(
+            userToken,page, json)
+        setProgressDialog()
+        return callTransactionsAPIService(callApiService)
+    }
+
     fun callHowToPlayAPIService(call: Call<HowToPlayResponse>): MutableLiveData<HowToPlayResponse> {
         val modelRes = MutableLiveData<HowToPlayResponse>()
         makeApiCall(call, onSuccess = { data ->
@@ -238,6 +263,46 @@ class RemoteRepository(
 
 
     }
+    fun callLeaderBoardAPIService(call: Call<LeaderBoardListRes>): MutableLiveData<LeaderBoardListRes> {
+        val modelRes = MutableLiveData<LeaderBoardListRes>()
+        makeApiCall(call, onSuccess = { data ->
+            // Handle successful response
+            // data is of type MyData or null
+            val model: LeaderBoardListRes? = data
+            if (model != null) {
+                modelRes.value = model!!
+            }
+
+        },
+            onError = { error ->
+                // Handle error
+            })
+
+        return modelRes
+
+
+    }
+    fun callTransactionsAPIService(call: Call<TransactionListRes>): MutableLiveData<TransactionListRes> {
+        val modelRes = MutableLiveData<TransactionListRes>()
+        makeApiCall(call, onSuccess = { data ->
+            // Handle successful response
+            // data is of type MyData or null
+            val model: TransactionListRes? = data
+            if (model != null) {
+                modelRes.value = model!!
+            }
+
+        },
+            onError = { error ->
+                // Handle error
+            })
+
+        return modelRes
+
+
+    }
+
+
     fun callQuestionListAPIService(call: Call<QuestionListRes>): MutableLiveData<QuestionListRes> {
         val modelRes = MutableLiveData<QuestionListRes>()
         makeApiCall(call, onSuccess = { data ->

@@ -98,7 +98,7 @@
                 android:gravity="center"
                 android:inputType="text"
 
-                android:text="Withdraw"
+                android:text="@string/withdraw"
                 android:textAllCaps="true"
                 android:textColor="@color/colorRed"
                 android:textSize="@dimen/sp_16" />

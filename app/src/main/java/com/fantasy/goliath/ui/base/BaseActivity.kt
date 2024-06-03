@@ -22,12 +22,11 @@ import com.fantasy.goliath.utility.safeCall
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import android.Manifest
-import com.fantasy.goliath.ui.fragments.nav.AwardFragment
+import com.fantasy.goliath.ui.fragments.nav.LeaderBoardFragment
 import com.fantasy.goliath.ui.fragments.nav.MatchOngoingFragment
 import com.fantasy.goliath.ui.fragments.nav.ProfileFragment
 import com.fantasy.goliath.utility.PreferenceManager
 import com.fantasy.goliath.utility.hideKeyboard
-import com.fantasy.goliath.utility.printLog
 
 
 open class BaseActivity : AppCompatActivity() {
@@ -134,7 +133,7 @@ open class BaseActivity : AppCompatActivity() {
         }
         val willVisible = topFragment.isNotBlank() && supportFragmentManager.backStackEntryCount < 1 &&
                 (topFragment == HomeFragment::class.java.simpleName.toString().trim()
-              || topFragment == AwardFragment::class.java.simpleName.toString().trim()
+              || topFragment == LeaderBoardFragment::class.java.simpleName.toString().trim()
               || topFragment == MatchOngoingFragment::class.java.simpleName.toString().trim()
              || topFragment == ProfileFragment::class.java.simpleName.toString().trim() )
      //   printLog("topFragment",topFragment.toString())

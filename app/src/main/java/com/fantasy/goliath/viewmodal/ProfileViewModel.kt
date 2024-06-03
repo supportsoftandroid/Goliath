@@ -6,7 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 
 import com.fantasy.goliath.model.LoginResponse
+import com.fantasy.goliath.model.QuestionSaveRes
 import com.fantasy.goliath.network.repository.AuthRepository
+import com.fantasy.goliath.network.repository.RemoteRepository
 import com.fantasy.goliath.utility.getNumberFromString
 import com.google.gson.JsonObject
 
@@ -39,7 +41,10 @@ class ProfileViewModel : ViewModel() {
         return AuthRepository(context).updateProfile(token, jsonObject)
 
     }
+    fun addWalletAmountList(context: Context, token: String,   json: JsonObject): LiveData<QuestionSaveRes> {
+        return RemoteRepository(context).addWalletAmountList(token, json)
 
+    }
 
     fun requestOTP(
         context: Context, mobileEmail: String,

@@ -58,11 +58,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvAddMoney"
                 app:layout_constraintWidth_percent="0.45">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:fontFamily="@font/visby_semi_bold"
+                    app:fontFamily="@font/visby_semi_bold"
                     android:orientation="vertical"
                     android:singleLine="true"
                     android:text="@string/amount_balance"
@@ -72,14 +72,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvAvailableAmount"
                     android:layout_gravity="center_horizontal"
 
-                    android:fontFamily="@font/visby_bold"
+                    app:fontFamily="@font/visby_bold"
                     android:orientation="vertical"
                     android:singleLine="true"
                     android:text="₹ 99,999"
@@ -114,12 +114,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvAddMoney"
                 app:layout_constraintWidth_percent="0.45">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@id/tvDepositLabel"
                     android:layout_gravity="center_horizontal"
-                    android:fontFamily="@font/visby_semi_bold"
+                    app:fontFamily="@font/visby_semi_bold"
                     android:orientation="vertical"
                     android:singleLine="true"
                     android:text="@string/deposited"
@@ -129,14 +129,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvDepositAmount"
                     android:layout_marginTop="@dimen/dp_5"
 
-                    android:fontFamily="@font/visby_bold"
+                    app:fontFamily="@font/visby_bold"
                     android:orientation="vertical"
                     android:singleLine="true"
                     android:text="₹ 4102"
@@ -179,12 +179,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvAddMoney"
                 app:layout_constraintWidth_percent="0.45">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@id/tvWithdrawLabel"
                     android:layout_gravity="center_horizontal"
-                    android:fontFamily="@font/visby_semi_bold"
+                    app:fontFamily="@font/visby_semi_bold"
                     android:orientation="vertical"
                     android:singleLine="true"
                     android:text="@string/withdrawable_amout"
@@ -194,14 +194,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvWithdrawAmount"
                     android:layout_marginTop="@dimen/dp_5"
 
-                    android:fontFamily="@font/visby_bold"
+                    app:fontFamily="@font/visby_bold"
                     android:orientation="vertical"
                     android:singleLine="true"
                     android:text="₹ 4102"
@@ -232,7 +232,7 @@
                       />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -243,13 +243,13 @@
                 android:text="@string/add_bank_details"
                 android:textSize="@dimen/sp_16"
                 android:drawableEnd="@drawable/ic_chevron_right_24"
-                android:fontFamily="@font/visby_medium"
+                app:fontFamily="@font/visby_medium"
                 android:textColor="@color/colorText"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 />
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -260,7 +260,7 @@
                 android:text="@string/transaction_history"
                 android:textSize="@dimen/sp_16"
                 android:drawableEnd="@drawable/ic_chevron_right_24"
-                android:fontFamily="@font/visby_medium"
+                app:fontFamily="@font/visby_medium"
                 android:textColor="@color/colorText"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

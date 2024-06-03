@@ -10,7 +10,7 @@ import androidx.core.view.isVisible
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.ActivityMainBinding
 import com.fantasy.goliath.ui.base.BaseActivity
-import com.fantasy.goliath.ui.fragments.nav.AwardFragment
+import com.fantasy.goliath.ui.fragments.nav.LeaderBoardFragment
 import com.fantasy.goliath.ui.fragments.nav.HomeFragment
 import com.fantasy.goliath.ui.fragments.nav.MatchOngoingFragment
 import com.fantasy.goliath.ui.fragments.nav.ProfileFragment
@@ -84,7 +84,7 @@ class MainActivity : BaseActivity() {
                     return@setOnItemSelectedListener true
                 }
                 R.id.nav_award -> {
-                    replaceFragment( AwardFragment())
+                    replaceFragment( LeaderBoardFragment())
                     return@setOnItemSelectedListener true
                 }
                 R.id.nav_result -> {

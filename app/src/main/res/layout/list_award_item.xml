@@ -4,7 +4,7 @@
     <data>
         <variable
             name="modal"
-            type="com.fantasy.goliath.model.CommonDataItem" />
+            type="com.fantasy.goliath.model.LeaderBoardItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,14 +28,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
              app:layout_constraintStart_toStartOf="parent"/>
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1."
             android:paddingHorizontal="@dimen/dp_10"
             android:textColor="@color/colorText"
-            android:fontFamily="@font/visby_semi_bold"
+            app:fontFamily="@font/visby_semi_bold"
             android:textSize="@dimen/sp_12"
             android:gravity="center"
 
@@ -54,7 +54,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvNo"/>
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
             android:layout_marginStart="@dimen/dp_15"
             android:textColor="@color/colorText"
             android:layout_marginEnd="@dimen/dp_2"
-            android:fontFamily="@font/visby_medium"
+            app:fontFamily="@font/visby_medium"
             android:textSize="@dimen/sp_12"
             android:gravity="start"
 
@@ -71,14 +71,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvFee"
             app:layout_constraintStart_toEndOf="@id/imgProfile"/>
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvFee"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="5075"
+            android:visibility="gone"
             android:layout_marginEnd="@dimen/dp_15"
             android:textColor="@color/colorText"
-            android:fontFamily="@font/visby_medium"
+            app:fontFamily="@font/visby_medium"
             android:textSize="@dimen/sp_12"
             android:gravity="center"
             app:layout_constraintWidth_percent="0.23"
@@ -86,14 +87,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvWinning"
              />
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvWinning"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="5075"
             android:layout_marginStart="@dimen/dp_15"
             android:textColor="@color/colorText"
-            android:fontFamily="@font/visby_medium"
+            app:fontFamily="@font/visby_medium"
             android:textSize="@dimen/sp_12"
             android:gravity="center"
             app:layout_constraintWidth_percent="0.2"

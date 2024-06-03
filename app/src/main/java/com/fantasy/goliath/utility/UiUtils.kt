@@ -75,6 +75,7 @@ import com.fantasy.goliath.databinding.LayoutTeamCardBinding
 import com.fantasy.goliath.model.MatchItem
 import com.fantasy.goliath.ui.activities.AuthActivity
 import com.fantasy.goliath.ui.activities.MainActivity
+import com.fantasy.goliath.ui.activities.SplashActivity
 import com.fantasy.goliath.utility.Constants.ERROR_ALERT
 import com.fantasy.goliath.utility.Constants.ERROR_MESSAGE_INVALID_TOKEN
 import com.fantasy.goliath.utility.Constants.ERROR_NO_INTERNET_ALERT
@@ -622,7 +623,7 @@ fun logoutFromApp(activity: Activity ) {
     val preferenceManager = PreferenceManager(activity)
     preferenceManager.saveBoolean(KEY_CHECK_LOGIN, false)
     preferenceManager.clearPreferences()
-    val intent = Intent(activity, AuthActivity::class.java)
+    val intent = Intent(activity, SplashActivity::class.java)
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
     activity.startActivity(intent)
     activity.finishAffinity()
@@ -656,6 +657,18 @@ fun dateChangeInDMY(inpDate: String?): String {
 
     val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(inpDate)
     val output = SimpleDateFormat("dd-MM-yyyy", Locale.US)
+    val d: Date? = inputFormat
+    val formatted: String = output.format(d)
+    return formatted
+
+}fun dateChangeTimeTransaction(inpDate: String?): String {
+    if (TextUtils.isEmpty(inpDate)) {
+        return ""
+    }
+    //2024-05-31T06:52:21.000000Z
+
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH).parse(inpDate)
+    val output = SimpleDateFormat("dd MMM yy / HH:mm a", Locale.getDefault())
     val d: Date? = inputFormat
     val formatted: String = output.format(d)
     return formatted

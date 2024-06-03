@@ -46,6 +46,8 @@ object Constants {
     const val API_MY_PREDICTIONS = "mypredictions"
     const val API_MATCH_PREDICTED_OVER_DETAIL = "predicted-overs"
     const val API_MATCH_PREDICTED_OVER_RESULT = "predicted-result"
+    const val API_LEADERBOARD = "leaderboard"
+    const val API_TRANSACTION_HISTORY = "transaction-history"
     const val API_CATEGORY_DETAILS = "category-detail"
     const val API_ITEM_DETAILS = "item-detail"
     const val API_PROFILE_DETAILS = "user"

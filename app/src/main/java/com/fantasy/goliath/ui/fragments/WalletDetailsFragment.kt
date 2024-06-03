@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 
 import androidx.lifecycle.ViewModelProvider
 import com.fantasy.goliath.R
@@ -47,10 +48,22 @@ class WalletDetailsFragment : BaseFragment() {
 
         binding.let {
             userDetails=  preferenceManager.getLoginData()!!
+
             initView()
+            setUIData()
             clickListener()
+            callProfileInfoAPI()
         }
         return binding.root
+    }
+
+    private fun setUIData() {
+        binding.tvAvailableAmount.text=getString(R.string.currency_symbol)+" "+userDetails.wallet
+        if (userDetails.wallet_detail!=null){
+
+            binding.tvDepositAmount.text=getString(R.string.currency_symbol)+" "+userDetails.wallet_detail.total_diposite
+            binding.tvWithdrawAmount.text=getString(R.string.currency_symbol)+" "+userDetails.wallet_detail.total_withdrawal
+        }
     }
 
     private fun clickListener() {
@@ -111,9 +124,8 @@ class WalletDetailsFragment : BaseFragment() {
 
                 if (res.status) {
                     dialogWallet.dismiss()
-                    binding.tvAvailableAmount.text=Html.fromHtml(res.data.wallet_balance)
-
-
+                    binding.tvAvailableAmount.text=Html.fromHtml(res.data.wallet_balance_show)
+                    callProfileInfoAPI()
                 }
 
 
@@ -121,6 +133,23 @@ class WalletDetailsFragment : BaseFragment() {
         }
 
 
+    }
+    fun callProfileInfoAPI() {
+        if (utilsManager.isNetworkConnected()) {
+            viewModal.getUserInfo(
+                requireActivity(), preferenceManager.getAuthToken(), "GET", ""
+            ).observe(viewLifecycleOwner, Observer { res ->
+
+                if (res.status) {
+                    userDetails = res.data.user
+                    userDetails.wallet_detail = res.data.wallet_detail
+                    preferenceManager.setLoginData(userDetails)
+                    setUIData()
+                }
+
+
+            })
+        }
     }
 
 }

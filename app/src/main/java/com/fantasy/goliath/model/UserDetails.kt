@@ -10,5 +10,6 @@ data class UserDetails(
     val status: String,
     val device_token: String,
     val wallet: String,
+    var wallet_detail: WalletItem,
 
-)
+):SuperCastClass()
