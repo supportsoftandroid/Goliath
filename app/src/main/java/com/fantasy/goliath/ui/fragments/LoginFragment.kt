@@ -18,6 +18,7 @@ import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.utility.Constants
 import com.fantasy.goliath.utility.Debouncer
+import com.fantasy.goliath.utility.getNumberFromString
 import com.fantasy.goliath.utility.isNetworkConnected
 
 import com.fantasy.goliath.utility.showOTPDialogBottom
@@ -142,8 +143,13 @@ class LoginFragment : BaseFragment() {
                  binding.ediEmail.clearFocus()
                  isLogin=true
                  country_code = binding.countryPickerView.selectedCountryCode.toString()
-                 if (!country_code.contains("+")) {
-                     country_code = "+" + country_code
+                 val mobile= getNumberFromString(emailMobile)
+                 if (!TextUtils.isEmpty(mobile)) {
+                     if (!country_code.contains("+")) {
+                         country_code = "+" + country_code
+                     }
+                 }else{
+                     country_code=""
                  }
                  callLoginAPI()
              }
@@ -184,14 +190,17 @@ class LoginFragment : BaseFragment() {
                ).observe(viewLifecycleOwner,
                    Observer { res ->
                        showToast(mContext, res.message)
-                       if (isLogin) {
-                           if (res.status) {
-                                   showOTPDialogBottom(
-                                       mContext, true,country_code+" "+emailMobile,
-                                       { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
 
+                           if (res.status) {
+                               if (isLogin) {
+                                   showOTPDialogBottom(
+                                       mContext, true, country_code + " " + emailMobile,
+                                       { type, otp, dialog -> onOTPVerified(type, otp, dialog) })
+                               }
+                           }else{
+                               utilsManager.showAlertMessageError(res.message)
                            }
-                       }
+
 
                    })
            }
@@ -201,8 +210,8 @@ class LoginFragment : BaseFragment() {
     private fun moveNextScreen() {
 
         preferenceManager.saveBoolean(Constants.KEY_CHECK_LOGIN, true)
-        gotoMainActivity()
-    //    addFragmentToBackStack(RewardGuideFragment())
+        //  gotoMainActivity()
+        addFragmentToBackStack(RewardGuideFragment())
 
     }
 
@@ -236,6 +245,8 @@ class LoginFragment : BaseFragment() {
                             dialogVerify.dismiss()
                             moveNextScreen()
 
+                }else{
+                    utilsManager.showAlertMessageError(res.message)
                 }
 
             })

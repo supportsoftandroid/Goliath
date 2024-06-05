@@ -66,6 +66,8 @@
     <string name="wallet">Wallet</string>
     <string name="add_money">Add Money</string>
     <string name="total_deposited">Total Deposited</string>
+    <string name="fee_paid">Fee Paid</string>
+
     <string name="total_fee_paid">Total Fee Paid</string>
     <string name="total_withdraw">Total Withdraw</string>
     <string name="view_your_matches">View Your matches</string>
@@ -101,6 +103,7 @@
     <string name="deposited">Deposited</string>
     <string name="withdrawable_amout">Withdrawable amout</string>
     <string name="withdraw">Withdraw</string>
+    <string name="bank_details">Bank Details</string>
     <string name="add_bank_details">Add Bank Details</string>
     <string name="transaction_history">Transaction History</string>
     <string name="wallet_details" >Wallet Details</string>
@@ -144,5 +147,13 @@
     <string name="sorry_you_don_t_have_sufficient_balance_to_play">Sorry, You don’t have sufficient balance to play</string>
     <string name="currency_symbol">₹</string>
     <string name="overs_played">Overs Played</string>
+    <string name="claim_now">Claim Now</string>
+    <string name="predict_again">Predict Again</string>
+    <string name="view_for_matches">View for matches</string>
+    <string name="edit_your_info_additional_information"><![CDATA[Edit your info & additional information]]></string>
+    <string name="view_bank_details">View bank details</string>
+    <string name="view_your_past_transaction">View your past transaction</string>
+    <string name="enter_registered_email">Enter registered email</string>
+    <string name="enter_registered_number">Enter registered number</string>
 
 </resources>

@@ -88,13 +88,26 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgProfiles" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_game_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
 
+                    android:layout_marginTop="@dimen/dp_5"
+                    app:fontFamily="@font/visby_semi_bold"
+                    android:singleLine="true"
+                    android:text="#0000"
+                    android:textColor="@color/colorTextLabel"
+                    android:textSize="@dimen/sp_12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tvName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName" />
                  <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_13"
+                    android:layout_marginTop="@dimen/dp_5"
                     app:fontFamily="@font/visby_regular"
                     android:singleLine="true"
                     android:text="@string/dummy_email"
@@ -102,19 +115,15 @@
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvName" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_game_id" />
+
 
                 <View
                     android:id="@+id/viewBorder1"
                     android:layout_width="0dp"
                     android:layout_height="0.5dp"
-
                     android:layout_marginTop="@dimen/dp_13"
                     android:background="@color/colorLightGray"
-                    app:fontFamily="@font/visby_regular"
-                    android:singleLine="true"
-                    android:text="@string/dummy_email"
-                    android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
@@ -172,10 +181,6 @@
 
                     android:layout_marginTop="@dimen/dp_13"
                     android:background="@color/colorLightGray"
-                    app:fontFamily="@font/visby_regular"
-                    android:singleLine="true"
-                    android:text="@string/dummy_email"
-                    android:textSize="@dimen/sp_14"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTotalBalanceMsg" />
@@ -247,7 +252,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/tvTotalDepositAmount"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/dp_13"
+                        android:layout_marginTop="@dimen/dp_10"
                         app:fontFamily="@font/visby_bold"
                         android:orientation="vertical"
                         android:singleLine="true"
@@ -291,7 +296,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/tvTotalWinningAmount"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/dp_13"
+                        android:layout_marginTop="@dimen/dp_10"
                         app:fontFamily="@font/visby_bold"
                         android:orientation="vertical"
                         android:singleLine="true"
@@ -337,7 +342,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/tvFeePaid"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/dp_13"
+                        android:layout_marginTop="@dimen/dp_10"
                         app:fontFamily="@font/visby_bold"
                         android:orientation="vertical"
                         android:singleLine="true"
@@ -381,7 +386,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/tvWithdraw"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/dp_13"
+                        android:layout_marginTop="@dimen/dp_10"
                         app:fontFamily="@font/visby_bold"
                         android:orientation="vertical"
                         android:singleLine="true"
@@ -396,7 +401,7 @@
                 <LinearLayout
                     android:id="@+id/ll_body"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/dp_20"
                     android:layout_marginBottom="@dimen/dp_100"
                     android:orientation="vertical"
@@ -411,7 +416,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvList"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
 
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -419,6 +424,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/dp_15"
                     >
                      <androidx.appcompat.widget.AppCompatTextView

@@ -128,7 +128,7 @@ class EditProfileFragment : BaseFragment() {
             binding.countryPickerView.setCountryForPhoneCode(userDetails.country_code.toInt())
         }
 
-        binding.ediEmail.isVisible = !userDetails.email.isEmpty()
+        binding.llEmail.isVisible = !userDetails.email.isEmpty()
         binding.clvCountry.isVisible = !userDetails.phone.isEmpty()
 
 

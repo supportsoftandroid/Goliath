@@ -13,11 +13,13 @@ import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.ListAwardItemBinding
 
 import com.fantasy.goliath.model.LeaderBoardItem
-
+import com.fantasy.goliath.model.UserDetails
+import com.fantasy.goliath.utility.PreferenceManager
 
 
 class AwardAdapter(
     mContext: Context,
+    preferenceManager: PreferenceManager,
     dataItem: ArrayList<LeaderBoardItem>,
     val listenerClick: (Int, String) -> Unit
 ) :
@@ -26,10 +28,13 @@ class AwardAdapter(
 
 
     var mContext: Context
+   lateinit var userDetails: UserDetails
 
     init {
         this.dataList = dataItem
         this.mContext = mContext
+        userDetails=preferenceManager.getLoginData()!!
+
 
 
     }
@@ -43,7 +48,7 @@ class AwardAdapter(
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
         holder.bind(current)
-        holder.binding.tvName.text = current.user.full_name.capitalize()
+        holder.binding.tvName.text =if(userDetails.id.equals(current.user_id,true)) "You" else current.user.full_name.capitalize()
         holder.binding.tvWinning.text =if (TextUtils.isEmpty(current.TotalGamesPlayed)) "${current.TotalGamesWinning}" else "${current.TotalGamesPlayed}"
         val srNo=position+1
         holder.binding.tvNo.text = srNo.toString()+"."

@@ -3,6 +3,7 @@ package com.fantasy.goliath.ui.adapter
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -21,7 +22,7 @@ class TransactionAdapter(
 ) :
     RecyclerView.Adapter<TransactionAdapter.MainViewHolder>() {
     var dataList = mutableListOf<TransactionsItem>()
-    var type="debit"
+
 
 
     var mContext: Context
@@ -42,22 +43,24 @@ class TransactionAdapter(
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
         holder.bind(current)
-        holder.binding.tvTitle.text = current.transaction_type.capitalize()
+        holder.binding.tvTitle.text = if (!TextUtils.isEmpty(current.note))current.note.capitalize() else current.transaction_type.capitalize()
         holder.binding.tvPrice.text = current.amount_show
         holder.binding.tvDate.text = dateChangeTimeTransaction(current.created_at)
 
          if (current.payment_mode.equals("credit", true)) {
-             holder.binding.tvTitle.text = mContext.getString(R.string.deposit)
-             holder.binding.imgArrow.rotation=0f
+
+           //  holder.binding.imgArrow.rotation=0f
             holder.binding.tvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.color2EB100))
              holder.binding.imgProduct.backgroundTintList= ColorStateList.valueOf(ContextCompat.getColor(mContext,  R.color.color2EB100))
-            holder.binding.imgArrow.setImageResource(R.drawable.ic_deposit)
+          //  holder.binding.imgArrow.setImageResource(R.drawable.ic_credit)
+              holder.binding.imgArrow.setImageResource(R.drawable.ic_deposit)
         } else {
-             holder.binding.imgArrow.setImageResource(R.drawable.ic_debit)
+             holder.binding.imgArrow.setImageResource(R.drawable.ic_withdraw_amount)
+        //     holder.binding.imgProduct.setImageResource(R.drawable.ic_debit)
              holder.binding.tvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.colorRed))
              holder.binding.imgProduct.backgroundTintList= ColorStateList.valueOf(ContextCompat.getColor(mContext,  R.color.colorRed))
-             holder.binding.imgArrow.backgroundTintList= ColorStateList.valueOf(ContextCompat.getColor(mContext,  R.color.colorRed))
-             holder.binding.imgArrow.rotation=90f
+           //  holder.binding.imgArrow.backgroundTintList= ColorStateList.valueOf(ContextCompat.getColor(mContext,  R.color.colorRed))
+           //  holder.binding.imgArrow.rotation=90f
          }
 
         holder.itemView.setOnClickListener() {

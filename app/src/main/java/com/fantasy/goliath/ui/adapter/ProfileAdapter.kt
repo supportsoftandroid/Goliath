@@ -6,16 +6,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.databinding.ListProfileItemBinding
-import com.fantasy.goliath.model.CommonDataItem
+import com.fantasy.goliath.model.ProfileItem
 
 
 class ProfileAdapter(
     mContext: Context,
-    dataItem: MutableList<CommonDataItem>,
+    dataItem: MutableList<ProfileItem>,
     val listenerClick: (Int, String) -> Unit
 ) :
     RecyclerView.Adapter<ProfileAdapter.MainViewHolder>() {
-    var dataList = mutableListOf<CommonDataItem>()
+    var dataList = mutableListOf<ProfileItem>()
 
 
     var mContext: Context
@@ -37,7 +37,7 @@ class ProfileAdapter(
         val current = dataList[position]
         holder.bind(current)
         holder.binding.tvTitle.text = current.title
-        holder.binding.tvDesc.text = current.type
+        holder.binding.tvDesc.text = current.sub_title
        /* if (current.type.equals("logout", true)) {
             holder.binding.tvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.btn_color))
             holder.binding.imgNext.visibility = View.GONE
@@ -47,7 +47,7 @@ class ProfileAdapter(
         }*/
 
         holder.itemView.setOnClickListener() {
-            listenerClick(position, dataList[position].title)
+            listenerClick(position, dataList[position].type)
         }
 
 
@@ -59,7 +59,7 @@ class ProfileAdapter(
 
     class MainViewHolder(val binding: ListProfileItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(modal: CommonDataItem) {
+        fun bind(modal: ProfileItem) {
             binding.modal = modal
         }
     }

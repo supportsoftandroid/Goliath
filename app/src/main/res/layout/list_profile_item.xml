@@ -6,16 +6,16 @@
 
         <variable
             name="modal"
-            type="com.fantasy.goliath.model.CommonDataItem" />
+            type="com.fantasy.goliath.model.ProfileItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintStar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/dp_10"
+        android:paddingVertical="@dimen/dp_7"
         android:layout_marginBottom="@dimen/dp_5"
-        android:padding="@dimen/dp_15"
+        android:paddingHorizontal="@dimen/dp_15"
         android:background="@color/colorF6F6F6"
         >
 
@@ -55,7 +55,7 @@
             android:id="@+id/imgNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_15"
+
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_chevron_right_24"
             app:layout_constraintBottom_toBottomOf="parent"

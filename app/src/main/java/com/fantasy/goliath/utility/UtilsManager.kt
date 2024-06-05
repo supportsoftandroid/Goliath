@@ -94,7 +94,7 @@ class UtilsManager(private val context: Context) {
         builder.show()
     }
 
-    fun showAlertMessageError(mContext: Context, message: String) {
+    fun showAlertMessageError(  message: String) {
         val builder = AlertDialog.Builder(context)
         builder.setCancelable(false)
         builder.setTitle(ERROR_ALERT)

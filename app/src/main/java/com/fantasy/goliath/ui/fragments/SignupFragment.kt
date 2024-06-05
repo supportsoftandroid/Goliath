@@ -19,6 +19,7 @@ import com.fantasy.goliath.model.LoginResponse
 import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.utility.Constants
 import com.fantasy.goliath.utility.Debouncer
+import com.fantasy.goliath.utility.getNumberFromString
 import com.fantasy.goliath.utility.isNetworkConnected
 import com.fantasy.goliath.utility.showOTPDialogBottom
 import com.fantasy.goliath.utility.showToast
@@ -143,9 +144,14 @@ class SignupFragment : BaseFragment() {
                 binding.ediPhone.clearFocus()
                 binding.ediEmail.clearFocus()
                 country_code = binding.countryPickerView.selectedCountryCode.toString()
-                if (!country_code.contains("+")) {
-                    country_code = "+" + country_code
-                }
+               val mobile= getNumberFromString(emailMobile)
+                if (!TextUtils.isEmpty(mobile)) {
+                        if (!country_code.contains("+")) {
+                            country_code = "+" + country_code
+                        }
+                  }else{
+                      country_code=""
+                  }
                 callSignUpAPI()
             }
 
@@ -191,6 +197,7 @@ class SignupFragment : BaseFragment() {
                     showToast(mContext, res.message)
 
                     if (res.status) {
+
 
                         showOTPDialogBottom(
                             mContext, false,country_code+" "+emailMobile,
@@ -238,6 +245,8 @@ class SignupFragment : BaseFragment() {
                     dialogVerify.dismiss()
                     moveNextScreen()
 
+                }else{
+                    utilsManager.showAlertMessageError(res.message)
                 }
 
             })

@@ -20,10 +20,11 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.fantasy.goliath.R
+import com.fantasy.goliath.databinding.FragmentAddBankDetailsBinding
 
 import com.fantasy.goliath.databinding.FragmentProfileBinding
 import com.fantasy.goliath.databinding.ListCommonItemBinding
-import com.fantasy.goliath.model.CommonDataItem
+import com.fantasy.goliath.model.ProfileItem
 import com.fantasy.goliath.model.UserDetails
 import com.fantasy.goliath.ui.fragments.StaticPagesFragment
 import com.fantasy.goliath.ui.adapter.ProfileAdapter
@@ -53,11 +54,11 @@ class ProfileFragment : BaseFragment() {
     }
 
     lateinit var adaper: ProfileAdapter
-    var dataList = mutableListOf<CommonDataItem>()
-    var dataListOther = mutableListOf<CommonDataItem>()
+    var dataList = mutableListOf<ProfileItem>()
+    var dataListOther = mutableListOf<ProfileItem>()
 
     private lateinit var userDetails: UserDetails
-    lateinit var myAdapter: MyAdapter<CommonDataItem>
+    lateinit var myAdapter: MyAdapter<ProfileItem>
     lateinit var dialogManager: DialogManager
     lateinit var dialogWallet: BottomSheetDialog
     override fun onCreateView(
@@ -92,16 +93,16 @@ class ProfileFragment : BaseFragment() {
 
         }
         binding.tvWalletLabel.setOnClickListener() {
-         //   onWalletIconClick()
+            //   onWalletIconClick()
         }
         binding.llTotalDeposited.setOnClickListener() {
-          //  onWalletIconClick()
+            //  onWalletIconClick()
         }
         binding.llTotalWinning.setOnClickListener() {
-           // onWalletIconClick()
+            // onWalletIconClick()
         }
         binding.llTotalFreePaid.setOnClickListener() {
-           // onWalletIconClick()
+            // onWalletIconClick()
         }
 
         binding.llTotalWithdraw.setOnClickListener() {
@@ -111,30 +112,42 @@ class ProfileFragment : BaseFragment() {
     }
 
 
-
     private fun onAmountAdd(amount: String, dialog: BottomSheetDialog) {
 
-        dialogWallet=dialog
+        dialogWallet = dialog
         callAddBalanceInWalletAPI(amount)
     }
 
     fun initView() {
         binding.viewHeader.txtTitle.text = requireActivity().getString(R.string.my_profile)
         binding.viewHeader.imgProfile.isVisible = false
-
-
-
         setProfileUIData()
         dataList.clear()
-        dataList.add(CommonDataItem("My Predictions", "View for matches", false))
         dataList.add(
-            CommonDataItem(
-                "My info & Settings",
-                "Edit your info & additional information",
-                false
+            ProfileItem(
+                getString(R.string.my_predictions),
+                getString(R.string.view_for_matches), "my_predictions"
             )
         )
-        dataList.add(CommonDataItem("Transaction History", "View your past transaction", false))
+        dataList.add(
+            ProfileItem(
+                getString(R.string.my_info_settings),
+                getString(R.string.edit_your_info_additional_information),
+                "my_info_settings"
+            )
+        )
+        dataList.add(
+            ProfileItem(
+                getString(R.string.bank_details),
+                getString(R.string.view_bank_details), "bank_details"
+            )
+        )
+        dataList.add(
+            ProfileItem(
+                getString(R.string.transaction_history),
+                getString(R.string.view_your_past_transaction), "transaction_history"
+            )
+        )
 
         adaper =
             ProfileAdapter(requireActivity(), dataList, { pos, type -> onAdapterClick(pos, type) })
@@ -143,11 +156,11 @@ class ProfileFragment : BaseFragment() {
 
         //Data Other
         dataListOther.clear()
-        dataListOther.add(CommonDataItem(getString(R.string.terms_amp_conditions), "terms", false))
-        dataListOther.add(CommonDataItem(getString(R.string.privacy_policy), "privacy", false))
-        dataListOther.add(CommonDataItem(getString(R.string.help_amp_support), "help", false))
-        dataListOther.add(CommonDataItem(getString(R.string.about_us), "about", false))
-        dataListOther.add(CommonDataItem(getString(R.string.logout), "logout", false))
+        dataListOther.add(ProfileItem(getString(R.string.terms_amp_conditions), "terms", "terms"))
+        dataListOther.add(ProfileItem(getString(R.string.privacy_policy), "privacy", "privacy"))
+        dataListOther.add(ProfileItem(getString(R.string.help_amp_support), "help", "help"))
+        dataListOther.add(ProfileItem(getString(R.string.about_us), "about", "about"))
+        dataListOther.add(ProfileItem(getString(R.string.logout), "logout", "logout"))
 
 
         myAdapter = MyAdapter(
@@ -163,10 +176,12 @@ class ProfileFragment : BaseFragment() {
                         }
 
                         else -> {
-                            addFragmentToBackStack( StaticPagesFragment.newInstance(
-                                data.title,
-                                data.type
-                            ))
+                            addFragmentToBackStack(
+                                StaticPagesFragment.newInstance(
+                                    data.title,
+                                    data.type
+                                )
+                            )
 
                         }
                     }
@@ -192,40 +207,54 @@ class ProfileFragment : BaseFragment() {
         userDetails = preferenceManager.getLoginData()!!
         loadImage(userDetails.avatar_full_path, binding.imgProfiles)
         binding.tvName.setText(userDetails.full_name)
+        binding.tvGameId.setText("GUID: #${userDetails.guid}")
 
         if (!TextUtils.isEmpty(userDetails.email)) binding.tvEmail.setText(userDetails.email) else binding.tvEmail.setText(
             userDetails.country_code + " " + userDetails.phone
         )
 
-        binding.tvTotalBalance.text=getString(R.string.currency_symbol)+" "+userDetails.wallet
+        binding.tvTotalBalance.text = getString(R.string.currency_symbol) + " " + userDetails.wallet
         loadImage(userDetails.avatar_full_path)
-        if (userDetails.wallet_detail!=null){
+        if (userDetails.wallet_detail != null) {
 
-            binding.tvTotalDepositAmount.text=getString(R.string.currency_symbol)+" "+userDetails.wallet_detail.total_diposite
-            binding.tvTotalWinningAmount.text=getString(R.string.currency_symbol)+" "+userDetails.wallet_detail.total_winning
-            binding.tvFeePaid.text=getString(R.string.currency_symbol)+" "+userDetails.wallet_detail.total_fee_paid
-            binding.tvWithdraw.text=getString(R.string.currency_symbol)+" "+userDetails.wallet_detail.total_withdrawal
+            binding.tvTotalDepositAmount.text =
+                getString(R.string.currency_symbol) + " " + userDetails.wallet_detail.total_diposite
+            binding.tvTotalWinningAmount.text =
+                getString(R.string.currency_symbol) + " " + userDetails.wallet_detail.total_winning
+            binding.tvFeePaid.text =
+                getString(R.string.currency_symbol) + " " + userDetails.wallet_detail.total_fee_paid
+            binding.tvWithdraw.text =
+                getString(R.string.currency_symbol) + " " + userDetails.wallet_detail.total_withdrawal
         }
     }
 
     private fun onAdapterClick(pos: Int, type: String) {
-        if (type.equals("My Predictions", true)) {
+        when (type.lowercase()) {
+            "my_predictions" -> {
+                addFragmentToBackStack(
+                    MatchOngoingFragment.newInstance("profile")
+                )
+            }
 
-            addFragmentToBackStack(
-                MatchOngoingFragment.newInstance("profile")
-            )
+            "my_info_settings" -> {
+                addFragmentToBackStack(
+                    EditProfileFragment.newInstance("add")
+                )
+            }
 
-        } else if (type.equals("My info & Settings")) {
+            "bank_details" -> {
+                addFragmentToBackStack(
+                    BankDetailsFragment.newInstance("add")
+                )
+            }
 
-            addFragmentToBackStack(
-                EditProfileFragment.newInstance("add")
-            )
-        } else if (type.equals("Transaction History")) {
-
-            addFragmentToBackStack(
-                TransactionHistoryFragment.newInstance("add")
-            )
+            "transaction_history" -> {
+                addFragmentToBackStack(
+                    TransactionHistoryFragment.newInstance("add")
+                )
+            }
         }
+
 
     }
 
@@ -287,6 +316,7 @@ class ProfileFragment : BaseFragment() {
             })
         }
     }
+
     private fun callAddBalanceInWalletAPI(amount: String) {
 
         if (utilsManager.isNetworkConnected()) {
@@ -300,7 +330,7 @@ class ProfileFragment : BaseFragment() {
 
                 if (res.status) {
                     dialogWallet.dismiss()
-                    binding.tvTotalBalance.text= Html.fromHtml(res.data.wallet_balance_show)
+                    binding.tvTotalBalance.text = Html.fromHtml(res.data.wallet_balance_show)
                     callProfileInfoAPI()
                 }
 

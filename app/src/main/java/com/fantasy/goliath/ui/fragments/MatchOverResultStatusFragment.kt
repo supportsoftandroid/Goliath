@@ -61,9 +61,11 @@ class MatchOverResultStatusFragment : BaseFragment() {
     lateinit var overResultData: OverResultData
     lateinit var overItem: OverItem
     lateinit var match_id: String
+    var isResult = false
+    var isWinner = false
     var over_id = ""
-    var selectedInningPos=-1
-    var selectedOverPos=0
+    var selectedInningPos = -1
+    var selectedOverPos = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -85,11 +87,19 @@ class MatchOverResultStatusFragment : BaseFragment() {
     private fun clickListener() {
         binding.viewHeader.setClickListener(this)
 
-        binding.btnSubmit.setOnClickListener() {
+        binding.btnClaimNow.setOnClickListener() {
+            if (isResult) {
+                if (isWinner) {
+                    onWalletIconClick()
+                } else if (matchItem.status.equals("live", true)) {
 
-            addFragmentToBackStack(
-                OverWiseResultFragment.newInstance("add",matchItem)
-            )
+                    addFragmentToBackStack(
+                        AddOverFragment.newInstance("predict", matchItem)
+                    )
+                }
+
+            }
+
 
         }
 
@@ -108,7 +118,7 @@ class MatchOverResultStatusFragment : BaseFragment() {
         setMatchDataUI()
 
         inningsAdapter = InningTabAdapter(requireActivity(), inningsList, { pos, type ->
-            selectedInningPos=pos
+            selectedInningPos = pos
             inningsAdapter.notifyDataSetChanged()
             overList.clear()
             questionList.clear()
@@ -123,7 +133,7 @@ class MatchOverResultStatusFragment : BaseFragment() {
                 overItem = overList[0]
                 over_id = overItem.over_id
                 overAdapter.notifyDataSetChanged()
-               // updateQuestionResultUI()
+                // updateQuestionResultUI()
                 callOverResultAPI()
             } else {
 
@@ -134,7 +144,8 @@ class MatchOverResultStatusFragment : BaseFragment() {
         })
 
 
-       val layoutManager= LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager =
+            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvInningsList.layoutManager = layoutManager
         binding.rvInningsList.adapter = inningsAdapter
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -173,12 +184,12 @@ class MatchOverResultStatusFragment : BaseFragment() {
 
 
     private fun setMatchDataUI() {
-        setMatchCardUIData(binding.clvMatchCard,matchItem)
+        setMatchCardUIData(binding.clvMatchCard, matchItem)
     }
 
 
     private fun onOverAdapterClick(pos: Int, type: String) {
-        selectedOverPos=pos
+        selectedOverPos = pos
         overItem = overList[selectedOverPos]
         over_id = overItem.over_id
         callOverResultAPI()
@@ -195,23 +206,23 @@ class MatchOverResultStatusFragment : BaseFragment() {
                 requireActivity(), preferenceManager.getAuthToken(), json
             ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
                 if (res.status) {
-                    matchItem=res.data.matchdetail
+                    matchItem = res.data.matchdetail
                     setMatchDataUI()
                     overList.clear()
                     questionList.clear()
                     inningsList.clear()
                     matchItem = res.data.matchdetail
-                    for (i in res.data.matchdetail.innings){
-                        if (i.overs.size>0){
+                    for (i in res.data.matchdetail.innings) {
+                        if (i.overs.size > 0) {
                             inningsList.add(i)
                         }
                     }
-                  // inningsList.addAll(res.data.matchdetail.innings)
-                    if (inningsList.size>0){
-                        if (selectedInningPos!=-1){
+                    // inningsList.addAll(res.data.matchdetail.innings)
+                    if (inningsList.size > 0) {
+                        if (selectedInningPos != -1) {
                             overList.addAll(inningsList[selectedInningPos].overs)
-                        }else{
-                            selectedInningPos=0
+                        } else {
+                            selectedInningPos = 0
                             overList.addAll(inningsList[0].overs)
                         }
 
@@ -242,10 +253,10 @@ class MatchOverResultStatusFragment : BaseFragment() {
     }
 
     private fun updateQuestionResultUI() {
-        binding.tvMessage.isVisible=overList.isEmpty()
+        binding.tvMessage.isVisible = overList.isEmpty()
         binding.tvMessage.text = requireActivity().getString(R.string.no_over_pridction_yet)
         questionAdapter.notifyDataSetChanged()
-        overAdapter.update(overList,selectedOverPos)
+        overAdapter.update(overList, selectedOverPos)
 
     }
 
@@ -272,61 +283,81 @@ class MatchOverResultStatusFragment : BaseFragment() {
                 }
 
 
-
             })
-        }else{
-            binding.tvMessage.text = requireActivity().getString(R.string.no_internet_connection_please_try_again)
+        } else {
+            binding.tvMessage.text =
+                requireActivity().getString(R.string.no_internet_connection_please_try_again)
             binding.tvMessage.isVisible = true
         }
 
 
     }
 
+    /*------Over Prediction Result UI Status---------*/
     private fun setOverResultDataUI(message: String) {
         questionAdapter.notifyDataSetChanged()
         binding.tvMessage.isVisible = questionList.isEmpty()
         binding.tvMessage.text = message
-            binding.clvResultBox.isVisible = overResultData.is_result
-            binding.clvYourPrediction.isVisible = !overResultData.is_result
-          if (overResultData.is_cancelled!=null&&overResultData.is_cancelled) {
+        isResult = overResultData.is_result
+        isWinner = false
+        binding.clvResultBox.isVisible = overResultData.is_result
+        binding.clvYourPrediction.isVisible = !overResultData.is_result
+        binding.tvResultValue.isVisible = overResultData.is_result
+        binding.tvResultMessage.setTextColor(
+            ContextCompat.getColor(
+                requireActivity(),
+                R.color.colorRed
+            )
+        )
+        if (overResultData.is_cancelled != null && overResultData.is_cancelled) {
             binding.clvResultBox.isVisible = overResultData.is_cancelled
             binding.clvYourPrediction.isVisible = !overResultData.is_cancelled
             binding.imgGoliathBanner.isVisible = false
-            binding.tvResultValue.text = ""//getString(R.string.prediction_cancelled)
-            binding.tvWon.isVisible =false
+            binding.btnClaimNow.isVisible = false
+            binding.tvWon.isVisible = false
             binding.tvResultMessage.text = overResultData.result_message
-            binding.tvTotalAmount.isVisible = true
-            binding.tvTotalAmount.setText(overResultData.cancel_message)
+            binding.btnClaimNow.isVisible = true
+            binding.btnClaimNow.setText(overResultData.cancel_message)
 
 
-        }  else if (overResultData.is_result) {
-                binding.tvResultValue. isVisible =overResultData.is_result
-                binding.imgGoliathBanner.isVisible = overResultData.correct_counts == questionList.size
-                binding.tvResultValue.text = "${overResultData.correct_counts} / ${questionList.size} "
-                binding.tvResultMessage.text = overResultData.message
-                if (overResultData.correct_counts < 5) {
-                    binding.tvTotalAmount.isVisible = false
-                    binding.tvWon.isVisible = true
-                    binding.tvWon.text = requireActivity().getString(R.string.sorry_you_lost_the)
+        } else if (overResultData.is_result) {
 
-                }else if (overResultData.correct_counts ==questionList.size) {
-                    binding.tvResultMessage.setTextColor(ContextCompat.getColor(requireActivity(), R.color.colorText))
-                    binding.tvTotalAmount.isVisible = true
-                    binding.tvWon.isVisible = true
-                    binding.tvWon.text = requireActivity().getString(R.string.you_won_the)
-                    binding.tvTotalAmount.setText("${overResultData.winning_message}")
-                } else {
-                    binding.tvTotalAmount.isVisible = true
-                    binding.tvWon.isVisible = false
-                    binding.tvTotalAmount.setText("${overResultData.winning_message}")
-                }
+            isWinner = true
 
+            binding.imgGoliathBanner.isVisible = overResultData.correct_counts == questionList.size
+            binding.tvResultValue.text = "${overResultData.correct_counts} / ${questionList.size} "
+            binding.tvResultMessage.text = overResultData.message
+            binding.btnClaimNow.text = requireActivity().getString(R.string.claim_now)
+            binding.btnClaimNow.isVisible = overResultData.is_result
+            if (overResultData.correct_counts < 5) {
+                binding.btnClaimNow.isVisible =
+                    matchItem.status.equals("live", true) && overResultData.is_result
+                binding.tvWon.isVisible = true
+                binding.tvWon.text = requireActivity().getString(R.string.sorry_you_lost_the)
+                binding.btnClaimNow.text = requireActivity().getString(R.string.predict_again)
+                isWinner = false
+            } else if (overResultData.correct_counts == questionList.size) {
+
+                binding.tvResultMessage.setTextColor(
+                    ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.colorText
+                    )
+                )
+                //  binding.tvTotalAmount.isVisible = true
+                binding.tvWon.isVisible = true
+                binding.tvWon.text = requireActivity().getString(R.string.you_won_the)
+                //  binding.tvTotalAmount.setText("${overResultData.winning_message}")
+            } else {
+                //  binding.tvTotalAmount.isVisible = true
+                binding.tvWon.isVisible = false
+                //  binding.tvTotalAmount.setText("${overResultData.winning_message}")
             }
-            else{
-                binding.clvYourPrediction.isVisible = true
 
-            }
+        } else {
+            binding.clvYourPrediction.isVisible = true
 
+        }
 
 
     }

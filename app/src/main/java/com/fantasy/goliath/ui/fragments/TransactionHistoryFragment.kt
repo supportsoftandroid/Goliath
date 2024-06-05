@@ -196,17 +196,16 @@ class TransactionHistoryFragment : BaseFragment() {
             viewModal.getTransactionsList(
                 requireActivity(), preferenceManager.getAuthToken(), currentPage, json
             ).observe(viewLifecycleOwner, androidx.lifecycle.Observer { res ->
+
                 if (res.status) {
-                    totalPage = res.data.transaction.next_page_url
                     dataList.addAll(res.data.transaction.data)
                     currentPage++
-
-                } else {
-                    totalPage = ""
                 }
 
-                isLoading = false
+
                 updateUI(res.message)
+                totalPage = res.data.transaction.next_page_url
+                isLoading = false
             })
         }else{
             updateUI(getString(R.string.no_internet_connection_please_try_again))

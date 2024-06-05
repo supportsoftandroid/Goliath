@@ -77,7 +77,12 @@ class LeaderBoardFragment : BaseFragment() {
 
 
 
-        adapter = AwardAdapter(requireActivity(), dataList, { pos, type -> onAdapterClick(pos, type) })
+        adapter = AwardAdapter(requireActivity(),preferenceManager, dataList) { pos, type ->
+            onAdapterClick(
+                pos,
+                type
+            )
+        }
         binding.viewBody.rvList.layoutManager = LinearLayoutManager(requireActivity())
         binding.viewBody.rvList.adapter = adapter
         binding.viewBody.tvMessage.isVisible = false
