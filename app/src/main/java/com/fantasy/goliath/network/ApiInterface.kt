@@ -202,15 +202,14 @@ public interface ApiInterface {
     ): Call<CommonResponse>
 
     @Headers(Constants.ACCEPT_JSON_HEADER)
-    @GET(Constants.API_APP_CONTENT_PAGES)
+    @POST(Constants.API_APP_CONTENT_PAGES)
     fun getAppContentPages(
-
-
+        @Body body: JsonObject
     ): Call<AppContentRes>
 
     @Headers(Constants.ACCEPT_JSON_HEADER)
     @POST(Constants.API_HELP)
-    fun helpCenter(
+    fun contactHelpCenter(
         @Header("Authorization") authorization: String?,
         @Body body: JsonObject
     ): Call<CommonResponse>

@@ -16,7 +16,7 @@
         android:layout_marginHorizontal="@dimen/dp_5"
         android:orientation="horizontal">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:layout_marginEnd="@dimen/dp_10"
             android:layout_toLeftOf="@+id/imgClose"
 
-            android:fontFamily="@font/visby_semi_bold"
+            app:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:text="@string/add_amount"
             android:textColor="@color/colorBtn"
@@ -71,7 +71,7 @@
           style="@style/TextInputLayoutTheme"
           android:hint="@string/enter_amount"
           android:padding="@dimen/dp_5"
-          android:fontFamily="@font/visby_regular"
+          app:fontFamily="@font/visby_regular"
           android:textColorHint="@color/colorA6A6AF"
           android:layout_marginHorizontal="@dimen/dp_5"
           android:layout_marginTop="@dimen/dp_25">
@@ -80,7 +80,7 @@
               android:layout_height="wrap_content"
               android:id="@+id/ediAmount"
               android:inputType="numberDecimal"
-              android:fontFamily="@font/visby_regular"
+              app:fontFamily="@font/visby_regular"
               android:textColorHint="@color/colorA6A6AF"
               android:singleLine="true"
               android:textSize="@dimen/sp_19"
@@ -97,70 +97,70 @@
         android:textColorHint="@color/colorA6A6AF"
         android:weightSum="4">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv1000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+
             android:layout_marginEnd="@dimen/dp_15"
             android:layout_weight="1"
             android:background="@drawable/button_background_global"
-            android:fontFamily="@font/visby_semi_bold"
+            app:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:padding="@dimen/dp_5"
             android:paddingHorizontal="@dimen/dp_15"
             android:paddingVertical="@dimen/dp_5"
-            android:text="1000"
+            android:text="@string/price_1000"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sp_16" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv1500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+
             android:layout_marginEnd="@dimen/dp_15"
             android:layout_weight="1"
             android:background="@drawable/button_background_global"
-            android:fontFamily="@font/visby_semi_bold"
+            app:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:padding="@dimen/dp_5"
             android:paddingHorizontal="@dimen/dp_15"
             android:paddingVertical="@dimen/dp_5"
-            android:text="1500"
+            android:text="@string/price_1500"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sp_16" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv2000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+
             android:layout_marginEnd="@dimen/dp_15"
             android:layout_weight="1"
             android:background="@drawable/button_background_global"
-            android:fontFamily="@font/visby_semi_bold"
+            app:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:padding="@dimen/dp_5"
             android:paddingHorizontal="@dimen/dp_15"
             android:paddingVertical="@dimen/dp_5"
-            android:text="2000"
+            android:text="@string/price_2000"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sp_16" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv2500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+
             android:layout_weight="1"
             android:background="@drawable/button_background_global"
-            android:fontFamily="@font/visby_semi_bold"
+            app:fontFamily="@font/visby_semi_bold"
             android:gravity="center"
             android:padding="@dimen/dp_5"
             android:paddingHorizontal="@dimen/dp_15"
             android:paddingVertical="@dimen/dp_5"
-            android:text="2500"
+            android:text="@string/price_2500"
 
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sp_16" />
@@ -190,7 +190,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:background="@drawable/button_background_global"
-            android:fontFamily="@font/visby_semi_bold"
+            app:fontFamily="@font/visby_semi_bold"
             android:inputType="text"
             android:minWidth="@dimen/dp_250"
             android:paddingHorizontal="@dimen/dp_50"

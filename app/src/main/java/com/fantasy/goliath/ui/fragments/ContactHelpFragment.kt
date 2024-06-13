@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
 import com.fantasy.goliath.R
 import com.fantasy.goliath.databinding.ActivityStaticPagesBinding
+import com.fantasy.goliath.databinding.FragmentHelpContactBinding
 
 
 import com.fantasy.goliath.ui.base.BaseFragment
@@ -18,14 +18,14 @@ import com.fantasy.goliath.ui.base.BaseFragment
 import com.fantasy.goliath.viewmodal.StaticViewModal
 
 
-class StaticPagesFragment : BaseFragment() {
+class ContactHelpFragment : BaseFragment() {
     companion object {
-        fun newInstance(title: String, type: String): StaticPagesFragment {
+        fun newInstance(title: String, type: String): ContactHelpFragment {
             val args = Bundle()
             args.putString(PAGE_Title, title)
             args.putString(PAGE_TYPE, type)
 
-            val fragment = StaticPagesFragment()
+            val fragment = ContactHelpFragment()
             fragment.arguments = args
             return fragment
         }
@@ -36,7 +36,7 @@ class StaticPagesFragment : BaseFragment() {
     }
 
 
-    private val binding by lazy { ActivityStaticPagesBinding.inflate(layoutInflater) }
+    private val binding by lazy { FragmentHelpContactBinding.inflate(layoutInflater) }
 
     private val viewModal by lazy { ViewModelProvider(this)[StaticViewModal::class.java] }
 
@@ -54,42 +54,46 @@ class StaticPagesFragment : BaseFragment() {
 
 
         initViews()
-        getApiData()
+
 
         return binding.root
 
 
     }
 
-    private fun getApiData() {
-         if (utilsManager.isNetworkConnected()) {
-
-                 viewModal.getAppContent(requireActivity(), type).observe(requireActivity(), Observer { res ->
-
+     private fun callContactAPI() {
+        /* if (utilsManager.isNetworkConnected()) {
+             if(type.equals("FAQs")){
+                 viewModal.getFaqAPI(this, type).observe(this, Observer { res ->
+                   if (res.status) {
+                       dataList.addAll(res.data)
+                       binding.rvList.visibility=View.VISIBLE
+                       loadFaqData()
+                   }
+                 })
+             }else {
+                 viewModal.getCallAPI(this, type).observe(this, Observer { res ->
+                     UiUtils.printLog(title, res.toString())
                      if (res.status) {
-                         loadData(res.data.value)
-                     }else{
-                         showErrorToast(res.message)
+                         loadData(res.data)
                      }
                  })
-
+             }
          } else utilsManager.showAlertConnectionError()
 
-
+*/
     }
 
     private fun initViews() {
         binding.viewHeader.setClickListener(this)
         binding.viewHeader.setTitle(strTitle)
 
-        binding.webView.visibility = View.VISIBLE
-        binding.rvList.visibility = View.GONE
-        loadData(resources.getString(R.string.loading))
+
     }
 
 
     private fun loadData(content: String) {
-        binding.webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null);
+
 
     }
 

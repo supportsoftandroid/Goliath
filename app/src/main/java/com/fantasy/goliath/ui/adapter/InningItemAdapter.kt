@@ -3,6 +3,7 @@ package com.fantasy.goliath.ui.adapter
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.util.Log
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fantasy.goliath.databinding.ListInningsRowItemBinding
 
 import com.fantasy.goliath.model.InningItem
+import com.fantasy.goliath.utility.WrapContentLinearLayoutManager
 
 import com.fantasy.goliath.utility.printLog
 
@@ -28,7 +30,7 @@ class InningItemAdapter(
 
 
     var mContext: Context
-      var childPos=-1
+    var childPos = -1
 
     init {
         this.dataList = dataItem
@@ -45,22 +47,21 @@ class InningItemAdapter(
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val current = dataList[position]
-      //  holder.setIsRecyclable(false)
+        holder.setIsRecyclable(false)
+
         holder.bind(current)
         holder.binding.tvTitle.text = current.inning_name
-        printLog("current.inning_name",current.inning_name)
-
         val adapter = SelectedOverAdapter(mContext, position, current.overs, { parentPos, childPos, type ->
-            this.childPos=childPos
-            listenerClick(parentPos, childPos, type)
+                this.childPos = childPos
+                listenerClick(parentPos, childPos, type)
 
 
             })
-        holder.binding.rvList.layoutManager = GridLayoutManager(mContext, 6)
+        holder.binding.rvList.layoutManager = GridLayoutManager(mContext,6)
         holder.binding.rvList.adapter = adapter
         holder.binding.rvList.setNestedScrollingEnabled(false)
-        if (childPos!=-1){
-            holder.binding.rvList.layoutManager?.scrollToPosition(childPos)
+        if (childPos != -1) {
+          //  holder.binding.rvList.layoutManager?.scrollToPosition(childPos)
         }
 
     }
@@ -72,6 +73,7 @@ class InningItemAdapter(
     }
 
     override fun getItemCount(): Int {
+        Log.e("inning getItemCount", ": ${dataList.size}", )
         return dataList.size
     }
 

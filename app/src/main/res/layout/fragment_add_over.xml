@@ -1,212 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorVeryLightGray"
     android:clickable="true"
-    android:focusable="true"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorVeryLightGray">
+    android:focusable="true">
 
     <ImageView
         android:id="@+id/imgGradient"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_200"
         android:background="@drawable/bg_gradient_header"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.fantasy.goliath.ui.components.MyToolBar
+        android:id="@+id/clvHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/clvHeader"
-        app:show_team_icon="true"
         android:paddingHorizontal="@dimen/dp_15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-
-
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:show_team_icon="true" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="@dimen/dp_5"
-        android:id="@+id/swipeRefreshLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        android:orientation="vertical"
-
-        app:layout_constraintBottom_toTopOf="@+id/btnConform"
-        app:layout_constraintTop_toBottomOf="@id/clvHeader">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/btnConform"
-        app:layout_constraintTop_toBottomOf="@id/clvHeader">
-  <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:paddingHorizontal="@dimen/dp_20"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/dp_150"
-      >
-      <include
-          android:id="@+id/clv_match_card"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          layout="@layout/layout_team_card"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-         />
 
-
-
-
-      <androidx.appcompat.widget.AppCompatTextView
-          android:id="@+id/tv_results"
-          android:layout_width="wrap_content"
-          android:layout_height="@dimen/dp_25"
-          android:layout_marginTop="@dimen/dp_30"
-          android:text="@string/view_result"
-          android:textColor="@color/app_color"
-          android:textSize="@dimen/sp_14"
-
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/clv_match_card"
-          />
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSelectOverLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/dp_30"
-            android:textSize="@dimen/sp_16"
-            app:fontFamily="@font/visby_semi_bold"
-            android:text="@string/select_overs"
-            android:textColor="@color/colorText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clv_match_card"
-            />
-
-
-
-
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvList"
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_15"
-            tools:listitem="@layout/list_over_item"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clvHeader">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
             android:orientation="vertical"
-            android:nestedScrollingEnabled="false"
-
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/btnConform"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSelectOverLabel"
-
-            />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvOverStatusList"
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_15"
-           android:nestedScrollingEnabled="false"
-            tools:listitem="@layout/list_over_status_item"
-            app:spanCount="3"
-
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvList"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="@dimen/dp_100"
+            app:layout_constraintTop_toBottomOf="@id/clvHeader">
 
 
-            />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTotalLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_35"
-            android:textSize="@dimen/sp_19"
-            android:visibility="gone"
-            app:fontFamily="@font/visby_semi_bold"
-            android:text="@string/total_deduction_from_your_wallet"
-            android:textColor="@color/colorText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvOverStatusList"
-            />
-        <TextView
-            android:id="@+id/tvTotalAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_15"
-            android:textSize="@dimen/sp_22"
-            android:visibility="gone"
-            android:fontFamily="@font/visby_bold"
-            android:text="₹ 2505 "
-            android:textColor="@color/app_color"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTotalLabel"
-            />
-      <androidx.appcompat.widget.AppCompatTextView
-          android:id="@+id/tvMessage"
+                android:layout_marginBottom="@dimen/dp_15"
+                android:paddingHorizontal="@dimen/dp_20"
+                app:layout_constraintEnd_toEndOf="parent">
 
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="@dimen/dp_15"
-          android:minHeight="@dimen/dp_500"
+                <include
+                    android:id="@+id/clv_match_card"
+                    layout="@layout/layout_team_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-          android:background="@color/colorWhite"
-          android:text="@string/loading"
-          android:gravity="center"
-          app:fontFamily="@font/visby_bold"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_results"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:text="@string/view_result"
+                    android:textColor="@color/app_color"
+                    android:textSize="@dimen/sp_14"
 
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toBottomOf="@id/clv_match_card"
-          app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clv_match_card" />
 
-          />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSelectOverLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:text="@string/select_overs"
+                    android:textColor="@color/colorText"
+
+                    android:textSize="@dimen/sp_16"
+                    app:fontFamily="@font/visby_semi_bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clv_match_card" />
 
 
+                <LinearLayout
+                    android:id="@+id/llBody"
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:orientation="vertical"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSelectOverLabel"
+
+                    >
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvList"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSelectOverLabel"
+                        tools:listitem="@layout/list_innings_row_item"
+
+                        />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvOverStatusList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_15"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+
+                        app:spanCount="3"
+
+                        tools:listitem="@layout/list_over_status_item"
+
+
+                        />
+                </LinearLayout>
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMessage"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:background="@color/colorWhite"
+                    android:gravity="center"
+                    android:minHeight="@dimen/dp_500"
+                    android:text="@string/loading"
+                    app:fontFamily="@font/visby_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/clv_match_card"
+
+                    />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnConform"
+        style="@style/AppButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="@style/AppButtonStyle"
-        android:layout_marginTop="@dimen/dp_35"
-        android:visibility="gone"
         android:layout_marginHorizontal="@dimen/dp_25"
+        android:layout_marginTop="@dimen/dp_35"
         android:layout_marginBottom="@dimen/dp_15"
-        android:textSize="@dimen/sp_20"
         android:fontFamily="@font/visby_bold"
         android:text="@string/next"
         android:textColor="@color/colorWhite"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="@dimen/sp_20"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

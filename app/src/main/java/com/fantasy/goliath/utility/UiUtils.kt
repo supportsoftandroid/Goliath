@@ -15,10 +15,10 @@ import android.content.res.Configuration
 import android.database.Cursor
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
-import android.location.Address
+
 import android.media.ExifInterface
 import android.net.ConnectivityManager
-import android.net.Network
+
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
@@ -48,15 +48,14 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -145,7 +144,7 @@ fun getVideoId(videoUrl: String): String {
 }
 
 fun getPermission(): Array<String> {
-    var permissionList = arrayListOf<String>()
+    val permissionList = arrayListOf<String>()
     permissionList.add(Manifest.permission.INTERNET)
     permissionList.add(Manifest.permission.ACCESS_NETWORK_STATE)
     permissionList.add(Manifest.permission.CAMERA)
@@ -797,15 +796,57 @@ fun Activity.hideKeyboard() {
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
 }
+
+fun isOnline(context: Context): Boolean {
+    val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    if (connectivityManager != null) {
+        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+
+        if (capabilities != null) {
+            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                return true
+            }
+        }
+    }
+    return false
+}
 fun isNetworkConnected(activity: Activity): Boolean {
-    val isConnected: Boolean
+    /*val isConnected: Boolean
     val connectivityManager = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val network = connectivityManager.activeNetwork as Network?
-
     val networkCapabilities = connectivityManager.getNetworkCapabilities(network as Network?)
-    isConnected =
-        networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            ?: false
+    isConnected = networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false*/
+    var isConnected=false
+    val connectivityManager =
+        activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    if (connectivityManager != null) {
+        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+
+        if (capabilities != null) {
+            isConnected=  capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)||
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)||
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+            /*if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                isConnected= true
+            } else if () {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                isConnected= true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                isConnected= true
+            }*/
+        }
+    }
+
     if (!isConnected) {
         showSnackBar(activity, ERROR_NO_INTERNET_ALERT)
     }
@@ -815,39 +856,7 @@ fun isNetworkConnected(activity: Activity): Boolean {
 
 
 
-fun replaceFragment(context: Context, newFragment: Fragment?) {
-    val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-    val fragmentTransaction = fragmentManager.beginTransaction()
-    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-    fragmentTransaction.replace(R.id.frame, newFragment!!, newFragment.tag)
-    fragmentTransaction.commit()
-}
 
-fun addFragment(context: Context, newFragment: Fragment?) {
-    val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-    val fragmentTransaction = fragmentManager.beginTransaction()
-    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-    fragmentTransaction.add(R.id.frame, newFragment!!, newFragment.tag)
-    fragmentTransaction.commit()
-}
-
-fun backStackReplaceFragment(context: Context, newFragment: Fragment?) {
-    val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-    val fragmentTransaction = fragmentManager.beginTransaction()
-    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-    fragmentTransaction.replace(R.id.frame, newFragment!!, newFragment.tag)
-        .addToBackStack(newFragment.tag)
-    fragmentTransaction.commitAllowingStateLoss()
-}
-
-fun backStackAddFragment(context: Context, newFragment: Fragment?) {
-    val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-    val fragmentTransaction = fragmentManager.beginTransaction()
-    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-    fragmentTransaction.add(R.id.frame, newFragment!!, newFragment.tag)
-        .addToBackStack(newFragment.tag)
-    fragmentTransaction.commitAllowingStateLoss()
-}
 
 fun <T : Serializable?> getSerializable(
     activity: Activity,
@@ -908,36 +917,8 @@ fun isStrongPassword(password: String): Boolean {
     return true
 }
 
-fun getBusinessHrsTimeOpeningHrs(date: String?): String {
-    val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-    var testDate: Date? = null
-    try {
-        testDate = date?.let { sdf.parse(it) }
-    } catch (ex: java.lang.Exception) {
-        ex.printStackTrace()
-    }
-    val formatter = SimpleDateFormat("hh:mm aaa", Locale.getDefault())
-    return testDate?.let { formatter.format(it) }.toString()
-}
 
 
-fun dateChangeRattingInDDMMYYYY(inpuStrDate: String): String {
-    val inputPattern = "yyyy-mm-dd hh:mm:ss"
-    val outputPattern = "dd MMM yyyy"
-    val inputFormat = SimpleDateFormat(inputPattern, Locale.getDefault())
-    val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
-
-    val date: Date?
-    var str: String? = ""
-
-    try {
-        date = inputFormat.parse(inpuStrDate)
-        str = date?.let { outputFormat.format(it) }
-    } catch (e: ParseException) {
-        e.printStackTrace()
-    }
-    return str!!
-}
 
 fun showGallaryBottomModelSheet(context: Context, progressDialog: DialogManager) {
     val bindingDialog =
@@ -1424,20 +1405,22 @@ fun showAddAmountDialog(
 
     }
     dialogBinding.tv1000.setOnClickListener {
-        dialogBinding.ediAmount.setText(dialogBinding.tv1000.text.toString())
+        dialogBinding.ediAmount.setText(dialogBinding.tv1000.text.toString().replace("₹",""))
 
     }
 
     dialogBinding.tv1500.setOnClickListener {
-        dialogBinding.ediAmount.setText(dialogBinding.tv1500.text.toString())
+        dialogBinding.ediAmount.setText(dialogBinding.tv1500.text. toString().replace("₹",""))
 
     }
     dialogBinding.tv2000.setOnClickListener {
-        dialogBinding.ediAmount.setText(dialogBinding.tv2000.text.toString())
+
+        dialogBinding.ediAmount.setText(dialogBinding.tv2000.text.toString().replace("₹",""))
 
     }
     dialogBinding.tv2500.setOnClickListener {
-        dialogBinding.ediAmount.setText(dialogBinding.tv2500.text.toString())
+
+        dialogBinding.ediAmount.setText(dialogBinding.tv2500.text. toString().replace("₹",""))
 
     }
     dialogBinding.btnAdd.setOnClickListener {
@@ -1470,37 +1453,7 @@ fun showAlertMessageError(mContext: Context, message: String) {
 
 }
 
-fun setAddressFrom(context: Context, addresses: MutableList<Address>) {
-    if (addresses.size > 0) {
-        val address =
-            addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
-        val houseNo = addresses[0].featureName
-        val thoroughfare = addresses[0].thoroughfare
-        val landmark = addresses[0].subLocality
-        val city = addresses[0].locality
-        val state = addresses[0].adminArea
-        val country = addresses[0].countryName
-        val zipcodeFromMap = addresses[0].postalCode
-
-        val locality = houseNo + "," + landmark + "," + city
-
-        printLog("setAddressFrom locality", locality + "")
-        printLog("setAddressFrom address", address + "")
-
-        val intent = Intent()
-        intent.putExtra("landmark", landmark)
-        intent.putExtra("state", state)
-        intent.putExtra("country", country)
-        intent.putExtra("address", address)
-        intent.putExtra("suburb", city)
-        intent.putExtra("zipcode", zipcodeFromMap)
-        intent.putExtra("latitude", addresses[0].latitude)
-        intent.putExtra("longitude", addresses[0].longitude)
-        (context as Activity).setResult(LOCATION_MAP_ADD_REQUEST_CODE, intent)
-
-    }
-}
 
 fun compressImage(context: Context, imageUri: String): String {
     val filePath = getRealPathFromURI(context, imageUri)
@@ -1667,8 +1620,6 @@ fun adjustFontScale(context: Context, configuration: Configuration, scale: Float
     context.getResources().updateConfiguration(configuration, metrics)
 }
 
-
-
 fun prepareFilePartFromUri(partName: String, filePath: String): MultipartBody.Part? {
     var imgFileBody: MultipartBody.Part? = null
 
@@ -1691,6 +1642,3 @@ fun setDateAndMonth(inputDate: String, tvDate: TextView, tvMonth: TextView) {
     tvMonth.setText(month)
 
 }
-
-
-

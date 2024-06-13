@@ -132,10 +132,10 @@
 
                 android:gravity="start"
 
-                android:textSize="@dimen/sp_10"
+                android:textSize="@dimen/sp_11"
                 android:text="Chennai Super Kings"
 
-                android:textColor="@color/textPlaceHolder"
+                android:textColor="@color/colorTextLabel"
 
                 app:layout_constraintStart_toEndOf="@+id/imgLeft"
                 app:layout_constraintTop_toBottomOf="@+id/tvLeft"
@@ -255,9 +255,9 @@
                 app:fontFamily="@font/visby_semi_bold"
                 android:gravity="end"
 
-                android:textSize="@dimen/sp_10"
+                android:textSize="@dimen/sp_11"
                 android:text="Chennai Super Kings"
-                android:textColor="@color/textPlaceHolder"
+                android:textColor="@color/colorTextLabel"
                 app:layout_constraintEnd_toStartOf="@+id/imgRight"
                 app:layout_constraintTop_toBottomOf="@+id/tvRight"
                 app:layout_constraintStart_toStartOf="parent"

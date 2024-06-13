@@ -143,7 +143,7 @@
                 android:textSize="@dimen/sp_10"
                 android:text="Chennai Super Kings"
 
-                android:textColor="@color/textPlaceHolder"
+                android:textColor="@color/colorTextLabel"
 
                 app:layout_constraintStart_toEndOf="@+id/imgLeft"
                 app:layout_constraintTop_toBottomOf="@+id/tvLeft"
@@ -265,7 +265,7 @@
                 android:maxLines="1"
                 android:textSize="@dimen/sp_10"
                 android:text="Chennai Super Kings"
-                android:textColor="@color/textPlaceHolder"
+                android:textColor="@color/colorTextLabel"
                 app:layout_constraintEnd_toStartOf="@+id/imgRight"
                 app:layout_constraintTop_toBottomOf="@+id/tvRight"
                 app:layout_constraintStart_toStartOf="parent"
@@ -303,7 +303,7 @@
             android:gravity="start"
             android:paddingBottom="@dimen/dp_15"
             android:text="GT need 108 runs in 10 overs (DLS methods)"
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorBlack"
             android:textSize="@dimen/sp_10"
             app:layout_constraintTop_toBottomOf="@+id/clv_left"
             app:layout_constraintStart_toStartOf="parent"

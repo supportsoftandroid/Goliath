@@ -134,11 +134,11 @@ class AddOverFragment : BaseFragment() {
         })
     val layoutManager=LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
         binding.rvList.layoutManager =layoutManager
-
         binding.rvList.adapter = adapter
-        binding.rvList.setNestedScrollingEnabled(false)
+        binding.rvList.setHasFixedSize(true)
+       // binding.rvList.setNestedScrollingEnabled(false)
         binding.swipeRefreshLayout.setOnRefreshListener {
-            binding.swipeRefreshLayout.isRefreshing = true
+
             callMatchDetailsAPI()
             binding.swipeRefreshLayout.isRefreshing = false
         }

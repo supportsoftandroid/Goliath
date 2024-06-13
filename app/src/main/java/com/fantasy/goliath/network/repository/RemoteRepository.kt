@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.fantasy.goliath.R
+import com.fantasy.goliath.model.AppContentRes
+import com.fantasy.goliath.model.CommonResponse
 import com.fantasy.goliath.model.HowToPlayResponse
 import com.fantasy.goliath.model.LeaderBoardListRes
 import com.fantasy.goliath.model.LoginResponse
@@ -166,6 +168,7 @@ class RemoteRepository(
         return callTransactionsAPIService(callApiService)
     }
 
+
     fun callHowToPlayAPIService(call: Call<HowToPlayResponse>): MutableLiveData<HowToPlayResponse> {
         val modelRes = MutableLiveData<HowToPlayResponse>()
         makeApiCall(call, onSuccess = { data ->
@@ -303,12 +306,18 @@ class RemoteRepository(
     }
 
 
-    fun callQuestionListAPIService(call: Call<QuestionListRes>): MutableLiveData<QuestionListRes> {
-        val modelRes = MutableLiveData<QuestionListRes>()
-        makeApiCall(call, onSuccess = { data ->
+
+    fun contactUS(
+        userToken: String,
+        json: JsonObject,
+    ): MutableLiveData<CommonResponse> {
+        val callApiService = RetrofitClient.apiInterface.contactHelpCenter(userToken, json)
+        setProgressDialog()
+        val modelRes = MutableLiveData<CommonResponse>()
+        makeApiCall(callApiService, onSuccess = { data ->
             // Handle successful response
             // data is of type MyData or null
-            val model: QuestionListRes? = data
+            val model: CommonResponse? = data
             if (model != null) {
                 modelRes.value = model!!
             }
@@ -320,9 +329,30 @@ class RemoteRepository(
 
         return modelRes
 
+    }
+    fun getAppContent(
+
+        json: JsonObject,
+    ): MutableLiveData<AppContentRes> {
+        val callApiService = RetrofitClient.apiInterface.getAppContentPages( json)
+        setProgressDialog()
+        val modelRes = MutableLiveData<AppContentRes>()
+        makeApiCall(callApiService, onSuccess = { data ->
+            // Handle successful response
+            // data is of type MyData or null
+            val model: AppContentRes? = data
+            if (model != null) {
+                modelRes.value = model!!
+            }
+
+        },
+            onError = { error ->
+                // Handle error
+            })
+
+        return modelRes
 
     }
-
     fun <T> makeApiCall(call: Call<T>, onSuccess: (T?) -> Unit, onError: (String) -> Unit) {
 
         call.enqueue(object : Callback<T> {

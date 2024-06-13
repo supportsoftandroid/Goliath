@@ -146,6 +146,10 @@
     <string name="amount_must_be_greater_than_zero">The amount must be greater than 0</string>
     <string name="sorry_you_don_t_have_sufficient_balance_to_play">Sorry, You don’t have sufficient balance to play</string>
     <string name="currency_symbol">₹</string>
+    <string name="price_1000">₹1000</string>
+    <string name="price_1500">₹1500</string>
+    <string name="price_2000">₹2000</string>
+    <string name="price_2500">₹2500</string>
     <string name="overs_played">Overs Played</string>
     <string name="claim_now">Claim Now</string>
     <string name="predict_again">Predict Again</string>

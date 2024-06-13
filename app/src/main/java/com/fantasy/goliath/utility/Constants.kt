@@ -62,7 +62,7 @@ object Constants {
     const val API_LOGOUT = "logout"
     const val API_DELETE_ACCOUNT = "deleteAccount"
     const val API_APP_CONTENT_PAGES = "pages"
-    const val API_HELP = "help"
+    const val API_HELP = "contact"
 
     /* IMPORTANT TEXTUAL CONSTANTS CONSTANTS */
     const val SOMETHING_WENT_WRONG_ERROR = "Oops! Something went wrong"

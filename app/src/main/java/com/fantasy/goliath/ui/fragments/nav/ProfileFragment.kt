@@ -156,10 +156,10 @@ class ProfileFragment : BaseFragment() {
 
         //Data Other
         dataListOther.clear()
-        dataListOther.add(ProfileItem(getString(R.string.terms_amp_conditions), "terms", "terms"))
-        dataListOther.add(ProfileItem(getString(R.string.privacy_policy), "privacy", "privacy"))
-        dataListOther.add(ProfileItem(getString(R.string.help_amp_support), "help", "help"))
-        dataListOther.add(ProfileItem(getString(R.string.about_us), "about", "about"))
+        dataListOther.add(ProfileItem(getString(R.string.terms_amp_conditions), "term-condition", "term-condition"))
+        dataListOther.add(ProfileItem(getString(R.string.privacy_policy), "privacy-policy", "privacy-policy"))
+        dataListOther.add(ProfileItem(getString(R.string.help_amp_support), "help-and-support", "help-and-support"))
+        dataListOther.add(ProfileItem(getString(R.string.about_us), "about-app", "about-app"))
         dataListOther.add(ProfileItem(getString(R.string.logout), "logout", "logout"))
 
 
